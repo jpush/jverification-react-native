@@ -19,5 +19,29 @@
   "bugs": {
     "url": "https://github.com/jpush/jverification-react-native/issues"
   },
-  "homepage": "https://github.com/jpush/jverification-react-native#readme"
+  "homepage": "https://github.com/jpush/jverification-react-native#readme",
+  "rnpm": {
+    "ios": {
+      "sharedLibraries": [
+        "libz",
+        "UserNotifications",
+        "CoreTelephony",
+        "Security",
+        "CFNetwork",
+        "CoreFoundation",
+        "SystemConfiguration",
+        "Foundation",
+        "UIKit",
+        "libresolv",
+        "CoreGraphics",
+        "AdSupport",
+        "CoreLocation",
+        "libsqlite3",
+        "MobileCoreServices"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "jcore-react-native": ">= 1.2.11"
+  }
 }
