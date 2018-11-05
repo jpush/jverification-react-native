@@ -22,6 +22,8 @@
 #import "React/RCTBridge.h"
 #endif
 
+#import "JVERIFICATIONService.h"
+
 @implementation RCTJVerificationModule
 
 RCT_EXPORT_MODULE();
@@ -41,7 +43,59 @@ RCT_EXPORT_MODULE();
   return self;
 }
 
-RCT_EXPORT_METHOD(setup) {
+RCT_EXPORT_METHOD(setup: (NSDictionary *)params) {
+  JVAuthConfig *config = [[JVAuthConfig alloc] init];
+  if (params[@"appKey"]) {
+    config.appKey = params[@"appKey"];
+  }
+  
+  if (params[@"channel"]) {
+    config.channel = params[@"channel"];
+  }
+  
+  if (params[@"advertisingId"]) {
+    config.advertisingId = params[@"advertisingId"];
+  }
+  
+  if (params[@"advertisingId"]) {
+    config.advertisingId = params[@"advertisingId"];
+  }
+  
+  if (params[@"isProduction"]) {
+    config.isProduction = [params[@"isProduction"] boolValue];
+  }
 
+  [JVERIFICATIONService setupWithConfig:config];
 }
+
+
+RCT_EXPORT_METHOD(getToken: (NSDictionary *)params
+                  callback: (RCTResponseSenderBlock)callback) {
+  
+  [JVERIFICATIONService getToken:^(NSDictionary *result) {
+    callback(@[result]);
+  }];
+}
+
+RCT_EXPORT_METHOD(verifyNumber: (NSDictionary *)params
+                  callback: (RCTResponseSenderBlock)callback) {
+  JVAuthEntity *entity = [[JVAuthEntity alloc] init];
+  
+  if (params[@"number"]) {
+    entity.number = params[@"number"];
+  }
+  
+  if (params[@"token"]) {
+    entity.token = params[@"token"];
+  }
+  
+  [JVERIFICATIONService verifyNumber:entity result:^(NSDictionary *result) {
+    callback(@[result]);
+  }];
+}
+
+RCT_EXPORT_METHOD(setDebug: (NSNumber *)enable) {
+  [JVERIFICATIONService setDebug: [enable boolValue]];
+}
+
 @end

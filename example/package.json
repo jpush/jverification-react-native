@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "jverification-react-native": "file:..",
     "react": "16.6.0-alpha.8af6728",
     "react-native": "^0.57.4"
   },

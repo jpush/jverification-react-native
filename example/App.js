@@ -1,29 +1,80 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React from 'react';
+import { StyleSheet, Text, View, TouchableHighlight, ScrollView, TextInput, Alert  } from 'react-native';
+import JVerification from 'jverification-react-native'
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+var styles = StyleSheet.create({
+  parent: {
+    padding: 35,
+    
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  setBtnStyle: {
+    width: 180,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#3e83d7',
+    borderRadius: 8,
+    backgroundColor: '#3e83d7',
+    padding: 10
+  },
+  textStyle: {
+    textAlign: 'center',
+    fontSize: 25,
+    color: '#ffffff'
+  },
+  inputText: {
+    width: 180,
+    fontSize: 15,
+    marginLeft: 5,
+    marginRight: 5,
+    color: '#000000',
+    padding: 10,
+    textAlign: 'left'
+  }
+})
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+class Button extends React.Component {
+  render() {
+    return <TouchableHighlight
+              style={styles.setBtnStyle}
+              onPress={this.props.onPress}
+              underlayColor='#e4083f'
+              activeOpacity={0.5}
+            >
+              <Text style={styles.textStyle}>{this.props.title}</Text>
+            </TouchableHighlight>
+  }
+}
 
-type Props = {};
-export default class App extends Component<Props> {
+// type Props = {};
+
+export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Button title="init" 
+          onPress={() => JVerification.init({
+            appKey: 'a1703c14b186a68a66ef86c1',
+            channel: 'the channel'
+            })}/>
+        
+        <Button title="getToken" 
+          onPress={() => JVerification.getToken((res) => {
+            Alert.alert('token', JSON.stringify(res));
+          })}/>
+
+        <Button title="verifyNumber" 
+        onPress={() => JVerification.verifyNumber({
+          number: 'the number',
+          code: 'code'
+        },(res) => {
+          Alert.alert('token', JSON.stringify(res));
+        })}/>
+
+        <Button title="setDebug" 
+          onPress={() => JVerification.setDebug(true)}/>
       </View>
     );
   }
