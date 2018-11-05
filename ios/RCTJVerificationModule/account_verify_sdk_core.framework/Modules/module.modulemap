@@ -1,0 +1,6 @@
+framework module account_verify_sdk_core {
+  umbrella header "account_verify_sdk_core.h"
+
+  export *
+  module * { export * }
+}

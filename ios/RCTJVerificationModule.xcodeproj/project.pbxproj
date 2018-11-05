@@ -1,0 +1,380 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		62890E552190232500803A2B /* RCTJVerificationModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 62890E542190232500803A2B /* RCTJVerificationModule.m */; };
+		62890E562190232500803A2B /* RCTJVerificationModule.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62890E532190232500803A2B /* RCTJVerificationModule.h */; };
+		62890E6121902BD300803A2B /* EAccountSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E5C21902BD200803A2B /* EAccountSDK.framework */; };
+		62890E6221902BD300803A2B /* jverification-ios-1.0.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E5D21902BD200803A2B /* jverification-ios-1.0.1.a */; };
+		62890E6321902BD300803A2B /* account_verify_sdk_core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E5E21902BD300803A2B /* account_verify_sdk_core.framework */; };
+		62890E6421902BD300803A2B /* TYRZNoUISDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E6021902BD300803A2B /* TYRZNoUISDK.framework */; };
+		62890E6721902C3B00803A2B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E6621902C3B00803A2B /* AdSupport.framework */; };
+		62890E6921902C4100803A2B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E6821902C4100803A2B /* CoreLocation.framework */; };
+		62890E6B21902C4600803A2B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E6A21902C4600803A2B /* CFNetwork.framework */; };
+		62890E6D21902C4E00803A2B /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E6C21902C4E00803A2B /* CoreFoundation.framework */; };
+		62890E6F21902C5600803A2B /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E6E21902C5600803A2B /* libresolv.tbd */; };
+		62890E7121902C5D00803A2B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7021902C5D00803A2B /* libz.tbd */; };
+		62890E7321902C6700803A2B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7221902C6700803A2B /* CoreTelephony.framework */; };
+		62890E7521902C6F00803A2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7421902C6F00803A2B /* SystemConfiguration.framework */; };
+		62890E7721902C7800803A2B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7621902C7800803A2B /* Security.framework */; };
+		62890E7921902C8400803A2B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7821902C8400803A2B /* CoreGraphics.framework */; };
+		62890E7B21902C9400803A2B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7A21902C9400803A2B /* libsqlite3.tbd */; };
+		62890E7D21902C9A00803A2B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7C21902C9A00803A2B /* MobileCoreServices.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		62890E4E2190232500803A2B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				62890E562190232500803A2B /* RCTJVerificationModule.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		62890E502190232500803A2B /* libRCTJVerificationModule.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTJVerificationModule.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		62890E532190232500803A2B /* RCTJVerificationModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTJVerificationModule.h; sourceTree = "<group>"; };
+		62890E542190232500803A2B /* RCTJVerificationModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTJVerificationModule.m; sourceTree = "<group>"; };
+		62890E5C21902BD200803A2B /* EAccountSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EAccountSDK.framework; sourceTree = "<group>"; };
+		62890E5D21902BD200803A2B /* jverification-ios-1.0.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jverification-ios-1.0.1.a"; sourceTree = "<group>"; };
+		62890E5E21902BD300803A2B /* account_verify_sdk_core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = account_verify_sdk_core.framework; sourceTree = "<group>"; };
+		62890E5F21902BD300803A2B /* JVERIFICATIONService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JVERIFICATIONService.h; sourceTree = "<group>"; };
+		62890E6021902BD300803A2B /* TYRZNoUISDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TYRZNoUISDK.framework; sourceTree = "<group>"; };
+		62890E6621902C3B00803A2B /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		62890E6821902C4100803A2B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		62890E6A21902C4600803A2B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		62890E6C21902C4E00803A2B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		62890E6E21902C5600803A2B /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		62890E7021902C5D00803A2B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		62890E7221902C6700803A2B /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		62890E7421902C6F00803A2B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		62890E7621902C7800803A2B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		62890E7821902C8400803A2B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		62890E7A21902C9400803A2B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		62890E7C21902C9A00803A2B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		62890E4D2190232500803A2B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62890E7D21902C9A00803A2B /* MobileCoreServices.framework in Frameworks */,
+				62890E7B21902C9400803A2B /* libsqlite3.tbd in Frameworks */,
+				62890E7921902C8400803A2B /* CoreGraphics.framework in Frameworks */,
+				62890E7721902C7800803A2B /* Security.framework in Frameworks */,
+				62890E7521902C6F00803A2B /* SystemConfiguration.framework in Frameworks */,
+				62890E7321902C6700803A2B /* CoreTelephony.framework in Frameworks */,
+				62890E7121902C5D00803A2B /* libz.tbd in Frameworks */,
+				62890E6F21902C5600803A2B /* libresolv.tbd in Frameworks */,
+				62890E6D21902C4E00803A2B /* CoreFoundation.framework in Frameworks */,
+				62890E6B21902C4600803A2B /* CFNetwork.framework in Frameworks */,
+				62890E6921902C4100803A2B /* CoreLocation.framework in Frameworks */,
+				62890E6721902C3B00803A2B /* AdSupport.framework in Frameworks */,
+				62890E6221902BD300803A2B /* jverification-ios-1.0.1.a in Frameworks */,
+				62890E6321902BD300803A2B /* account_verify_sdk_core.framework in Frameworks */,
+				62890E6121902BD300803A2B /* EAccountSDK.framework in Frameworks */,
+				62890E6421902BD300803A2B /* TYRZNoUISDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		62890E472190232500803A2B = {
+			isa = PBXGroup;
+			children = (
+				62890E522190232500803A2B /* RCTJVerificationModule */,
+				62890E512190232500803A2B /* Products */,
+				62890E6521902C3B00803A2B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		62890E512190232500803A2B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				62890E502190232500803A2B /* libRCTJVerificationModule.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		62890E522190232500803A2B /* RCTJVerificationModule */ = {
+			isa = PBXGroup;
+			children = (
+				62890E5E21902BD300803A2B /* account_verify_sdk_core.framework */,
+				62890E5C21902BD200803A2B /* EAccountSDK.framework */,
+				62890E5D21902BD200803A2B /* jverification-ios-1.0.1.a */,
+				62890E5F21902BD300803A2B /* JVERIFICATIONService.h */,
+				62890E6021902BD300803A2B /* TYRZNoUISDK.framework */,
+				62890E532190232500803A2B /* RCTJVerificationModule.h */,
+				62890E542190232500803A2B /* RCTJVerificationModule.m */,
+			);
+			path = RCTJVerificationModule;
+			sourceTree = "<group>";
+		};
+		62890E6521902C3B00803A2B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				62890E7C21902C9A00803A2B /* MobileCoreServices.framework */,
+				62890E7A21902C9400803A2B /* libsqlite3.tbd */,
+				62890E7821902C8400803A2B /* CoreGraphics.framework */,
+				62890E7621902C7800803A2B /* Security.framework */,
+				62890E7421902C6F00803A2B /* SystemConfiguration.framework */,
+				62890E7221902C6700803A2B /* CoreTelephony.framework */,
+				62890E7021902C5D00803A2B /* libz.tbd */,
+				62890E6E21902C5600803A2B /* libresolv.tbd */,
+				62890E6C21902C4E00803A2B /* CoreFoundation.framework */,
+				62890E6A21902C4600803A2B /* CFNetwork.framework */,
+				62890E6821902C4100803A2B /* CoreLocation.framework */,
+				62890E6621902C3B00803A2B /* AdSupport.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		62890E4F2190232500803A2B /* RCTJVerificationModule */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 62890E592190232500803A2B /* Build configuration list for PBXNativeTarget "RCTJVerificationModule" */;
+			buildPhases = (
+				62890E4C2190232500803A2B /* Sources */,
+				62890E4D2190232500803A2B /* Frameworks */,
+				62890E4E2190232500803A2B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RCTJVerificationModule;
+			productName = RCTJVerificationModule;
+			productReference = 62890E502190232500803A2B /* libRCTJVerificationModule.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		62890E482190232500803A2B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = HXHG;
+				TargetAttributes = {
+					62890E4F2190232500803A2B = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 62890E4B2190232500803A2B /* Build configuration list for PBXProject "RCTJVerificationModule" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 62890E472190232500803A2B;
+			productRefGroup = 62890E512190232500803A2B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				62890E4F2190232500803A2B /* RCTJVerificationModule */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		62890E4C2190232500803A2B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62890E552190232500803A2B /* RCTJVerificationModule.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		62890E572190232500803A2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		62890E582190232500803A2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		62890E5A2190232500803A2B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RCTJVerificationModule",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RCTJVerificationModule",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		62890E5B2190232500803A2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RCTJVerificationModule",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RCTJVerificationModule",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		62890E4B2190232500803A2B /* Build configuration list for PBXProject "RCTJVerificationModule" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62890E572190232500803A2B /* Debug */,
+				62890E582190232500803A2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		62890E592190232500803A2B /* Build configuration list for PBXNativeTarget "RCTJVerificationModule" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62890E5A2190232500803A2B /* Debug */,
+				62890E5B2190232500803A2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 62890E482190232500803A2B /* Project object */;
+}
