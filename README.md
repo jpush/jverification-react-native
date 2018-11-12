@@ -35,7 +35,7 @@ react-native link
 import JVerification from 'jverification-react-native'
 
 JVerification.init({
-              appKey: '替换成激光管网注册的 appKey',
+              appKey: '替换成极光官网注册的应用 appKey',
               channel: 'the optional channel'
             });
 ```
