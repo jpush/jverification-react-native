@@ -24,7 +24,6 @@
     "ios": {
       "sharedLibraries": [
         "libz",
-        "UserNotifications",
         "CoreTelephony",
         "Security",
         "CFNetwork",

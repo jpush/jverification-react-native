@@ -52,7 +52,7 @@
 		CF82A662DE7F43D9A0F84BF2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC31C14A1CB04A29A7B6A394 /* UIKit.framework */; };
 		D346DF4C6C2A47E0AB7FF338 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 137AC1746E2541D385F5D49B /* libz.tbd */; };
 		E62272DED9CC4557BC100094 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 70FEF277EA1243DAA6B99D2D /* libresolv.tbd */; };
-		EEFF2D7E2B484AAAA1EBC58E /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F19EFD12E634069BA3AC0CE /* UserNotifications.framework */; };
+		EEFF2D7E2B484AAAA1EBC58E /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F19EFD12E634069BA3AC0CE /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F19C1B2462E7418F9D407C79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C92BDCBA1CA4798B9341B60 /* Foundation.framework */; };
 		FC12C47A75504E22B712091D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CDA630DA3E479CA9DEED90 /* Security.framework */; };
 /* End PBXBuildFile section */

@@ -25,7 +25,7 @@ export default class JVerification {
      * 获取手机号校验token
      * @param {Function} callback = (result) => {
      *  result = {
-     *      code: string,
+     *      code: int,
      *      content: string
      *  }
      * }
@@ -42,7 +42,7 @@ export default class JVerification {
      * }
      * @param {Function} callback = (result) => {
      *  result = {
-     *      code: string,
+     *      code: int,
      *      content: string
      *  }
      * }

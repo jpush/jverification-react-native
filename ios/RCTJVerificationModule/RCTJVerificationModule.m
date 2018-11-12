@@ -69,8 +69,7 @@ RCT_EXPORT_METHOD(setup: (NSDictionary *)params) {
 }
 
 
-RCT_EXPORT_METHOD(getToken: (NSDictionary *)params
-                  callback: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(getToken: (RCTResponseSenderBlock)callback) {
   
   [JVERIFICATIONService getToken:^(NSDictionary *result) {
     callback(@[result]);

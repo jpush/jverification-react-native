@@ -38,19 +38,22 @@ var styles = StyleSheet.create({
 class Button extends React.Component {
   render() {
     return <TouchableHighlight
-              style={styles.setBtnStyle}
               onPress={this.props.onPress}
               underlayColor='#e4083f'
               activeOpacity={0.5}
             >
-              <Text style={styles.textStyle}>{this.props.title}</Text>
+              <View
+                style={styles.setBtnStyle}
+              >
+                <Text style={styles.textStyle}>{this.props.title}</Text>
+              </View>
             </TouchableHighlight>
   }
 }
 
 // type Props = {};
 
-export default class App extends Component {
+export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
