@@ -1,6 +1,6 @@
 {
   "name": "jverification-react-native",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "极光认证 react-native 插件，极光认证整合了三大运营商的号码认证能力，为开发者提供了快速验证用户输入的手机号码和本机SIM卡号码一致性的功能，提高用户体验和安全性。",
   "main": "index.js",
   "scripts": {

@@ -1379,8 +1379,6 @@
 					"-framework",
 					"\"account_verify_sdk_core\"",
 					"-framework",
-					"\"EAccountSDK\"",
-					"-framework",
 					"\"TYRZNoUISDK\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.huminios.jpushTest;
@@ -1409,8 +1407,6 @@
 					"-lc++",
 					"-framework",
 					"\"account_verify_sdk_core\"",
-					"-framework",
-					"\"EAccountSDK\"",
 					"-framework",
 					"\"TYRZNoUISDK\"",
 				);

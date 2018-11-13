@@ -22,7 +22,6 @@ react-native link
 - 打开工程，进入 Build Settings -> Other Link Flag 添加一行编译选项
 
   ```
-  -framework "EAccountSDK"
   -framework "TYRZNoUISDK"
   -framework "account_verify_sdk_core"
   ```
