@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define JVER_VERSION_NUMBER 1.0.1
+#define JVER_VERSION_NUMBER 1.1.0
 
 @interface JVAuthConfig : NSObject
 
