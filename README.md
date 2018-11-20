@@ -1,6 +1,6 @@
 # jverification-react-native 
 
-极光官方开发的[极光验证](https://docs.jiguang.cn/jverification/guideline/intro/) react-native 插件，为开发者提供了快速验证用户输入的手机号码和本机 SIM 卡号码一致性的功能，提高用户体验和安全性。暂时只支持 iOS平台。
+极光官方开发的[极光认证](https://docs.jiguang.cn/jverification/guideline/intro/) react-native 插件，为开发者提供了快速验证用户输入的手机号码和本机 SIM 卡号码一致性的功能，提高用户体验和安全性。暂时只支持 iOS平台。
 
 ## 安装
 
