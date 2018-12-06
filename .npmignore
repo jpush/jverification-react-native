@@ -20,3 +20,11 @@ DerivedData
 example/
 
 README.md
+
+## Build generated
+document/
+node_modules/
+.idea/
+.gradle/
+.DS_Store
+/**/build/
