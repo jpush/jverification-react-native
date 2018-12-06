@@ -26,6 +26,12 @@ react-native link
   -framework "account_verify_sdk_core"
   ```
 
+#### Android
+
+- [Checkout settings.gradle and build.gradle](./docs/AndroidConfig.md) 
+
+- [Add JVerificationPackage, don't forget parameters!](./docs/JVerificationPackage.md)
+
 ## API
 
 #### Usage：
