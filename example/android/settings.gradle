@@ -1,3 +1,5 @@
 rootProject.name = 'example'
 
-include ':app'
+include ':app',':jcore-react-native',":jverification-react-native"
+project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
+project(':jverification-react-native').projectDir = new File(rootProject.projectDir, '../../android')

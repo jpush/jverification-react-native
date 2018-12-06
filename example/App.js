@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, ScrollView, TextInput, Alert  } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, ScrollView, TextInput, Alert ,Platform } from 'react-native';
 import JVerification from 'jverification-react-native'
 
 var styles = StyleSheet.create({
@@ -54,24 +54,51 @@ class Button extends React.Component {
 // type Props = {};
 
 export default class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {token:''}
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Button title="init" 
           onPress={() => JVerification.init({
-            appKey: 'a1703c14b186a68a66ef86c1',
+            appKey: 'your appkey',
             channel: 'the channel'
             })}/>
         
         <Button title="getToken" 
-          onPress={() => JVerification.getToken((res) => {
-            Alert.alert('token', JSON.stringify(res));
-          })}/>
+          onPress={() => {
+              if(Platform.OS == "android"){
+                JVerification.requestPermission(res => {
+                  if(res.code == 0){
+                    JVerification.getToken(res => {
+                      Alert.alert("token", JSON.stringify(res));
+                      if(res.code == 2000){
+                          this.setState({ token: res.content });
+                      }
+                    });     
+                  }else{
+                    Alert.alert("requestPermission", JSON.stringify(res));
+                  }
+                  
+                });
+              }else{
+                JVerification.getToken(res => {
+                  Alert.alert("token", JSON.stringify(res));
+                  if (res.code == 2000) {
+                    this.setState({ token: res.content });
+                  }
+                });
+              }
+            }
+        }/>
 
         <Button title="verifyNumber" 
         onPress={() => JVerification.verifyNumber({
-          number: 'the number',
-          code: 'code'
+          number: 'your number',
+          token: this.state.token
         },(res) => {
           Alert.alert('token', JSON.stringify(res));
         })}/>

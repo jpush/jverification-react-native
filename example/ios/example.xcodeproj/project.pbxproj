@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -44,7 +43,6 @@
 		7770D34F1F564C8FA64A72B7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA79C8CC1E00442498E1DD93 /* CoreLocation.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8C227EF7AD544A3799A640CC /* libRCTJVerificationModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F31CFCA33554CBA82C1D1B1 /* libRCTJVerificationModule.a */; };
-		8D41481C99544EE6BAFFED94 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EA89089DAC94D4C9AF402DF /* libRCTJCoreModule.a */; };
 		941EE17ED4E74CC4B1AE31FE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7B191EB11D415CA36A707F /* CoreTelephony.framework */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B4DDD78D60A8435D8F0E6687 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE724DA621B43859243CEE9 /* AdSupport.framework */; };
@@ -55,6 +53,7 @@
 		EEFF2D7E2B484AAAA1EBC58E /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F19EFD12E634069BA3AC0CE /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F19C1B2462E7418F9D407C79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C92BDCBA1CA4798B9341B60 /* Foundation.framework */; };
 		FC12C47A75504E22B712091D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41CDA630DA3E479CA9DEED90 /* Security.framework */; };
+		6A31BFE1BA484F858017C465 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9F60C12EB9C4BCF8855E20D /* libRCTJCoreModule.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -317,13 +316,6 @@
 			remoteGlobalIDString = 62890E502190232500803A2B;
 			remoteInfo = RCTJVerificationModule;
 		};
-		62890EF72190468400803A2B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F912F8BE68544D67BDDB3EF3 /* RCTJCoreModule.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6212E9B41F3990DC00BDF51A;
-			remoteInfo = RCTJCoreModule;
-		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -377,7 +369,6 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6B7600CEE0B146BA8ADA88AD /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6C92BDCBA1CA4798B9341B60 /* Foundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6EA89089DAC94D4C9AF402DF /* libRCTJCoreModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTJCoreModule.a; sourceTree = "<group>"; };
 		70FEF277EA1243DAA6B99D2D /* libresolv.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		771F15DF00514C929EC67E9B /* CoreFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -390,9 +381,10 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		EDB804462F7B43D085880D28 /* RCTJVerificationModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTJVerificationModule.xcodeproj; path = "../node_modules/jverification-react-native/ios/RCTJVerificationModule.xcodeproj"; sourceTree = "<group>"; };
 		F8C67ABAA50145FCA228FDC1 /* libsqlite3.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		F912F8BE68544D67BDDB3EF3 /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTJCoreModule.xcodeproj; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; };
 		FA79C8CC1E00442498E1DD93 /* CoreLocation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FAE724DA621B43859243CEE9 /* AdSupport.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		47AABFD9C1794B46ACDD58FD /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; name = "RCTJCoreModule.xcodeproj"; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		B9F60C12EB9C4BCF8855E20D /* libRCTJCoreModule.a */ = {isa = PBXFileReference; name = "libRCTJCoreModule.a"; path = "libRCTJCoreModule.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -436,7 +428,7 @@
 				7770D34F1F564C8FA64A72B7 /* CoreLocation.framework in Frameworks */,
 				2F266F61DEA74A889633735E /* libsqlite3.tbd in Frameworks */,
 				C4317689B17843F9B8DBADCE /* MobileCoreServices.framework in Frameworks */,
-				8D41481C99544EE6BAFFED94 /* libRCTJCoreModule.a in Frameworks */,
+				6A31BFE1BA484F858017C465 /* libRCTJCoreModule.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,14 +623,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		62890EF42190468400803A2B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				62890EF82190468400803A2B /* libRCTJCoreModule.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -664,7 +648,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				EDB804462F7B43D085880D28 /* RCTJVerificationModule.xcodeproj */,
-				F912F8BE68544D67BDDB3EF3 /* RCTJCoreModule.xcodeproj */,
+				47AABFD9C1794B46ACDD58FD /* RCTJCoreModule.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -846,10 +830,6 @@
 				{
 					ProductGroup = 00C302BC1ABCB91800DB3ED1 /* Products */;
 					ProjectRef = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
-				},
-				{
-					ProductGroup = 62890EF42190468400803A2B /* Products */;
-					ProjectRef = F912F8BE68544D67BDDB3EF3 /* RCTJCoreModule.xcodeproj */;
 				},
 				{
 					ProductGroup = 62890EBC219039F500803A2B /* Products */;
@@ -1140,13 +1120,6 @@
 			remoteRef = 62890EBF219039F500803A2B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		62890EF82190468400803A2B /* libRCTJCoreModule.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTJCoreModule.a;
-			remoteRef = 62890EF72190468400803A2B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1317,7 +1290,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1344,7 +1316,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1438,7 +1409,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1474,7 +1444,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1509,7 +1478,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1543,7 +1511,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
