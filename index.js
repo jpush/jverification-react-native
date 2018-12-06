@@ -58,6 +58,21 @@ export default class JVerification {
     static setDebug(enable) {
         JVerificationModule.setDebug(enable);
     }
+
+    /**
+     * Android 权限获取:"android.permission.READ_PHONE_STATE"
+     * @param {Function} callback = (result) => {
+     *  result = {
+     *      code: int,//0 获取成功，1 获取失败
+     *      content: string
+     *  }
+     * }
+     */
+    static requestPermission(callback) {
+        if (Platform.OS == "android") {
+          JVerificationModule.requestPermission(callback);
+        }
+    }
     
 
 }
