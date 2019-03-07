@@ -8,26 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TYRZLogin : NSObject
 
++ (nullable instancetype)loginWithAppId:(NSString *)appid appKey:(NSString *)appkey;
 
 /**
- 获取本机号码校验需要使用的token
- 
- @param appid 开放平台申请得到的appid
- @param appkey 开放平台申请得到的appkey
- @param complete 方法回调
+ 本机号码校验获取token
+ @param duration 请求时间(毫秒)
+ @param complete 回调
  */
-+ (void)getTokenWithAppId:(NSString *)appid appkey:(NSString *)appkey complete:(void (^)(id sender))complete;
+- (void)requestTokenWithTimeout:(NSTimeInterval)duration Complete:(void(^)(NSDictionary *))complete;
 
 //返回SDK版本号
-+ (NSString *)version;
++ (NSString *)sdkVersion;
 
-/**
- 控制台日志输出控制（默认关闭）
- 
- @param enable 开关参数
- */
-+ (void)printConsoleEnable:(BOOL)enable;
 
 @end
+
+NS_ASSUME_NONNULL_END

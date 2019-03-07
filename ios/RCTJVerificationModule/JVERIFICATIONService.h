@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define JVER_VERSION_NUMBER 1.1.0
+#define JVER_VERSION_NUMBER 1.1.2
 
 @interface JVAuthConfig : NSObject
 
@@ -60,5 +60,11 @@
  * 请在发布产品时改为NO，避免产生不必要的IO
  */
 + (void)setDebug:(BOOL)enable;
+
+/*!
+ * @abstract 判断当前手机网络环境是否可以进行认证
+ * 可以认证返回YES, 不能返回NO
+ */
++ (BOOL)checkVerifyEnable;
 
 @end

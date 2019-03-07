@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UnivResultListener.h"
+
+typedef void (^UnivResultListener)(NSDictionary *data);
 
 @interface UnivAuthHelper : NSObject
 
 +(UnivAuthHelper *) getInstance;
 
--(void) getAccessCode :(NSString*) appId appSecret:(NSString*) appSecret listener:(UnivResultListener) listener;
+-(void) getAccessCode :(NSString*) appId appSecret:(NSString*) appSecret timeout:(double)timeout listener:(UnivResultListener) listener;
 
 @end
