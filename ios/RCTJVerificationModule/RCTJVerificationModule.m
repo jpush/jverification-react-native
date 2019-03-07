@@ -93,7 +93,7 @@ RCT_EXPORT_METHOD(verifyNumber: (NSDictionary *)params
   }];
 }
 
-RCT_EXPORT_METHOD(setDebug: (NSNumber *)enable) {
+RCT_EXPORT_METHOD(setDebug: (nonnull NSNumber *)enable) {
   [JVERIFICATIONService setDebug: [enable boolValue]];
 }
 
