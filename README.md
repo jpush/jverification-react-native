@@ -7,8 +7,27 @@
 ```
 npm install jverification-react-native --save
 npm install jcore-react-native --save 
+```
+## 链接
+
+##### 通过脚手架生成的项目（react-native init）：
+
+如果工程不是通过 Cocoapods 来集成 ReactNative 的可以直接使用下面代码来 link 插件。
+
+```
 react-native link
 ```
+
+##### 通过 Cocoapods 集成的 react-native 项目：
+
+如果想使用 Cocoapods 来集成这个项目，可以在 Podfile 中加入如下配置（如果没听过 Cocoapods 下面配置不用管。）：
+
+```
+pod 'JVerificationRN', :path => '../node_modules/jverification-react-native'
+```
+
+
+
 ## 配置
 
 #### iOS
