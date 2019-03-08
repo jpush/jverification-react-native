@@ -20,7 +20,7 @@ react-native link
 
 ##### 通过 Cocoapods 集成的 react-native 项目：
 
-如果想使用 Cocoapods 来集成这个项目，可以在 Podfile 中加入如下配置（如果没听过 Cocoapods 下面配置不用管。）：
+如果想使用 Cocoapods 来集成这个项目，可以在 Podfile 中加入如下配置（如果没听过 Cocoapods 下面配置不用管。）：**注意： (jverification-react-native@1.2.3+ 才支持该集成方式)**
 
 ```
 pod 'JVerificationRN', :path => '../node_modules/jverification-react-native'
