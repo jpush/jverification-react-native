@@ -32,6 +32,8 @@ pod 'JVerificationRN', :path => '../node_modules/jverification-react-native'
 
 #### iOS
 
+#####  通过 Cocoapods 方式集成不需要下列配置。
+
 - 打开工程，进入 Build Settings -> Framework search paths 添加 framework 搜索路径
 
   ```
