@@ -98,8 +98,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-//        applicationId "com.test.josh"
-        applicationId "cn.jiguang.auth"
+        applicationId "com.test.josh"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -109,21 +108,9 @@ android {
         }
 
         manifestPlaceholders = [
-//                JPUSH_APPKEY: "c27b85df1b4fb86a1d507a50", //在此替换你的APPKey
-//                JPUSH_APPKEY: "cd15aee236985a832bfd3bc5", //在此替换你的APPKey
-//                JPUSH_APPKEY: "010308d261588d34e07603ea", //在此替换你的APPKey
-//                JPUSH_APPKEY: "6c6df7f27820abd17f1488d7", //在此替换你的APPKey
-                JPUSH_APPKEY: "eb97394eb2c8978929c009ae", //在此替换你的APPKey
+                JPUSH_APPKEY: "c27b85df1b4fb86a1d507a50", //在此替换你的APPKey
                 JPUSH_CHANNEL: "developer-default"    //应用渠道号
         ]
-    }
-    signingConfigs {
-        debug {
-            storeFile file("./debug.keystore")
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
-        }
     }
     splits {
         abi {
