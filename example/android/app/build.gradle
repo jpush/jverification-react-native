@@ -98,7 +98,8 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.test.josh"
+//        applicationId "com.test.josh"
+        applicationId "cn.jiguang.auth"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -108,9 +109,21 @@ android {
         }
 
         manifestPlaceholders = [
-                JPUSH_APPKEY: "your appkey", //在此替换你的APPKey
+//                JPUSH_APPKEY: "c27b85df1b4fb86a1d507a50", //在此替换你的APPKey
+//                JPUSH_APPKEY: "cd15aee236985a832bfd3bc5", //在此替换你的APPKey
+//                JPUSH_APPKEY: "010308d261588d34e07603ea", //在此替换你的APPKey
+//                JPUSH_APPKEY: "6c6df7f27820abd17f1488d7", //在此替换你的APPKey
+                JPUSH_APPKEY: "eb97394eb2c8978929c009ae", //在此替换你的APPKey
                 JPUSH_CHANNEL: "developer-default"    //应用渠道号
         ]
+    }
+    signingConfigs {
+        debug {
+            storeFile file("./debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
     }
     splits {
         abi {
@@ -147,6 +160,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':jcore-react-native')  // 添加 jcore 依赖
     implementation project(':jverification-react-native')
+    implementation 'cn.jiguang.sdk:jverification:2.1.0'
 }
 
 // Run this once to be able to run the application with BUCK
