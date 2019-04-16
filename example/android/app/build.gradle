@@ -108,7 +108,7 @@ android {
         }
 
         manifestPlaceholders = [
-                JPUSH_APPKEY: "your appkey", //在此替换你的APPKey
+                JPUSH_APPKEY: "c27b85df1b4fb86a1d507a50", //在此替换你的APPKey
                 JPUSH_CHANNEL: "developer-default"    //应用渠道号
         ]
     }
