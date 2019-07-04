@@ -43,8 +43,10 @@ pod 'JVerificationRN', :path => '../node_modules/jverification-react-native'
 - 打开工程，进入 Build Settings -> Other Link Flag 添加一行编译选项
 
   ```
-  -framework "TYRZNoUISDK"
+  -framework "account_login_sdk_noui_core"
   -framework "account_verify_sdk_core"
+  -framework "EAccountApiSDK"
+  -framework "TYRZSDK"
   ```
 
 #### Android
