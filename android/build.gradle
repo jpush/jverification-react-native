@@ -5,36 +5,18 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('compileSdkVersion', 27)
-    buildToolsVersion safeExtGet('buildToolsVersion', '26.0.2')
-
-
-
+    compileSdkVersion safeExtGet('compileSdkVersion', 29)
+    buildToolsVersion safeExtGet('buildToolsVersion', '29.0.0')
     defaultConfig {
         minSdkVersion safeExtGet('minSdkVersion', 16)
-        targetSdkVersion safeExtGet('targetSdkVersion', 27)
-        versionCode 1
-        versionName "1.0"
-
+        targetSdkVersion safeExtGet('targetSdkVersion', 29)
     }
-
-    lintOptions {
-        abortOnError false
-        warning 'InvalidPackage'
-    }
-
     sourceSets.main {
         jniLibs.srcDirs = ['libs']
     }
-
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
-//    api fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
-    implementation 'cn.jiguang.sdk:jverification:2.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.facebook.react:react-native:+'
 }

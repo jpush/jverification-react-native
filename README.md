@@ -1,79 +1,120 @@
-# jverification-react-native 
+# JVerification-React-Native
 
-极光官方开发的[极光认证](https://docs.jiguang.cn/jverification/guideline/intro/) react-native 插件，为开发者提供了快速验证用户输入的手机号码和本机 SIM 卡号码一致性的功能，提高用户体验和安全性。
-
-## 安装
+## 1. 安装
 
 ```
 npm install jverification-react-native --save
-npm install jcore-react-native --save 
-```
-## 链接
-
-##### 通过脚手架生成的项目（react-native init）：
-
-如果工程不是通过 Cocoapods 来集成 ReactNative 的可以直接使用下面代码来 link 插件。
-
-```
-react-native link
 ```
 
-##### 通过 Cocoapods 集成的 react-native 项目：
-
-如果想使用 Cocoapods 来集成这个项目，可以在 Podfile 中加入如下配置（如果没听过 Cocoapods 下面配置不用管。）：**注意： (jverification-react-native@1.2.3+ 才支持该集成方式)**
-
-```
-pod 'JVerificationRN', :path => '../node_modules/jverification-react-native'
-```
-
-
-
-## 配置
-
-#### iOS
-
-#####  通过 Cocoapods 方式集成不需要下列配置。
-
-- 打开工程，进入 Build Settings -> Framework search paths 添加 framework 搜索路径
+* 注意：如果项目里没有jcore-react-native，需要安装
 
   ```
-  $(SRCROOT)/../node_modules/jverification-react-native/ios/RCTJVerificationModule
+  npm install jcore-react-native --save
   ```
 
-- 打开工程，进入 Build Settings -> Other Link Flag 添加一行编译选项
+## 2. 配置
+
+### 2.1 Android
+
+* build.gradle
 
   ```
-  -framework "account_login_sdk_noui_core"
-  -framework "account_verify_sdk_core"
-  -framework "EAccountApiSDK"
-  -framework "TYRZSDK"
+  android {
+        defaultConfig {
+            applicationId "yourApplicationId"           //在此替换你的应用包名
+            ...
+            manifestPlaceholders = [
+                    JPUSH_APPKEY: "yourAppKey",         //在此替换你的APPKey
+                    JPUSH_CHANNEL: "yourChannel"        //在此替换你的channel
+            ]
+        }
+    }
   ```
 
-#### Android
+  ```
+  dependencies {
+        ...
+        implementation project(':jverification-react-native') // 添加 jverification 依赖
+        implementation project(':jcore-react-native')         // 添加 jcore 依赖
+    }
+  ```
 
-- [Checkout settings.gradle and build.gradle](./docs/AndroidConfig.md) 
+* AndridManifest.xml
 
-- [Add JVerificationPackage, don't forget parameters!](./docs/JVerificationPackage.md)
+  ```
+  <meta-data
+  android:name="JPUSH_CHANNEL"
+  android:value="${JPUSH_CHANNEL}" />
+  <meta-data
+  android:name="JPUSH_APPKEY"
+  android:value="${JPUSH_APPKEY}" />
+  ```
 
-## API
+* setting.gradle
 
-#### Usage：
+  ```
+  include ':jverification-react-native'
+  project(':jverification-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jverification-react-native/android')
+  include ':jcore-react-native'
+  project(':jcore-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/jcore-react-native/android')
+  ```
 
-```javascript
-import JVerification from 'jverification-react-native'
+### 2.2 iOS
 
-JVerification.init({
-              appKey: '替换成极光官网注册的应用 appKey',
-              channel: 'the optional channel'
-            });
+### 2.2.1 pod
+
+```
+pod install
 ```
 
+* 注意：如果项目里使用pod安装过，请先执行命令
 
-> 注意: 需要先调用 JVerification.init 方法其他功能才能正常使用。
+  ```
+  pod deintegrate
+  ```
 
+### 2.2.2 手动方式
 
+* Libraries
 
-接口说明参考： [index.js](./index.js) 
+  ```
+  Add Files to "your project name"
+  node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj
+  node_modules/jverification-react-native/ios/RCTJVerificationModule.xcodeproj
+  ```
 
-用法参考： [demo](./example/App.js)
+* Build Settings
 
+  ```
+  All --- Search Paths --- Header Search Paths --- +
+  $(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule/
+  $(SRCROOT)/../node_modules/jverification-react-native/ios/RCTJVerificationModule/
+  ```
+
+* Build Phases
+
+  ```
+  libz.tbd
+  libc++.1.tbd
+  libresolv.tbd
+  libsqlite3.tbd
+  libRCTJCoreModule.a
+  libRCTJVerificationModule.a
+  ```
+
+## 3. 引用
+
+参考：[example](https://github.com/jpush/jverification-react-native/blob/master/example)
+
+## 4. API
+
+详见：[index.js](https://github.com/jpush/jverification-react-native/blob/master/index.js)
+
+## 5.  其他
+
+* 集成前务必将example工程跑通
+* JVerification2.1.0属于重构版本，如有紧急需求请前往[极光社区](https://community.jiguang.cn/c/question)
+* 目前react-native link无法使用
+* 上报问题还麻烦先调用JVerification.setLoggerEnable( true)，拿到debug日志
+
+ 
