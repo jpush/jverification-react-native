@@ -11,9 +11,9 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - JCoreRN (1.3.7):
+  - JCore (1.5.0):
     - React
-  - JVerificationRN (2.0.0):
+  - JVerification (2.1.5):
     - React
   - React (0.60.5):
     - React-Core (= 0.60.5)
@@ -89,8 +89,8 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - JCoreRN (from `../node_modules/jcore-react-native`)
-  - JVerificationRN (from `../node_modules/jverification-react-native`)
+  - JCore (from `../node_modules/jcore-react-native`)
+  - JVerification (from `../node_modules/jverification-react-native`)
   - React (from `../node_modules/react-native/`)
   - React-Core (from `../node_modules/react-native/React`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
@@ -121,9 +121,9 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
-  JCoreRN:
+  JCore:
     :path: "../node_modules/jcore-react-native"
-  JVerificationRN:
+  JVerification:
     :path: "../node_modules/jverification-react-native"
   React:
     :path: "../node_modules/react-native/"
@@ -167,8 +167,8 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  JCoreRN: 3d47af5c3e3ce324e8982291e07a2c7236b48fb5
-  JVerificationRN: bcfe05c610f49697f6b94038ea99b2ffbd7e26b1
+  JCore: 191e9e58a35fb87a7500ce7b0772ec83019eaa60
+  JVerification: 3616f5ff2989c37aa25111ffb734a0362c6bd6bc
   React: 53c53c4d99097af47cf60594b8706b4e3321e722
   React-Core: ba421f6b4f4cbe2fb17c0b6fc675f87622e78a64
   React-cxxreact: 8384287780c4999351ad9b6e7a149d9ed10a2395
