@@ -104,11 +104,11 @@ pod install
 
 ## 3. 引用
 
-参考：[example](https://github.com/jpush/jverification-react-native/blob/master/example)
+参考：[App.js](https://github.com/jpush/jverification-react-native/tree/master/example/App.js)
 
 ## 4. API
 
-详见：[index.js](https://github.com/jpush/jverification-react-native/blob/master/index.js)
+详见：[index.js](https://github.com/jpush/jverification-react-native/tree/master/index.js)
 
 ## 5.  其他
 
