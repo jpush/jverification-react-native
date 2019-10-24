@@ -102,6 +102,13 @@ pod install
   libRCTJVerificationModule.a
   ```
 
+* info.plist
+
+  ```
+  View controller-based status bar appearance : YES
+  ```
+
+
 ## 3. 引用
 
 参考：[App.js](https://github.com/jpush/jverification-react-native/tree/master/example/App.js)
@@ -113,7 +120,7 @@ pod install
 ## 5.  其他
 
 * 集成前务必将example工程跑通
-* JVerification2.1.5属于重构版本，如有紧急需求请前往[极光社区](https://community.jiguang.cn/c/question)
+* JVerification2.2.0属于重构版本，如有紧急需求请前往[极光社区](https://community.jiguang.cn/c/question)
 * 目前react-native link无法使用
 * 上报问题还麻烦先调用JVerification.setLoggerEnable( true)，拿到debug日志
 
