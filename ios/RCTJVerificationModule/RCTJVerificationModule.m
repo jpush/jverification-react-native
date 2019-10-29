@@ -222,7 +222,13 @@ RCT_EXPORT_METHOD(getAuthorizationWithController: (BOOL *)enable)
         }
         [JVERIFICATIONService getAuthorizationWithController:topVC hide:enable completion:^(NSDictionary *result) {
             NSNumber *code = result[@"code"];
-            NSString *content = result[@"content"]?result[@"content"]:@"";
+            NSString *content = @"";
+            if(result[@"content"]){
+                content = result[@"content"];
+            }
+            if(result[@"loginToken"]){
+                content = result[@"loginToken"];
+            }
             NSString *operator = result[@"operator"]?result[@"operator"]:@"";
             NSDictionary *responseData = [self convertToResult:code content:content operator:operator];
             [self sendLoginEvent:responseData];
