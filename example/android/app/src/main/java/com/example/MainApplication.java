@@ -22,6 +22,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
+      //RN0.60以下需要打开，注意导包JVerificationPackage
+      //packages.add(new JVerificationPackage());
       return packages;
     }
 
