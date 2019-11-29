@@ -1,11 +1,10 @@
 package cn.jiguang.plugins.verification;
 
-import android.app.Application;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -15,9 +14,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.shell.MainReactPackage;
 
 import java.lang.reflect.Field;
 
@@ -403,16 +400,8 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             return null;
         }
         ReactRootView reactView = new ReactRootView(reactContext);
-        ReactInstanceManager reactInstanceManager = ReactInstanceManager.builder()
-                .setApplication((Application) reactContext.getApplicationContext())
-                .setCurrentActivity(getCurrentActivity())
-                .setBundleAssetName("index.android.bundle")
-                .setJSMainModulePath("index")
-                .addPackage(new MainReactPackage())
-                .setUseDeveloperSupport(true)
-                .setInitialLifecycleState(LifecycleState.RESUMED)
-                .build();
-        reactView.startReactApplication(reactInstanceManager, viewName, null);
+        ReactApplication application = (ReactApplication)getCurrentActivity().getApplication();
+        reactView.startReactApplication(application.getReactNativeHost().getReactInstanceManager(), viewName);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         if (viewPoint != null) {
             int marginLeft = dp2Pix(viewPoint.getInt(0));
