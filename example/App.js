@@ -141,9 +141,9 @@ const customConfigParams = {
 };
 
 const customViewParams = [
-    {customViewName: 'customView1', customViewPoint: [20, 200]},
-    {customViewName: 'customView2', customViewPoint: [20, 300]},
-    {customViewName: 'customView3', customViewPoint: [20, 400]},
+    {customViewName: 'customView1', customViewPoint: [20, 200, 150, 30]},
+    {customViewName: 'customView2', customViewPoint: [20, 300, 150, 30]},
+    {customViewName: 'customView3', customViewPoint: [20, 400, 150, 30]},
 ];
 
 export default class App extends React.Component {
