@@ -122,6 +122,9 @@ export default class JVerification {
         if (Platform.OS == 'android') {
             JVerificationModule.dismissLoginAuthActivity();
         }
+        else {
+            JVerificationModule.dismissLoginController();
+        }
     }
 
     /**

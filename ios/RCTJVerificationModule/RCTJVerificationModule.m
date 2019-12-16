@@ -196,15 +196,26 @@ RCT_EXPORT_METHOD(customUIWithConfig: (NSDictionary *)configParams viewParams: (
     dispatch_async(dispatch_get_main_queue(), ^{
         [JVERIFICATIONService customUIWithConfig:config customViews:^(UIView *customAreaView) {
             for (int i = 0; i < viewParams.count; i++) {
-                NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-                RCTRootView *rctView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName:viewParams[i][CUSTOM_VIEW_NAME] initialProperties:nil launchOptions:nil];
+                RCTRootView *rctView;
+                if (self.bridge) {
+                    rctView = [[RCTRootView alloc] initWithBridge:self.bridge moduleName:viewParams[i][CUSTOM_VIEW_NAME] initialProperties:nil];
+                }
+                else {
+                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+                    rctView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName:viewParams[i][CUSTOM_VIEW_NAME] initialProperties:nil launchOptions:nil];
+                }
                 NSArray *point = viewParams[i][CUSTOM_VIEW_POINT];
                 NSNumber *pointX = point[0];
                 NSNumber *pointY = point[1];
+                NSNumber *pointW = point[2];
+                NSNumber *pointH = point[3];
                 CGFloat x = [pointX doubleValue];
                 CGFloat y = [pointY doubleValue];
+                CGFloat w = [pointW doubleValue];
+                CGFloat h = [pointH doubleValue];
                 CGRect customFrame = rctView.frame;
                 customFrame.origin = CGPointMake(x, y);
+                customFrame.size = CGSizeMake(w, h);
                 rctView.frame = customFrame;
                 [customAreaView addSubview:rctView];
             }
