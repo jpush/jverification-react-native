@@ -404,9 +404,13 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         reactView.startReactApplication(application.getReactNativeHost().getReactInstanceManager(), viewName);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         if (viewPoint != null) {
-            int marginLeft = dp2Pix(viewPoint.getInt(0));
-            int marginTop = dp2Pix(viewPoint.getInt(1));
-            layoutParams.setMargins(marginLeft, marginTop, 0, 0);
+            int x = dp2Pix(viewPoint.getInt(0));
+            int y = dp2Pix(viewPoint.getInt(1));
+            int w = dp2Pix(viewPoint.getInt(2));
+            int h = dp2Pix(viewPoint.getInt(3));
+            layoutParams.setMargins(x, y, 0, 0);
+            layoutParams.width = w;
+            layoutParams.height = h;
         }
         reactView.setLayoutParams(layoutParams);
         return reactView;

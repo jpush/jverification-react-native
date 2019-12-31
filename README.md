@@ -1,5 +1,11 @@
 # JVerification-React-Native
 
+## ChangeLog
+
+1.从RN-JCore1.6.0开始，Android集成插件时不需要在AndroidManifest.xml中添加配置代码
+
+2.修复添加自定义布局问题
+
 ## 1. 安装
 
 ```
@@ -37,17 +43,6 @@ npm install jverification-react-native --save
         implementation project(':jverification-react-native') // 添加 jverification 依赖
         implementation project(':jcore-react-native')         // 添加 jcore 依赖
     }
-  ```
-
-* AndridManifest.xml
-
-  ```
-  <meta-data
-  android:name="JPUSH_CHANNEL"
-  android:value="${JPUSH_CHANNEL}" />
-  <meta-data
-  android:name="JPUSH_APPKEY"
-  android:value="${JPUSH_APPKEY}" />
   ```
 
 * setting.gradle
@@ -121,7 +116,6 @@ pod install
 
 * 集成前务必将example工程跑通
 * JVerification2.2.0属于重构版本，如有紧急需求请前往[极光社区](https://community.jiguang.cn/c/question)
-* 目前react-native link无法使用
 * 上报问题还麻烦先调用JVerification.setLoggerEnable( true)，拿到debug日志
 
  

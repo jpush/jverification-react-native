@@ -211,12 +211,12 @@ export default class JVerification {
      *
      *  var customViewParams = {
      *      'customViewName':String,                   //在index.js中注册的component
-     *      'customViewPoint':StringArray              //[int,int] 基于屏幕左上角的x,y坐标点
+     *      'customViewPoint':StringArray              //[int,int,int,int] 基于屏幕左上角的x,y,w,h
      *  }
      *
      *  关于图片资源，Android请将图片放到res/drawable目录下,iOS请将图片放到JVerificationResour.bundle
      *  关于颜色，为colorInt，可在Android代码中直观的看到数值，例如Color.BLACK = -16777216,Color.WHITE = -1
-     *  关于x,y,w,h，为保障显示效果，请同时设置。数值为
+     *  关于x,y,w,h，为保障显示效果，请同时设置。
      */
     static addLoginCustomConfig(customConfigParams, customViewParams) {
         if (Platform.OS == 'android') {
