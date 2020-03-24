@@ -356,6 +356,9 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_HIDDEN)){
             builder.setPrivacyCheckboxHidden(readableMap.getBoolean(JConstans.PRIVACY_CHECKBOX_HIDDEN));
         }
+        if(readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_SIZE)){
+            builder.setPrivacyCheckboxSize(readableMap.getInt(JConstans.PRIVACY_CHECKBOX_SIZE));
+        }
         if(readableMap.hasKey(JConstans.PRIVACY_CHECK_ENABLE)){
             builder.setPrivacyState(readableMap.getBoolean(JConstans.PRIVACY_CHECK_ENABLE));
         }

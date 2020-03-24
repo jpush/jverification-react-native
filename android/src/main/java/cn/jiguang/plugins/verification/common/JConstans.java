@@ -82,6 +82,7 @@ public class JConstans {
     public static final String PRIVACY_BOOK_SYMBOL_ENABLE = "privacyBookSymbolEnable";      //隐私条款运营商协议名是否加书名号
 
     public static final String PRIVACY_CHECKBOX_HIDDEN  = "privacyCheckboxHidden";          //隐私条款checkbox是否隐藏
+    public static final String PRIVACY_CHECKBOX_SIZE  = "privacyCheckboxSize";              //设置隐私条款checkbox尺寸
     public static final String PRIVACY_CHECK_ENABLE = "privacyCheckEnable";                 //隐私条款默认选中状态。默认不选中
     public static final String PRIVACY_CHECKBOX_IMAGE  = "privacyCheckedImage";             //隐私条款复选框选中图片
     public static final String PRIVACY_UNCHECKED_IMAGE = "privacyUncheckedImage";           //隐私条款复选框未选中图片
