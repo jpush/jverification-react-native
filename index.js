@@ -245,5 +245,21 @@ export default class JVerification {
         listeners[callback].remove();
         listeners[callback] = null;
     }
+    /*
+    * SDK获取验证码
+    * @param params = {'phonenum':String,'signid':String,'tempid':String}
+    * @param callback = (result) => {"code":int,'msg':String}
+    * */
+    static getVerifyCode(params,callback) {
+        JVerificationModule.getSmsCode(params,callback);
+    }
+
+    /*
+     * 设置前后两次获取验证码的时间间隔
+     * @param time : int
+     * */
+    static setCodeTime(time) {
+        JVerificationModule.setTimeWithConfig(time);
+    }
 
 }

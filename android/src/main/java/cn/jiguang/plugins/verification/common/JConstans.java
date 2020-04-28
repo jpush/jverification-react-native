@@ -96,4 +96,9 @@ public class JConstans {
     public static final String CUSTOM_VIEW_NAME = "customViewName";
     public static final String CUSTOM_VIEW_POINT = "customViewPoint";
 
+    //*******************************验证码*******************************
+    public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String SING_ID = "signID";
+    public static final String TEMPLATE_ID = "templateID";
+
 }

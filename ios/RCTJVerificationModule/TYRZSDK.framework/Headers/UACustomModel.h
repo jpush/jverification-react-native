@@ -130,35 +130,39 @@ typedef NS_ENUM(NSUInteger, UAPresentationDirection){
 /**37、隐私条款check框默认状态 默认:NO */
 @property (nonatomic,assign) BOOL privacyState;
 
+/**38、隐私条款默认协议是否开启书名号
+ */
+@property (nonatomic, assign) BOOL privacySymbol;
+
 #pragma mark 底部标识Title
-/**38、slogan偏移量Y*/
+/**39、slogan偏移量Y*/
 @property (nonatomic,strong) NSNumber * sloganOffsetY;
-/**39、slogan文字S*/
+/**40、slogan文字S*/
 @property (nonatomic,strong) NSAttributedString *sloganText;
 
 #pragma mark -----------------------------------短信页面-----------------------------------
 
-/**40、SDK短信验证码开关
+/**41、SDK短信验证码开关
  （默认为NO,不使用SDK提供的短验直接回调 ,YES:使用SDK提供的短验）
  为NO时,授权界面的切换账号按钮直接返回字典:200060 和 导航栏 “NavigationController”*/
 @property (nonatomic,assign) BOOL SMSAuthOn;
-/**41、短验页面导航栏标题*/
+/**42、短验页面导航栏标题*/
 @property (nonatomic,strong) NSAttributedString *SMSNavText;
-/**42、登录按钮文本内容*/
+/**43、登录按钮文本内容*/
 @property (nonatomic,strong) NSAttributedString *SMSLogBtnText;
-/**43、短验登录按钮图片请按顺序添加到数组(顺序如下)
+/**44、短验登录按钮图片请按顺序添加到数组(顺序如下)
  @[激活状态的图片,失效状态的图片,高亮状态的图片]
  */
 @property (nonatomic,strong) NSArray *SMSLogBtnImgs;
-/**44、获取验证码按钮图片请按顺序添加到数组(顺序如下)
+/**45、获取验证码按钮图片请按顺序添加到数组(顺序如下)
  @[激活状态的图片,失效状态的图片]
  */
 @property (nonatomic,strong) NSArray *SMSGetCodeBtnImgs;
-/**45、短验界面背景*/
+/**46、短验界面背景*/
 @property (nonatomic,strong) UIImage *SMSBackgroundImage;
 
 #pragma mark -----------------------------------协议页面-----------------------------------
-/**46、web协议界面导航返回图标(尺寸根据图片大小)*/
+/**47、web协议界面导航返回图标(尺寸根据图片大小)*/
 @property (nonatomic,strong) UIImage *webNavReturnImg;
 
 #pragma mark ----------------------弹窗:(温馨提示:由于受屏幕影响，小屏幕（5S,5E,5）需要改动字体和另自适应和布局)--------------------
@@ -169,32 +173,33 @@ typedef NS_ENUM(NSUInteger, UAPresentationDirection){
  窗口1模式下，自动隐藏系统导航栏,并生成一个UILabel 其frame为（0,0,窗口宽*scaleW,44*scaleW）
  返回按钮的frame查看51属性备注,添加在UILabel的center.y位置
 */
-/**47、窗口模式开关*/
+/**48、窗口模式开关*/
 @property (nonatomic,assign) BOOL authWindow;
 
-/**48、窗口模式推出动画
+/**49、窗口模式推出动画
  UIModalTransitionStyleCoverVertical, 下推
  UIModalTransitionStyleFlipHorizontal,翻转
  UIModalTransitionStyleCrossDissolve, 淡出
  */
 @property (nonatomic,assign) UIModalTransitionStyle modalTransitionStyle;
 
-/**49、自定义窗口弧度 默认是10*/
+/**50、自定义窗口弧度 默认是10*/
 @property (nonatomic,assign) CGFloat cornerRadius;
 
-/**50、自定义窗口宽-缩放系数(屏幕宽乘以系数) 默认是0.8*/
+/**51、自定义窗口宽-缩放系数(屏幕宽乘以系数) 默认是0.8*/
 @property (nonatomic,assign) CGFloat scaleW;
 
-/**51、自定义窗口高-缩放系数(屏幕高乘以系数) 默认是0.5*/
+/**52、自定义窗口高-缩放系数(屏幕高乘以系数) 默认是0.5*/
 @property (nonatomic,assign) CGFloat scaleH;
 
-/**52、返回按钮x偏移(负数左边偏移,正数右边偏移) 只有隐藏导航栏时有效 默认frame为 (20,居中,20 * 系数scaleW,20 * scaleW) */
+/**53、返回按钮x偏移(负数左边偏移,正数右边偏移) 只有隐藏导航栏时有效 默认frame为 (20,居中,20 * 系数scaleW,20 * scaleW) */
 @property (nonatomic,assign) CGRect navReturnImgFrame;
 
 #pragma mark -----------窗口模式2（边缘弹窗） UIPresentationController（可配合UAPresentationDirection动画使用）-----------
-/**53、此属性支持半弹框方式与authWindow不同（此方式为UIPresentationController）设置后自动隐藏切换按钮*/
+/**54、此属性支持半弹框方式与authWindow不同（此方式为UIPresentationController）设置后自动隐藏切换按钮*/
 @property (nonatomic,assign) CGSize controllerSize;
 
-
+/**55、授权界面支持的方向,横屏;竖屏*/
+@property (nonatomic, assign) UIInterfaceOrientation faceOrientation;
 
 @end

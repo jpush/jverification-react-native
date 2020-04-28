@@ -151,6 +151,40 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             }
         });
     }
+    // 获取验证码
+    @ReactMethod
+    public void getSmsCode(ReadableMap object, final Callback jsCallback) {
+        System.out.println("object:"+object);
+        String phoneNumber = "";
+        String signID = "";
+        String templateID = "";
+        if (object != null) {
+            phoneNumber = object.hasKey(JConstans.PHONE_NUMBER) ? object.getString(JConstans.PHONE_NUMBER):"18925247365";
+            signID = object.hasKey(JConstans.SING_ID) ? object.getString(JConstans.SING_ID):"13649";
+            templateID = object.hasKey(JConstans.TEMPLATE_ID) ? object.getString(JConstans.TEMPLATE_ID):"1";
+        }
+        JVerificationInterface.getSmsCode(reactContext, phoneNumber, signID, templateID, new RequestCallback<String>() {
+            @Override
+            public void onResult(int code, String msg) {
+                if (jsCallback == null) return;
+                WritableMap result = Arguments.createMap();
+                result.putInt("code", code);
+                if(code == 3000) {
+                    result.putString("uuid", msg);
+                    result.putString("msg", "");
+                } else {
+                    result.putString("uuid", "");
+                    result.putString("msg", msg);
+                }
+                jsCallback.invoke(result);
+            }
+        });
+    }
+    // 设置前后两次获取验证码的时间间隔
+    @ReactMethod
+    public void setTimeWithConfig(int time){
+        JVerificationInterface.setSmsIntervalTime(time);
+    } 
 
     private void sendEvent(String eventName, WritableMap params) {
         try {

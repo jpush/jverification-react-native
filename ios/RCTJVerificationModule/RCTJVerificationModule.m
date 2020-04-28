@@ -7,6 +7,7 @@
 #define CODE           @"code"
 #define CONTENT        @"content"
 #define OPERATOR       @"operator"
+#define UUID           @"uuid"
 
 //事件
 #define LOGIN_EVENT    @"LoginEvent"
@@ -254,6 +255,35 @@ RCT_EXPORT_METHOD(getAuthorizationWithController: (BOOL *)enable)
 RCT_EXPORT_METHOD(dismissLoginController)
 {
     [JVERIFICATIONService dismissLoginController];
+}
+
+// 获取验证码
+RCT_EXPORT_METHOD(getSmsCode: (NSDictionary *)params callback: (RCTResponseSenderBlock)callback)
+{
+    NSString *phoneNumber = @"";
+    NSString *signID = @"";
+    NSString *templateID = @"";
+
+    if(params[@"phoneNumber"]){
+        phoneNumber = params[@"phoneNumber"];
+    }
+    if(params[@"signID"]){
+        signID = params[@"signID"];
+    }
+    if(params[@"templateID"]){
+        templateID = params[@"templateID"];
+    }
+    
+    [JVERIFICATIONService getSMSCode:(phoneNumber) templateID:templateID signID:signID completionHandler:^(NSDictionary * _Nonnull result) {
+        callback(@[result]);
+    }];
+}
+
+// 设置前后两次获取验证码的时间间隔
+RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
+{
+    NSTimeInterval time  = timeInter;
+    [JVERIFICATIONService setGetCodeInternal:time];
 }
 
 //事件处理
@@ -539,3 +569,4 @@ RCT_EXPORT_METHOD(dismissLoginController)
 }
 
 @end
+

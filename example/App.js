@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import JVerification from 'jverification-react-native';
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -48,7 +49,7 @@ class Button extends React.Component {
 
 const initParams = {
     'time': 5000,
-    'appKey': 'a0e6ace8d5b3e0247e3f58db', //仅iOS
+    'appKey': '60e02a2a65ac4cdc6f80b776', //仅iOS
     'channel': 'channel',                 //仅iOS
     'advertisingId': 'advertisingId',     //仅iOS
     'isProduction': false,                //仅iOS
@@ -147,6 +148,12 @@ const customViewParams = [
     {customViewName: 'customView3', customViewPoint: [20, 400, 150, 30]},
 ];
 
+const codeConfig = {
+    phoneNumber :  "18925241111", //在此替换你的phoneNumber
+    signID : "1",             //在此替换你的signID
+    templateID : "1"         //在此替换你的templateID
+};
+
 export default class App extends React.Component {
 
     constructor(props) {
@@ -193,6 +200,12 @@ export default class App extends React.Component {
 
                 <Button title='login'
                         onPress={() => JVerification.login(true)}/>
+
+                <Button title='获取验证码' onPress={() => JVerification.getVerifyCode(codeConfig, result => {
+                    console.log('获取验证码:' + JSON.stringify(result));
+                })}/>
+
+                <Button title='设置获取验证码时间间隔' onPress={() => JVerification.setCodeTime(1000)}/>
 
             </View>
         );
