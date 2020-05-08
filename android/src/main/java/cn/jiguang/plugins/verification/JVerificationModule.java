@@ -408,9 +408,9 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_COLOR)){
             builder.setPrivacyNavColor(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_COLOR));
         }
-        if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE)){
-            builder.setPrivacyTextSize(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE));
-        }
+        // if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE)){
+        //     builder.setPrivacyTextSize(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE));
+        // }
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_COLOR)){
             builder.setPrivacyNavTitleTextColor(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_COLOR));
         }
