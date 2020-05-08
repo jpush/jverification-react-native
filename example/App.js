@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View, TouchableHighlight, Platform} from 'react-native';
 import JVerification from 'jverification-react-native';
 
 
@@ -156,6 +156,22 @@ const codeConfig = {
     signID : "1",             //在此替换你的signID
     templateID : "1"         //在此替换你的templateID
 };
+//安卓授权页弹窗模式
+const androidDialogConfig = {
+    privacyDialogTheme: [300, 700, 0, 0, false], //授权页弹窗模式
+}
+//ios授权页弹窗模式
+const iosDialogConfig = {
+    showWindow:true,  // 是否弹窗，默认no
+    windowBackgroundImage:"static/bg.jpeg", // 弹框内部背景图片
+    windowBackgroundAlpha: 0.3,  //弹窗外侧 透明度 0~1.0
+    windowCornerRadius:10, //弹窗圆角数值
+    windowConstraints:[0,0,300,300], //弹窗布局对象
+    windowHorizontalConstraints:[],//弹窗横屏布局，横屏下优先级高于windowConstraints
+    windowCloseBtnImgs:["static/windowClose","static/windowClose"],//弹窗close按钮图片 @[普通状态图片，高亮状态图片]
+    windowCloseBtnConstraints:[-135,-135,20,20],//弹窗close按钮布局,
+    windowCloseBtnHorizontalConstraints:[], //弹窗close按钮 横屏布局,横屏下优先级高于windowCloseBtnConstraints
+}
 
 export default class App extends React.Component {
 
@@ -200,6 +216,18 @@ export default class App extends React.Component {
 
                 <Button title='addLoginCustomConfig'
                         onPress={() => JVerification.addLoginCustomConfig(customConfigParams, customViewParams)}/>
+
+                <Button title='自定义弹窗授权页'
+                        onPress={() => {
+                            if(Platform.OS == 'android'){
+                                const params = Object.assign({},androidDialogConfig,customConfigParams);
+                                JVerification.addLoginCustomConfig((params, customViewParams))
+                            } else {
+                                const params = Object.assign({},iosDialogConfig,customConfigParams);
+                                JVerification.addLoginCustomConfig((params, customViewParams))
+                                console.log(params,'params>>>>')
+                            }
+                        }}/>
 
                 <Button title='login'
                         onPress={() => JVerification.login(true)}/>
