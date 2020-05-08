@@ -427,6 +427,18 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 JLogger.e("setPrivacyWebNavReturnBtnImage error:"+e.getMessage());
             }
         }
+        //  授权页动画
+        if (readableMap.hasKey(JConstans.PRIVACY_NEED_START_ANIM)) {
+            builder.setNeedStartAnim(readableMap.getBoolean(JConstans.PRIVACY_NEED_START_ANIM));
+        }
+        if (readableMap.hasKey(JConstans.PRIVACY_NEED_CLOSE_ANIM)) {
+            builder.setNeedCloseAnim(readableMap.getBoolean(JConstans.PRIVACY_NEED_CLOSE_ANIM));
+        }
+        //  授权页弹窗模式
+        if (readableMap.hasKey(JConstans.PRIVACY_DIALOG_THEME)) {
+            ReadableArray array = readableMap.getArray(JConstans.PRIVACY_DIALOG_THEME);
+            builder.setDialogTheme(array.getInt(0), array.getInt(1),array.getInt(2), array.getInt(3), array.getBoolean(4));
+        }
     }
 
     private ReactRootView convertToView(ReadableMap readableMap){

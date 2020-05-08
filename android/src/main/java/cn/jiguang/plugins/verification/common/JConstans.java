@@ -101,4 +101,10 @@ public class JConstans {
     public static final String SING_ID = "signID";
     public static final String TEMPLATE_ID = "templateID";
 
+    // 授权页动画
+    public static final String PRIVACY_NEED_START_ANIM = "privacyNeedStartAnim";
+    public static final String PRIVACY_NEED_CLOSE_ANIM = "privacyNeedCloseAnim";
+    // 授权页弹窗模式
+    public static final String PRIVACY_DIALOG_THEME = "privacyDialogTheme";
+
 }

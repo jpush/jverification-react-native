@@ -140,6 +140,9 @@ const customConfigParams = {
     privacyWebNavTitleSize: 16,                                 //协议页导航栏标题字体大小
     privacyWebNavTitleColor: -1,                                //协议页导航栏标题字体颜色
     privacyWebNavReturnImage: 'close',                          //协议页导航栏返回按钮图片
+    privacyNeedStartAnim: true,                                 //设置拉起授权页时是否需要显示默认动画 默认展示
+    privacyNeedCloseAnim: true,                                 //设置关闭授权页时是否需要显示默认动画 默认展示
+    privacyDialogTheme: [300, 700, 0, 0, false],                //授权页弹窗模式
 };
 
 const customViewParams = [
