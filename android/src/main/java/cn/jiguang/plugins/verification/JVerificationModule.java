@@ -408,9 +408,9 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_COLOR)){
             builder.setPrivacyNavColor(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_COLOR));
         }
-        // if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE)){
-        //     builder.setPrivacyTextSize(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE));
-        // }
+         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE)){
+             builder.setPrivacyNavTitleTextSize(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE));
+         }
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_COLOR)){
             builder.setPrivacyNavTitleTextColor(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_COLOR));
         }
@@ -452,7 +452,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         reactView.setLayoutParams(layoutParams);
         return reactView;
     }
-
+    
     private int dp2Pix(float dp) {
         try {
             float density = reactContext.getApplicationContext().getResources().getDisplayMetrics().density;
