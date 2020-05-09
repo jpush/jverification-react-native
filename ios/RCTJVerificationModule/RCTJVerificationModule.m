@@ -99,6 +99,17 @@
 #define PRIVACY_WEB_NAV_TITLE_COLOR     @"privacyWebNavTitleColor"  //协议页导航栏标题字体颜色
 #define PRIVACY_WEB_NAV_RETURN_IMAGE    @"privacyWebNavReturnImage" //协议页导航栏返回按钮图片
 
+//弹窗
+#define showWindow                                @"showWindow";                         // 是否弹窗，默认no
+#define windowBackgroundImage                     @"windowBackgroundImage";              // 弹框内部背景图片
+#define windowBackgroundAlpha                     @"windowBackgroundAlpha";              //弹窗外侧 透明度 0~1.0
+#define windowCornerRadius                        @"windowCornerRadius";                 //弹窗圆角数值
+#define windowConstraints                         @"windowConstraints";                  //弹窗布局对象
+#define windowHorizontalConstraints               @"windowHorizontalConstraints";        //弹窗横屏布局，横屏下优先级高于windowConstraints
+#define windowCloseBtnConstraints                 @"windowCloseBtnConstraints";          //弹窗close按钮布局
+#define windowCloseBtnHorizontalConstraints       @"windowCloseBtnHorizontalConstraints";//弹窗close按钮 横屏布局,横屏下优先级高于windowCloseBtnConstraints
+#define windowCloseBtnImgs                        @"windowCloseBtnImgs";                 //弹窗close按钮图片 @[普通状态图片，高亮状态图片]
+
 #define UIColorFromRGBValue(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static double defaultTime  = 5000;
@@ -544,6 +555,87 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     if(configParams[PRIVACY_WEB_NAV_RETURN_IMAGE]){
         config.agreementNavReturnImage = [self imageNamed:configParams[PRIVACY_WEB_NAV_RETURN_IMAGE]];
     }
+
+    // 弹窗
+    if([configParams[showWindow] isKindOfClass:[NSNumber class]]){
+        config.showWindow = [configParams[showWindow] boolValue];
+    }
+    if(configParams[windowBackgroundImage]){
+        UIImage *backgroundImage = [self imageNamed:configParams[windowBackgroundImage]];
+        config.windowBackgroundImage = @[backgroundImage];
+    }
+    if(configParams[windowBackgroundAlpha]){
+        CGFloat backgroundAlpha = [configParams[windowBackgroundAlpha] floatValue];
+        config.windowBackgroundAlpha = [UIFont systemFontOfSize:backgroundAlpha];
+    }
+    if(configParams[windowCornerRadius]){
+        CGFloat cornerRadius = [configParams[windowCornerRadius] floatValue];
+        config.windowCornerRadius = [UIFont systemFontOfSize:cornerRadius];
+    }
+    if(configParams[windowConstraints]){
+        NSNumber *constraintsX = configParams[windowConstraints][0];
+        NSNumber *constraintsY = configParams[windowConstraints][1];
+        NSNumber *constraintsW = configParams[windowConstraints][2];
+        NSNumber *constraintsH = configParams[windowConstraints][3];
+        config.windowConstraints = [self layoutConstraint:(constraintsX) y:constraintsY w:constraintsW h:constraintsH];
+    }
+    if(configParams[windowHorizontalConstraints]){
+        NSNumber *horizontalX = configParams[windowHorizontalConstraints][0];
+        NSNumber *horizontalY = configParams[windowHorizontalConstraints][1];
+        NSNumber *horizontalW = configParams[windowHorizontalConstraints][2];
+        NSNumber *horizontalH = configParams[windowHorizontalConstraints][3];
+        config.windowHorizontalConstraints = [self layoutConstraint:(horizontalX) y:horizontalY w:horizontalW h:horizontalH];
+    }
+
+
+    if (configParams[windowCloseBtnImgs]){
+        NSArray *imageNames = configParams[windowCloseBtnImgs];
+        if ([imageNames isKindOfClass:[NSArray class]]) {
+            NSMutableArray *images = [NSMutableArray arrayWithCapacity:3];
+            for (int i = 0; i< imageNames.count; i++) {
+                NSString *bundlePath = [[NSBundle mainBundle] pathForResource:JVERIFICATION_RESOURCE ofType:@"bundle"];
+                // UIImage *image= [UIImage imageWithContentsOfFile:[bundlePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",imageName]]];
+                UIImage *closeImage = [UIImage imageWithContentsOfFile:[bundlePath stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",imageNames[i]]]];
+                // UIImage *closeImage  = [self imageNamed:windowCloseBtnImgPath];
+                if (closeImage) {
+                    [images addObject:closeImage];
+                }
+                config.windowCloseBtnImgs = images;
+            }
+        }
+    }
+
+
+    // if (configParams[windowCloseBtnImgs]){
+    //     NSArray *imageNames = dict[key];
+    //     if ([imageNames isKindOfClass:[NSArray class]]) {
+    //         NSMutableArray *images = [NSMutableArray arrayWithCapacity:3];
+    //         for (int i = 0; i< imageNames.count; i++) {
+                // NSString *windowCloseBtnImgPath = [appinfo.wwwPath stringByAppendingFormat:@"/%@",imageNames[i]];
+    //             UIImage *closeImage  = [UIImage imageNamed:windowCloseBtnImgPath];
+    //             if (closeImage) {
+    //                 [images addObject:closeImage];
+    //             }
+    //             jvUIConfig.windowCloseBtnImgs = images;
+    //         }
+    //     }
+    // }
+
+    if(configParams[windowCloseBtnConstraints]){
+        NSNumber *CloseBtnX = configParams[windowCloseBtnConstraints][0];
+        NSNumber *CloseBtnY = configParams[windowCloseBtnConstraints][1];
+        NSNumber *CloseBtnW = configParams[windowCloseBtnConstraints][2];
+        NSNumber *CloseBtnH = configParams[windowCloseBtnConstraints][3];
+        config.windowCloseBtnConstraints = [self layoutConstraint:(CloseBtnX) y:CloseBtnY w:CloseBtnW h:CloseBtnH];
+    }
+    if(configParams[windowCloseBtnHorizontalConstraints]){
+        NSNumber *horizontalBtnX = configParams[windowCloseBtnHorizontalConstraints][0];
+        NSNumber *horizontalBtnY = configParams[windowCloseBtnHorizontalConstraints][1];
+        NSNumber *horizontalBtnW = configParams[windowCloseBtnHorizontalConstraints][2];
+        NSNumber *horizontalBtnH = configParams[windowCloseBtnHorizontalConstraints][3];
+        config.windowCloseBtnHorizontalConstraints = [self layoutConstraint:(horizontalBtnX) y:horizontalBtnY w:horizontalBtnW h:horizontalBtnH];
+    }
+    
     return config;
 }
 
