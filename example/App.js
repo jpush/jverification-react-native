@@ -140,9 +140,6 @@ const customConfigParams = {
     privacyWebNavTitleSize: 16,                                 //协议页导航栏标题字体大小
     privacyWebNavTitleColor: -1,                                //协议页导航栏标题字体颜色
     privacyWebNavReturnImage: 'close',                          //协议页导航栏返回按钮图片
-    privacyNeedStartAnim: true,                                 //设置拉起授权页时是否需要显示默认动画 默认展示
-    privacyNeedCloseAnim: true,                                 //设置关闭授权页时是否需要显示默认动画 默认展示
-    privacyDialogTheme: [300, 700, 0, 0, false],                //授权页弹窗模式
 };
 
 const customViewParams = [
@@ -158,19 +155,36 @@ const codeConfig = {
 };
 //安卓授权页弹窗模式
 const androidDialogConfig = {
-    privacyDialogTheme: [300, 700, 0, 0, false], //授权页弹窗模式
+    privacyDialogTheme: [300, 400, 0, 0, false], //授权页弹窗模式
+    privacyNeedStartAnim: true,                  //设置拉起授权页时是否需要显示默认动画 默认展示
+    privacyNeedCloseAnim: true,                  //设置关闭授权页时是否需要显示默认动画 默认展示
+    navColor:0xff000000,
+    loginBtnText:" 极光认证测试 ",
+    privacyCheckEnable:false,
+    privacyColor:[0xff00f000,0xff000000]
 }
 //ios授权页弹窗模式
 const iosDialogConfig = {
+    navHidden:true,    //导航栏是否隐藏
+    logoImage: 'umcsdk_mobile_logo',          //logo(android默认为应用图标;ios默认无)
+    logoConstraints:[0,-100,60,60],           //LOGO图片布局对象
+    logoHidden: false,                        //logo是否隐藏
+    numberConstraints:[0,-42,200,14],         //号码栏布局对象
+    sloganConstraints:[0,-20,200,14],         //slogan布局对象
+    logBtnConstraints:[0,20,220,40],
+    loginBtnText: '登录按钮',                  //登录按钮文字
+    loginBtnTextSize: 16,                     //登录按钮字体大小
+    loginBtnTextColor: -16777216,             //登录按钮文字颜色
+    privacyConstraints:[0,100,200,40],        //隐私条款布局对象
+    checkViewConstraints:[-108,100,10,10],    //checkBox布局对象
+    loadingConstraints:[0,0,20,20],
     showWindow:true,  // 是否弹窗，默认no
-    windowBackgroundImage:"static/bg.jpeg", // 弹框内部背景图片
+    windowBackgroundImage:"bg", // 弹框内部背景图片
     windowBackgroundAlpha: 0.3,  //弹窗外侧 透明度 0~1.0
     windowCornerRadius:10, //弹窗圆角数值
     windowConstraints:[0,0,300,300], //弹窗布局对象
-    windowHorizontalConstraints:[],//弹窗横屏布局，横屏下优先级高于windowConstraints
-    windowCloseBtnImgs:["static/windowClose","static/windowClose"],//弹窗close按钮图片 @[普通状态图片，高亮状态图片]
+    windowCloseBtnImgs:["windowClose","windowClose"],//弹窗close按钮图片 @[普通状态图片，高亮状态图片]
     windowCloseBtnConstraints:[-135,-135,20,20],//弹窗close按钮布局,
-    windowCloseBtnHorizontalConstraints:[], //弹窗close按钮 横屏布局,横屏下优先级高于windowCloseBtnConstraints
 }
 
 export default class App extends React.Component {
@@ -215,17 +229,16 @@ export default class App extends React.Component {
                         })}/>
 
                 <Button title='addLoginCustomConfig'
-                        onPress={() => JVerification.addLoginCustomConfig(customConfigParams, customViewParams)}/>
+                       onPress={() => JVerification.addLoginCustomConfig(customConfigParams, customViewParams)}/>
 
                 <Button title='自定义弹窗授权页'
                         onPress={() => {
                             if(Platform.OS == 'android'){
-                                const params = Object.assign({},androidDialogConfig,customConfigParams);
-                                JVerification.addLoginCustomConfig((params, customViewParams))
+                                // const params = Object.assign(androidDialogConfig,customConfigParams);
+                                console.log('androidDialogConfig>>>>',JSON.stringify(androidDialogConfig),'>>>>>')
+                                JVerification.addLoginCustomConfig(androidDialogConfig, []);
                             } else {
-                                const params = Object.assign({},iosDialogConfig,customConfigParams);
-                                JVerification.addLoginCustomConfig((params, customViewParams))
-                                console.log(params,'params>>>>')
+                                JVerification.addLoginCustomConfig(iosDialogConfig, []);
                             }
                         }}/>
 
