@@ -161,7 +161,12 @@ const androidDialogConfig = {
     navColor:0xff000000,
     loginBtnText:" 极光认证测试 ",
     privacyCheckEnable:false,
-    privacyColor:[0xff00f000,0xff000000]
+    privacyColor:[0xff00f000,0xff000000],
+    loginBtnWidth:40,
+    privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）
+    privacyColor: [-16777216, -65536],                          //隐私条款颜色 （显示名称和url的颜色，请严格按照格式）
+    privacyText: ['登录即同意', '和', '、', '并使用本机号码登录'],  //隐私条款名称外的文字
+    privacyTextSize: 12,   
 }
 //ios授权页弹窗模式
 const iosDialogConfig = {
@@ -234,9 +239,7 @@ export default class App extends React.Component {
                 <Button title='自定义弹窗授权页'
                         onPress={() => {
                             if(Platform.OS == 'android'){
-                                // const params = Object.assign(androidDialogConfig,customConfigParams);
-                                console.log('androidDialogConfig>>>>',JSON.stringify(androidDialogConfig),'>>>>>')
-                                JVerification.addLoginCustomConfig(androidDialogConfig, []);
+                                JVerification.addLoginCustomConfig(androidDialogConfig, undefined);
                             } else {
                                 JVerification.addLoginCustomConfig(iosDialogConfig, []);
                             }

@@ -133,6 +133,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setCustomUIWithConfig(final ReadableMap readableMap, final ReadableArray readableArray){
+        builder = null;        
         convertToConfig(readableMap);
         reactContext.runOnUiQueueThread(new Runnable() {
             @Override
@@ -184,7 +185,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setTimeWithConfig(int time){
         JVerificationInterface.setSmsIntervalTime(time);
-    } 
+    }
 
     private void sendEvent(String eventName, WritableMap params) {
         try {
