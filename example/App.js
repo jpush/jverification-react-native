@@ -155,6 +155,10 @@ const codeConfig = {
 };
 //安卓授权页弹窗模式
 const androidDialogConfig = {
+    // navHidden: false,                         //导航栏是否隐藏
+    // navColor: -16777216,                      //导航栏颜色
+    // navReturnHidden: false,                   //导航栏返回按钮是否隐藏
+    // navReturnImage: 'close',                  //导航栏左侧返回按钮图标
     privacyDialogTheme: [300, 400, 0, 0, false], //授权页弹窗模式
     privacyNeedStartAnim: true,                  //设置拉起授权页时是否需要显示默认动画 默认展示
     privacyNeedCloseAnim: true,                  //设置关闭授权页时是否需要显示默认动画 默认展示

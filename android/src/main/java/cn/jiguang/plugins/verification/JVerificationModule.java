@@ -134,6 +134,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setCustomUIWithConfig(final ReadableMap readableMap, final ReadableArray readableArray){
         builder = null;        
+        System.out.println("readableMap>>>:"+readableMap);
         convertToConfig(readableMap);
         reactContext.runOnUiQueueThread(new Runnable() {
             @Override
