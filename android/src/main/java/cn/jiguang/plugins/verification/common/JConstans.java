@@ -106,5 +106,9 @@ public class JConstans {
     public static final String PRIVACY_NEED_CLOSE_ANIM = "privacyNeedCloseAnim";
     // 授权页弹窗模式
     public static final String PRIVACY_DIALOG_THEME = "privacyDialogTheme";
+    // 弹窗是否需要配置关闭按钮
+    public static final String PRIVACY_NEED_CLOSE = "privacyNeedClose";
+    // 弹窗关闭按钮模式
+    public static final String PRIVACY_CLOSE_THEME = "privacyCloseTheme";
 
 }

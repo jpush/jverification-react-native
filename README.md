@@ -1,6 +1,8 @@
 # JVerification-React-Native
 
 ## ChangeLog
+### v 2.4.4
+- android增加弹窗自定义关闭按钮
 
 ### v 2.4.3
 - iOS、android增加弹窗登录

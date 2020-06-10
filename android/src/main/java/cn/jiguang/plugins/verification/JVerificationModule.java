@@ -3,6 +3,8 @@ package cn.jiguang.plugins.verification;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ImageButton;
+import android.view.ViewGroup;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactRootView;
@@ -441,6 +443,22 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             ReadableArray array = readableMap.getArray(JConstans.PRIVACY_DIALOG_THEME);
             builder.setDialogTheme(array.getInt(0), array.getInt(1),array.getInt(2), array.getInt(3), array.getBoolean(4));
         }
+        // 弹窗是否需要关闭
+        if (readableMap.hasKey(JConstans.PRIVACY_NEED_CLOSE) && readableMap.hasKey(JConstans.PRIVACY_CLOSE_THEME)) {
+            boolean needClose = readableMap.getBoolean(JConstans.PRIVACY_NEED_CLOSE);
+            if(needClose) {
+                //自定义返回按钮示例 
+                ImageButton sampleReturnBtn = new ImageButton(reactContext);
+                sampleReturnBtn.setImageResource(R.drawable.umcsdk_return_bg);
+                RelativeLayout.LayoutParams returnLP = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                // 返回按钮样式
+                ReadableArray array = readableMap.hasKey(JConstans.PRIVACY_CLOSE_THEME) ? readableMap.getArray(JConstans.PRIVACY_CLOSE_THEME) : null;
+                returnLP.setMargins(array.getInt(0), array.getInt(1),array.getInt(2), array.getInt(3));
+                sampleReturnBtn.setLayoutParams(returnLP);
+                builder.addCustomView(sampleReturnBtn,true,null);
+            }
+        }
+
     }
 
     private ReactRootView convertToView(ReadableMap readableMap){

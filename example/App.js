@@ -155,10 +155,8 @@ const codeConfig = {
 };
 //安卓授权页弹窗模式
 const androidDialogConfig = {
-    // navHidden: false,                         //导航栏是否隐藏
-    // navColor: -16777216,                      //导航栏颜色
-    // navReturnHidden: false,                   //导航栏返回按钮是否隐藏
-    // navReturnImage: 'close',                  //导航栏左侧返回按钮图标
+    privacyNeedClose:true,                       //弹窗是否需要关闭按钮 
+    privacyCloseTheme:[10, 60, 0, 0],            //弹窗关闭按钮偏移量 privacyNeedClose为true时，必须设置它的偏移量
     privacyDialogTheme: [300, 400, 0, 0, false], //授权页弹窗模式
     privacyNeedStartAnim: true,                  //设置拉起授权页时是否需要显示默认动画 默认展示
     privacyNeedCloseAnim: true,                  //设置关闭授权页时是否需要显示默认动画 默认展示
@@ -257,6 +255,7 @@ export default class App extends React.Component {
                 })}/>
 
                 <Button title='设置获取验证码时间间隔' onPress={() => JVerification.setCodeTime(1000)}/>
+
 
             </View>
         );
