@@ -23,13 +23,6 @@
 			remoteGlobalIDString = 6212E9B41F3990DC00BDF51A;
 			remoteInfo = RCTJCoreModule;
 		};
-		5CE4DCCE2374057B004FE764 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5CE4DCCA2374057B004FE764 /* RCTJVerificationModule.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 62890E502190232500803A2B;
-			remoteInfo = RCTJVerificationModule;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +36,6 @@
 		14E21A81D379A335288ADB38 /* Pods-example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-example.debug.xcconfig"; path = "Target Support Files/Pods-example/Pods-example.debug.xcconfig"; sourceTree = "<group>"; };
 		5C103CA823605A2E000AD3DA /* JVerificationResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JVerificationResource.bundle; sourceTree = "<group>"; };
 		5CE4DCC423740560004FE764 /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJCoreModule.xcodeproj; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; };
-		5CE4DCCA2374057B004FE764 /* RCTJVerificationModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJVerificationModule.xcodeproj; path = "../node_modules/jverification-react-native/ios/RCTJVerificationModule.xcodeproj"; sourceTree = "<group>"; };
 		7C94467A3A3E7715FA98BF76 /* libPods-example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -103,18 +95,9 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5CE4DCCB2374057B004FE764 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5CE4DCCF2374057B004FE764 /* libRCTJVerificationModule.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5CE4DCCA2374057B004FE764 /* RCTJVerificationModule.xcodeproj */,
 				5CE4DCC423740560004FE764 /* RCTJCoreModule.xcodeproj */,
 			);
 			name = Libraries;
@@ -198,10 +181,6 @@
 					ProductGroup = 5CE4DCC523740560004FE764 /* Products */;
 					ProjectRef = 5CE4DCC423740560004FE764 /* RCTJCoreModule.xcodeproj */;
 				},
-				{
-					ProductGroup = 5CE4DCCB2374057B004FE764 /* Products */;
-					ProjectRef = 5CE4DCCA2374057B004FE764 /* RCTJVerificationModule.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -216,13 +195,6 @@
 			fileType = archive.ar;
 			path = libRCTJCoreModule.a;
 			remoteRef = 5CE4DCC823740560004FE764 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5CE4DCCF2374057B004FE764 /* libRCTJVerificationModule.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTJVerificationModule.a;
-			remoteRef = 5CE4DCCE2374057B004FE764 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

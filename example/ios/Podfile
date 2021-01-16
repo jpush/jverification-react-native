@@ -8,6 +8,7 @@ target 'example' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
+  pod 'jverification-react-native', :path => '../../'
 
 
   # Enables Flipper.
