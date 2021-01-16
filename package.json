@@ -1,7 +1,7 @@
 {
   "name": "jverification-react-native",
   "description": "React Native JVerification component for Android and iOS",
-  "homepage":"https://github.com/jpush/jverification-react-native",
+  "homepage": "https://github.com/jpush/jverification-react-native",
   "main": "index.js",
   "license": "ISC",
   "author": "wicked.tc130",
