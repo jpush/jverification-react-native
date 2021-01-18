@@ -3,6 +3,8 @@ package cn.jiguang.plugins.verification;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ImageButton;
+import android.view.ViewGroup;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactRootView;
@@ -133,6 +135,8 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setCustomUIWithConfig(final ReadableMap readableMap, final ReadableArray readableArray){
+        builder = null;        
+        System.out.println("readableMap>>>:"+readableMap);
         convertToConfig(readableMap);
         reactContext.runOnUiQueueThread(new Runnable() {
             @Override
@@ -150,6 +154,40 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 }
             }
         });
+    }
+    // 获取验证码
+    @ReactMethod
+    public void getSmsCode(ReadableMap object, final Callback jsCallback) {
+        System.out.println("object:"+object);
+        String phoneNumber = "";
+        String signID = "";
+        String templateID = "";
+        if (object != null) {
+            phoneNumber = object.hasKey(JConstans.PHONE_NUMBER) ? object.getString(JConstans.PHONE_NUMBER):"18925247365";
+            signID = object.hasKey(JConstans.SING_ID) ? object.getString(JConstans.SING_ID):"13649";
+            templateID = object.hasKey(JConstans.TEMPLATE_ID) ? object.getString(JConstans.TEMPLATE_ID):"1";
+        }
+        JVerificationInterface.getSmsCode(reactContext, phoneNumber, signID, templateID, new RequestCallback<String>() {
+            @Override
+            public void onResult(int code, String msg) {
+                if (jsCallback == null) return;
+                WritableMap result = Arguments.createMap();
+                result.putInt("code", code);
+                if(code == 3000) {
+                    result.putString("uuid", msg);
+                    result.putString("msg", "");
+                } else {
+                    result.putString("uuid", "");
+                    result.putString("msg", msg);
+                }
+                jsCallback.invoke(result);
+            }
+        });
+    }
+    // 设置前后两次获取验证码的时间间隔
+    @ReactMethod
+    public void setTimeWithConfig(int time){
+        JVerificationInterface.setSmsIntervalTime(time);
     }
 
     private void sendEvent(String eventName, WritableMap params) {
@@ -356,6 +394,9 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_HIDDEN)){
             builder.setPrivacyCheckboxHidden(readableMap.getBoolean(JConstans.PRIVACY_CHECKBOX_HIDDEN));
         }
+        if(readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_SIZE)){
+            builder.setPrivacyCheckboxSize(readableMap.getInt(JConstans.PRIVACY_CHECKBOX_SIZE));
+        }
         if(readableMap.hasKey(JConstans.PRIVACY_CHECK_ENABLE)){
             builder.setPrivacyState(readableMap.getBoolean(JConstans.PRIVACY_CHECK_ENABLE));
         }
@@ -371,9 +412,9 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_COLOR)){
             builder.setPrivacyNavColor(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_COLOR));
         }
-        if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE)){
-            builder.setPrivacyTextSize(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE));
-        }
+         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE)){
+             builder.setPrivacyNavTitleTextSize(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_SIZE));
+         }
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_COLOR)){
             builder.setPrivacyNavTitleTextColor(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_COLOR));
         }
@@ -390,6 +431,34 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 JLogger.e("setPrivacyWebNavReturnBtnImage error:"+e.getMessage());
             }
         }
+        //  授权页动画
+        if (readableMap.hasKey(JConstans.PRIVACY_NEED_START_ANIM)) {
+            builder.setNeedStartAnim(readableMap.getBoolean(JConstans.PRIVACY_NEED_START_ANIM));
+        }
+        if (readableMap.hasKey(JConstans.PRIVACY_NEED_CLOSE_ANIM)) {
+            builder.setNeedCloseAnim(readableMap.getBoolean(JConstans.PRIVACY_NEED_CLOSE_ANIM));
+        }
+        //  授权页弹窗模式
+        if (readableMap.hasKey(JConstans.PRIVACY_DIALOG_THEME)) {
+            ReadableArray array = readableMap.getArray(JConstans.PRIVACY_DIALOG_THEME);
+            builder.setDialogTheme(array.getInt(0), array.getInt(1),array.getInt(2), array.getInt(3), array.getBoolean(4));
+        }
+        // 弹窗是否需要关闭
+        if (readableMap.hasKey(JConstans.PRIVACY_NEED_CLOSE) && readableMap.hasKey(JConstans.PRIVACY_CLOSE_THEME)) {
+            boolean needClose = readableMap.getBoolean(JConstans.PRIVACY_NEED_CLOSE);
+            if(needClose) {
+                //自定义返回按钮示例 
+                ImageButton sampleReturnBtn = new ImageButton(reactContext);
+                sampleReturnBtn.setImageResource(R.drawable.umcsdk_return_bg);
+                RelativeLayout.LayoutParams returnLP = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                // 返回按钮样式
+                ReadableArray array = readableMap.hasKey(JConstans.PRIVACY_CLOSE_THEME) ? readableMap.getArray(JConstans.PRIVACY_CLOSE_THEME) : null;
+                returnLP.setMargins(array.getInt(0), array.getInt(1),array.getInt(2), array.getInt(3));
+                sampleReturnBtn.setLayoutParams(returnLP);
+                builder.addCustomView(sampleReturnBtn,true,null);
+            }
+        }
+
     }
 
     private ReactRootView convertToView(ReadableMap readableMap){
@@ -415,7 +484,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         reactView.setLayoutParams(layoutParams);
         return reactView;
     }
-
+    
     private int dp2Pix(float dp) {
         try {
             float density = reactContext.getApplicationContext().getResources().getDisplayMetrics().density;

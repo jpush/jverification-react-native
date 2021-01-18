@@ -82,6 +82,7 @@ public class JConstans {
     public static final String PRIVACY_BOOK_SYMBOL_ENABLE = "privacyBookSymbolEnable";      //隐私条款运营商协议名是否加书名号
 
     public static final String PRIVACY_CHECKBOX_HIDDEN  = "privacyCheckboxHidden";          //隐私条款checkbox是否隐藏
+    public static final String PRIVACY_CHECKBOX_SIZE  = "privacyCheckboxSize";              //设置隐私条款checkbox尺寸
     public static final String PRIVACY_CHECK_ENABLE = "privacyCheckEnable";                 //隐私条款默认选中状态。默认不选中
     public static final String PRIVACY_CHECKBOX_IMAGE  = "privacyCheckedImage";             //隐私条款复选框选中图片
     public static final String PRIVACY_UNCHECKED_IMAGE = "privacyUncheckedImage";           //隐私条款复选框未选中图片
@@ -94,5 +95,20 @@ public class JConstans {
 
     public static final String CUSTOM_VIEW_NAME = "customViewName";
     public static final String CUSTOM_VIEW_POINT = "customViewPoint";
+
+    //*******************************验证码*******************************
+    public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String SING_ID = "signID";
+    public static final String TEMPLATE_ID = "templateID";
+
+    // 授权页动画
+    public static final String PRIVACY_NEED_START_ANIM = "privacyNeedStartAnim";
+    public static final String PRIVACY_NEED_CLOSE_ANIM = "privacyNeedCloseAnim";
+    // 授权页弹窗模式
+    public static final String PRIVACY_DIALOG_THEME = "privacyDialogTheme";
+    // 弹窗是否需要配置关闭按钮
+    public static final String PRIVACY_NEED_CLOSE = "privacyNeedClose";
+    // 弹窗关闭按钮模式
+    public static final String PRIVACY_CLOSE_THEME = "privacyCloseTheme";
 
 }

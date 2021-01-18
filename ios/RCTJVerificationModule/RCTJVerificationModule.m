@@ -7,6 +7,7 @@
 #define CODE           @"code"
 #define CONTENT        @"content"
 #define OPERATOR       @"operator"
+#define UUID           @"uuid"
 
 //事件
 #define LOGIN_EVENT    @"LoginEvent"
@@ -45,6 +46,7 @@
 #define LOGO_Y                          @"logoY"                    //logo相对于导航栏下边缘y偏移
 #define LOGO_W                          @"logoW"                    //logo宽
 #define LOGO_H                          @"logoH"                    //logo高
+#define LOGO_CONSTRAINTS                @"logoConstraints"          //LOGO图片布局对象
 //号码
 #define NUMBER_SIZE                     @"numberSize"               //手机号码字体大小
 #define NUMBER_COLOR                    @"numberColor"              //手机号码字体颜色
@@ -52,6 +54,7 @@
 #define NUMBER_Y                        @"numberY"                  //号码栏相对于导航栏下边缘y偏移
 #define NUMBER_W                        @"numberW"                  //号码栏宽度
 #define NUMBER_H                        @"numberH"                  //号码栏高度
+#define NUMBER_CONSTRAINTS              @"numberConstraints"        //号码栏布局对象
 //slogan
 #define SLOGAN_HIDDEN                   @"sloganHidden"             //slogan是否隐藏
 #define SLOGAN_TEXT_SIZE                @"sloganTextSize"           //slogan字体大小
@@ -60,6 +63,7 @@
 #define SLOGAN_Y                        @"sloganY"                  //slogan相对于导航栏下边缘y偏移
 #define SLOGAN_W                        @"sloganW"                  //slogan宽度
 #define SLOGAN_H                        @"sloganH"                  //slogan高度
+#define SLOGAN_CONSTRAINTS              @"sloganConstraints"        //slogan布局对象
 //登录按钮
 #define LOGIN_BTN_TEXT                  @"loginBtnText"             //登录按钮文字
 #define LOGIN_BTN_TEXT_SIZE             @"loginBtnTextSize"         //登录按钮字体大小
@@ -72,6 +76,7 @@
 #define LOGIN_BTN_Y                     @"loginBtnY"                //登录按钮相对于d导航栏下边缘y偏移
 #define LOGIN_BTN_W                     @"loginBtnW"                //登录按钮宽度
 #define LOGIN_BTN_H                     @"loginBtnH"                //登录按钮高度
+#define LOGIN_BTN_CONSTRAINTS           @"logBtnConstraints"        //登录按钮布局对象
 //隐私条款
 #define PRIVACY_ONE                     @"privacyOne"               //隐私条款一:数组（务必按顺序）@[条款名称,条款链接]
 #define PRIVACY_TWO                     @"privacyTwo"               //隐私条款二:数组（务必按顺序）@[条款名称,条款链接]
@@ -86,17 +91,30 @@
 #define PRIVACY_Y                       @"privacyY"                 //隐私条款相对于导航栏下边缘y偏移
 #define PRIVACY_W                       @"privacyW"                 //隐私条款宽度
 #define PRIVACY_H                       @"privacyH"                 //隐私条款高度
+#define PRIVACY_CONSTRAINTS             @"privacyConstraints"       //隐私条款布局对象
 //隐私条款checkbox
 #define PRIVACY_CHECKBOX_HIDDEN         @"privacyCheckboxHidden"    //checkBox是否隐藏，默认不隐藏
 #define PRIVACY_CHECK_ENABLE            @"privacyCheckEnable"       //checkBox默认状态 默认:NO
 #define PRIVACY_CHECKED_IMAGE           @"privacyCheckedImage"      //checkBox选中时图片
 #define PRIVACY_UNCHECKED_IMAGE         @"privacyUncheckedImage"    //checkBox未选中时图片
+#define CHECK_VIEW_CONSTRAINTS          @"checkViewConstraints"     //checkBox布局对象
 //协议
 #define PRIVACY_WEB_NAV_COLOR           @"privacyWebNavColor"       //协议页导航栏背景颜色
 #define PRIVACY_WEB_NAV_TITLE           @"privacyWebNavTitle"       //协议页导航栏标题
 #define PRIVACY_WEB_NAV_TITLE_SIZE      @"privacyWebNavTitleSize"   //协议页导航栏标题字体大小
 #define PRIVACY_WEB_NAV_TITLE_COLOR     @"privacyWebNavTitleColor"  //协议页导航栏标题字体颜色
 #define PRIVACY_WEB_NAV_RETURN_IMAGE    @"privacyWebNavReturnImage" //协议页导航栏返回按钮图片
+
+//弹窗
+#define SHOW_WINDOW                                 @"showWindow"                         // 是否弹窗，默认no
+#define WINDOW_BACKGROUND_IMAGE                     @"windowBackgroundImage"              // 弹框内部背景图片
+#define WINDOW_BACKGROUND_ALPHA                     @"windowBackgroundAlpha"              //弹窗外侧 透明度 0~1.0
+#define WINDOW_CORNER_RADIUS                        @"windowCornerRadius"                 //弹窗圆角数值
+#define WINDOW_CONSTRAINTS                          @"windowConstraints"                 //弹窗布局对象
+#define WINDOW_HORIZONTAL_CONSTRAINTS               @"windowHorizontalConstraints"        //弹窗横屏布局，横屏下优先级高于windowConstraints
+#define WINDOW_CLOSE_BTN_CONSTRAINTS                @"windowCloseBtnConstraints"          //弹窗close按钮布局
+#define WINDOW_CLOSE_BTN_HORIZONTAL_CONSTRAINTS     @"windowCloseBtnHorizontalConstraints"//弹窗close按钮 横屏布局,横屏下优先级高于windowCloseBtnConstraints
+#define WINDOW_CLOSE_BTN_IMGS                       @"windowCloseBtnImgs"                 //弹窗close按钮图片 @[普通状态图片，高亮状态图片]
 
 #define UIColorFromRGBValue(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
@@ -256,6 +274,35 @@ RCT_EXPORT_METHOD(dismissLoginController)
     [JVERIFICATIONService dismissLoginController];
 }
 
+// 获取验证码
+RCT_EXPORT_METHOD(getSmsCode: (NSDictionary *)params callback: (RCTResponseSenderBlock)callback)
+{
+    NSString *phoneNumber = @"";
+    NSString *signID = @"";
+    NSString *templateID = @"";
+
+    if(params[@"phoneNumber"]){
+        phoneNumber = params[@"phoneNumber"];
+    }
+    if(params[@"signID"]){
+        signID = params[@"signID"];
+    }
+    if(params[@"templateID"]){
+        templateID = params[@"templateID"];
+    }
+    
+    [JVERIFICATIONService getSMSCode:(phoneNumber) templateID:templateID signID:signID completionHandler:^(NSDictionary * _Nonnull result) {
+        callback(@[result]);
+    }];
+}
+
+// 设置前后两次获取验证码的时间间隔
+RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
+{
+    NSTimeInterval time  = timeInter;
+    [JVERIFICATIONService setGetCodeInternal:time];
+}
+
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
@@ -361,6 +408,10 @@ RCT_EXPORT_METHOD(dismissLoginController)
         CGFloat logoH = [configParams[LOGO_H] floatValue];
         config.logoConstraints = [self layoutConstraint:(logoX) y:logoY w:logoW h:logoH];
     }
+    if(configParams[LOGO_CONSTRAINTS]){
+        NSArray *logoConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[LOGO_CONSTRAINTS]];
+        config.logoConstraints = logoConstraints;
+    }
     //number
     if(configParams[NUMBER_SIZE]){
         CGFloat numberSize = [configParams[NUMBER_SIZE] floatValue];
@@ -377,6 +428,10 @@ RCT_EXPORT_METHOD(dismissLoginController)
         CGFloat numberW = [configParams[NUMBER_W] floatValue];
         CGFloat numberH = [configParams[NUMBER_H] floatValue];
         config.numberConstraints = [self layoutConstraint:(numberX) y:numberY w:numberW h:numberH];
+    }
+    if(configParams[NUMBER_CONSTRAINTS]){
+        NSArray *numberConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[NUMBER_CONSTRAINTS]];
+        config.numberConstraints = numberConstraints;
     }
     //slogan
     if([configParams[SLOGAN_HIDDEN] isKindOfClass:[NSNumber class]]){
@@ -397,6 +452,10 @@ RCT_EXPORT_METHOD(dismissLoginController)
         CGFloat sloganW = [configParams[SLOGAN_W] floatValue];
         CGFloat sloganH = [configParams[SLOGAN_H] floatValue];
         config.sloganConstraints = [self layoutConstraint:(sloganX) y:sloganY w:sloganW h:sloganH];
+    }
+    if(configParams[SLOGAN_CONSTRAINTS]){
+        NSArray *sloganConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[SLOGAN_CONSTRAINTS]];
+        config.sloganConstraints = sloganConstraints;
     }
     //登录按钮
     if(configParams[LOGIN_BTN_TEXT]){
@@ -423,6 +482,10 @@ RCT_EXPORT_METHOD(dismissLoginController)
         CGFloat loginBtnW = [configParams[LOGIN_BTN_W] floatValue];
         CGFloat loginBtnH = [configParams[LOGIN_BTN_H] floatValue];
         config.logBtnConstraints = [self layoutConstraint:(loginBtnX) y:loginBtnY w:loginBtnW h:loginBtnH];
+    }
+    if(configParams[LOGIN_BTN_CONSTRAINTS]){
+        NSArray *logBtnConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[LOGIN_BTN_CONSTRAINTS]];
+        config.logBtnConstraints = logBtnConstraints;
     }
     if(configParams[PRIVACY_ONE]){
         NSArray *parivacyOne = configParams[PRIVACY_ONE];
@@ -470,6 +533,10 @@ RCT_EXPORT_METHOD(dismissLoginController)
         JVLayoutConstraint *constraintH = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeHeight multiplier:1 constant:privacyH];
         config.privacyConstraints = @[constraintX,constraintY,constraintW,constraintH];
     }
+    if(configParams[PRIVACY_CONSTRAINTS]){
+        NSArray *privacyConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[PRIVACY_CONSTRAINTS]];
+        config.privacyConstraints = privacyConstraints;
+    }
     //checkbox
     if([configParams[PRIVACY_CHECKBOX_HIDDEN] isKindOfClass:[NSNumber class]]){
         config.checkViewHidden = [configParams[PRIVACY_CHECKBOX_HIDDEN] boolValue];
@@ -490,6 +557,11 @@ RCT_EXPORT_METHOD(dismissLoginController)
     JVLayoutConstraint *constraintW = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeWidth multiplier:1 constant:privacyCheckboxW];
     JVLayoutConstraint *constraintH = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeHeight multiplier:1 constant:privacyCheckboxH];
     config.checkViewConstraints = @[constraintX,constraintY,constraintW,constraintH];
+
+    if(configParams[CHECK_VIEW_CONSTRAINTS]){
+        NSArray *checkViewConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[CHECK_VIEW_CONSTRAINTS]];
+        config.checkViewConstraints = checkViewConstraints;
+    }
     //协议
     if(configParams[PRIVACY_WEB_NAV_COLOR]){
         NSNumber *color = configParams[PRIVACY_WEB_NAV_COLOR];
@@ -514,6 +586,53 @@ RCT_EXPORT_METHOD(dismissLoginController)
     if(configParams[PRIVACY_WEB_NAV_RETURN_IMAGE]){
         config.agreementNavReturnImage = [self imageNamed:configParams[PRIVACY_WEB_NAV_RETURN_IMAGE]];
     }
+
+    // 弹窗
+    if([configParams[SHOW_WINDOW] isKindOfClass:[NSNumber class]]){
+        config.showWindow = [configParams[SHOW_WINDOW] boolValue];
+    }
+    if(configParams[WINDOW_BACKGROUND_IMAGE]){
+        config.windowBackgroundImage = [self imageNamed:configParams[WINDOW_BACKGROUND_IMAGE]];
+    }
+    if(configParams[WINDOW_BACKGROUND_ALPHA]){
+        CGFloat backgroundAlpha = [configParams[WINDOW_BACKGROUND_ALPHA] floatValue];
+        config.windowBackgroundAlpha = backgroundAlpha;
+    }
+
+    if(configParams[WINDOW_CORNER_RADIUS]){
+        CGFloat cornerRadius = [configParams[WINDOW_CORNER_RADIUS] floatValue];
+        config.windowCornerRadius = cornerRadius;
+    }
+    if(configParams[WINDOW_CONSTRAINTS]){
+        NSArray *windowConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[WINDOW_CONSTRAINTS]];
+        config.windowConstraints = windowConstraints;
+    }
+    if(configParams[WINDOW_HORIZONTAL_CONSTRAINTS]){
+        NSArray *windowHorizontalConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[WINDOW_HORIZONTAL_CONSTRAINTS]];
+        config.windowHorizontalConstraints = windowHorizontalConstraints;
+    }
+    if (configParams[WINDOW_CLOSE_BTN_IMGS]){
+        NSArray *imageNames = configParams[WINDOW_CLOSE_BTN_IMGS];
+        if ([imageNames isKindOfClass:[NSArray class]]) {
+            NSMutableArray *images = [NSMutableArray arrayWithCapacity:3];
+            for (int i = 0; i< imageNames.count; i++) {
+                NSString *bundlePath = [[NSBundle mainBundle] pathForResource:JVERIFICATION_RESOURCE ofType:@"bundle"];
+                UIImage *closeImage = [UIImage imageWithContentsOfFile:[bundlePath stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",imageNames[i]]]];
+                if (closeImage) {
+                    [images addObject:closeImage];
+                }
+                config.windowCloseBtnImgs = images;
+            }
+        }
+    }
+    if(configParams[WINDOW_CLOSE_BTN_CONSTRAINTS]){
+        NSArray *windowCloseBtnConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[WINDOW_CLOSE_BTN_CONSTRAINTS]];
+        config.windowCloseBtnConstraints = windowCloseBtnConstraints;
+    }
+    if(configParams[WINDOW_CLOSE_BTN_HORIZONTAL_CONSTRAINTS]){
+        NSArray *windowCloseBtnHorizontalConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[WINDOW_CLOSE_BTN_HORIZONTAL_CONSTRAINTS]];
+        config.windowCloseBtnHorizontalConstraints = windowCloseBtnHorizontalConstraints;
+    }
     return config;
 }
 
@@ -537,5 +656,22 @@ RCT_EXPORT_METHOD(dismissLoginController)
     JVLayoutConstraint *constraintH = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeHeight multiplier:1 constant:h];
     return @[constraintX,constraintY,constraintW,constraintH];
 }
+// 设置宽高
++ (NSArray*)configConstraintWithAttributes:(NSArray*)keys{
+    NSAssert(keys.count == 4, @"你必须按照文档规则设置参数(centerX,centerY,width,height)");
+    NSMutableArray *constraints = [NSMutableArray arrayWithCapacity:4];
+    NSArray* cons = keys;
+    CGFloat centerX = [cons[0] floatValue];
+    CGFloat centerY = [cons[1] floatValue];
+    CGFloat w = [cons[2] floatValue];
+    CGFloat h = [cons[3] floatValue];
+    JVLayoutConstraint *constraintX = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemSuper attribute:NSLayoutAttributeCenterX multiplier:1 constant:centerX];
+    JVLayoutConstraint *constraintY = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemSuper attribute:NSLayoutAttributeCenterY multiplier:1 constant:centerY];
+    JVLayoutConstraint *constraintW = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeWidth multiplier:1 constant:w];
+    JVLayoutConstraint *constraintH = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeHeight multiplier:1 constant:h];
+    [constraints addObjectsFromArray:@[constraintX,constraintY,constraintW,constraintH]];
+    return constraints;
+}
 
 @end
+

@@ -30,13 +30,13 @@ android {
     }
 
     defaultConfig {
-        applicationId "cn.jiguang.example" //在此替换你的包名
+        applicationId "com.HBuilder.integrate" //在此替换你的包名
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [
-                JPUSH_APPKEY: "eb97394eb2c8978929c009ae",  //在此替换你的APPKey
+                JPUSH_APPKEY: "9c0aa59694d967b7f9df7f3c",  //在此替换你的APPKey
                 JPUSH_CHANNEL: "default"                   //在此替换你的channel
         ]
     }
