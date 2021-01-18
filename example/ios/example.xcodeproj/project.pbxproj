@@ -12,7 +12,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		5C103CA923605A2F000AD3DA /* JVerificationResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5C103CA823605A2E000AD3DA /* JVerificationResource.bundle */; };
-		602210A9D84EB087CE84A5F7 /* libPods-example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C94467A3A3E7715FA98BF76 /* libPods-example.a */; };
+		986CE309FFD1DDA20881B408 /* libPods-example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C94467A3A3E7715FA98BF76 /* libPods-example.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				602210A9D84EB087CE84A5F7 /* libPods-example.a in Frameworks */,
+				986CE309FFD1DDA20881B408 /* libPods-example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,7 +225,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		33E29A6B52257522F248A038 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
