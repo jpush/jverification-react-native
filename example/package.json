@@ -9,7 +9,8 @@
   "dependencies": {
     "jcore-react-native": "^1.7.0",
     "react": "16.8.6",
-    "react-native": "0.63.4"
+    "react-native": "0.63.4",
+    "jverification-react-native": "2.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",

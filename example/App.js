@@ -106,7 +106,7 @@ const customConfigParams = {
     loginBtnTextSize: 16,                     //登录按钮字体大小
     loginBtnTextColor: -16777216,             //登录按钮文字颜色
 
-    loginBtnImage: 'login_btn_selector',      //登录按钮selector选择样式 （仅android）
+    loginBtnImageSelector: 'login_btn_selector',      //登录按钮selector选择样式 （仅android）
     loginBtnNormalImage: 'loginBtn_Nor',      //登录按钮正常图片 （仅ios,三个同时设置生效）
     loginBtnDisabledImage: 'loginBtn_Dis',    //登录按钮失效图片  (仅ios,三个同时设置生效）
     loginBtnSelectedImage: 'loginBtn_Hig',    //登录按钮按下图片  (仅ios,三个同时设置生效）
