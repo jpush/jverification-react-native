@@ -162,7 +162,7 @@ const customUIWithConfigAndroid = {
     privacyCheckedImage: 'checkbox_selected',                   //checkBox选中时图片
     privacyUncheckedImage: 'checkbox_unSelected',               //checkBox未选中时图片
     privacyCheckboxSize:10,                                     //设置隐私条款checkbox尺寸 默认是10
-	unAgreePrivacyCallBack:true,
+	unAgreePrivacyHintToast: true,
 	
     privacyWebNavColor: -16777216,                              //协议页导航栏背景颜色
     privacyWebNavTitle: '服务条款',                              //协议页导航栏标题（仅iOS）
