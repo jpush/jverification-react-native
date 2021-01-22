@@ -11,10 +11,11 @@
 
 //事件
 #define LOGIN_EVENT    @"LoginEvent"
-
+#define UNCHECK_BOX_EVENT  @"UncheckBoxCallBack"
 //自定义布局路径
 #define CUSTOM_VIEW_NAME      @"customViewName"
 #define CUSTOM_VIEW_POINT     @"customViewPoint"
+#define UNCHECK_BOX_CALLBACK     @"unAgreePrivacyCallBack"
 
 //资源文件夹
 #define JVERIFICATION_RESOURCE          @"JVerificationResource"
@@ -119,7 +120,7 @@
 #define UIColorFromRGBValue(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static double defaultTime  = 5000;
-
+bool debug  = false;
 @implementation RCTJVerificationModule
 
 RCT_EXPORT_MODULE(JVerificationModule);
@@ -132,6 +133,7 @@ RCT_EXPORT_MODULE(JVerificationModule);
 RCT_EXPORT_METHOD(setDebug: (BOOL *)enable)
 {
     [JVERIFICATIONService setDebug: enable];
+    debug = enable;
 }
 
 RCT_EXPORT_METHOD(setupWithConfig: (NSDictionary *)params
@@ -152,6 +154,8 @@ RCT_EXPORT_METHOD(setupWithConfig: (NSDictionary *)params
     }
     if(params[@"time"]){
         config.timeout = [params[@"time"] doubleValue];
+    }else{
+        config.timeout = defaultTime;
     }
     if(callback != nil){
         config.authBlock = ^(NSDictionary *result) {
@@ -306,7 +310,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[LOGIN_EVENT];
+    return @[LOGIN_EVENT,UNCHECK_BOX_EVENT];
 }
 
 - (void)sendLoginEvent:(NSDictionary *)responseData
@@ -316,7 +320,12 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
                           args:@[LOGIN_EVENT, responseData]
                     completion:NULL];
 }
-
+- (void)sendUncheckBoxEvent{
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[UNCHECK_BOX_EVENT]
+                    completion:NULL];
+}
 //结果返回
 -(NSDictionary *)convertToResult:(BOOL)enable
 {
@@ -342,6 +351,10 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
 -(JVUIConfig *)convertToCinfig: (NSDictionary *)configParams
 {
     JVUIConfig *config = [[JVUIConfig alloc] init];
+    config.autoLayout = true;
+    if (debug) {
+        NSLog(@"configParams:%@",configParams);
+    }
     //背景图
     if(configParams[BACK_GROUND_IMAGE]){
         config.authPageBackgroundImage = [self imageNamed:configParams[BACK_GROUND_IMAGE]];
@@ -550,6 +563,16 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     if(configParams[PRIVACY_UNCHECKED_IMAGE]){
         config.uncheckedImg = [self imageNamed:configParams[PRIVACY_UNCHECKED_IMAGE]];
     }
+    if ([configParams[UNCHECK_BOX_CALLBACK] isKindOfClass:[NSNumber class]]) {
+        BOOL isNeedCallBack = [configParams[UNCHECK_BOX_CALLBACK] boolValue];
+        if (isNeedCallBack) {
+            config.customPrivacyAlertViewBlock = ^(UIViewController*vc){
+                [self sendUncheckBoxEvent];
+            };
+        }
+    }
+    
+
     CGFloat privacyCheckboxW = config.uncheckedImg.size.width;
     CGFloat privacyCheckboxH = config.uncheckedImg.size.height;
     JVLayoutConstraint *constraintX = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemPrivacy attribute:NSLayoutAttributeLeft multiplier:1 constant:-15];

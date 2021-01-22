@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define JVER_VERSION_NUMBER 2.6.2
+#define JVER_VERSION_NUMBER 2.6.7
 
 
 /**
@@ -304,6 +304,16 @@ typedef NS_ENUM(NSUInteger, JVLayoutItem) {
 @property (nonatomic, strong) NSAttributedString *firstPrivacyAgreementNavText;
 /*授权页点击自定义协议2，进入协议页时, 协议页自定义导航栏标题*/
 @property (nonatomic, strong) NSAttributedString *secondPrivacyAgreementNavText;
+/*设置授权页点击隐私协议，进入协议页时, 协议页自定义导航栏标题的字体，
+ 当agreementNavText、secondPrivacyAgreementNavText、
+ firstPrivacyAgreementNavText存在时不生效
+ */
+@property (nonatomic, strong) UIFont *agreementNavTextFont;
+/*设置授权页点击隐私协议，进入协议页时, 协议页自定义导航栏标题的颜色，
+ 当agreementNavText、secondPrivacyAgreementNavText、
+ firstPrivacyAgreementNavText存在时不生效
+*/
+@property (nonatomic, strong) UIColor *agreementNavTextColor;
 /*协议页导航栏返回按钮图片*/
 @property (nonatomic, strong) UIImage *agreementNavReturnImage;
 

@@ -206,3 +206,5 @@ yarn.lock
 *.DS_Store
 
 *.gitattributes
+.idea
+index.android.bundle

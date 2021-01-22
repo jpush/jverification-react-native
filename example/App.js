@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableHighlight, Platform} from 'react-native';
+import {StyleSheet, Text, View,Alert, TouchableHighlight, Platform} from 'react-native';
 import JVerification from 'jverification-react-native';
 
 
@@ -49,14 +49,43 @@ class Button extends React.Component {
 
 const initParams = {
     'time': 5000,
-    'appKey': '60e02a2a65ac4cdc6f80b776', //仅iOS
+    'appKey': 'a0e6ace8d5b3e0247e3f58db', //仅iOS
     'channel': 'channel',                 //仅iOS
     'advertisingId': 'advertisingId',     //仅iOS
     'isProduction': false,                //仅iOS
 };
 
 //一键登录页面自定义配置，需要在调用login之前设置
-const customConfigParams = {
+
+
+const customUIWithConfigiOS = {
+    showWindow:false,
+	navReturnHidden:false,
+	//logo
+	logoImage: 'umcsdk_mobile_logo', 
+	logoConstraints:[0,-200,60,60],
+	//number
+	numberConstraints:[0,-132,200,14],
+	//slogn
+	sloganConstraints:[0,-112,200,14],
+	//登录按钮
+	logBtnConstraints:[0,-80,220,40],
+	loginBtnText:"一键登录",
+	loginBtnTextColor:0x0000FF,
+	privacyConstraints:[0,180,200,60],
+	checkViewConstraints:[-108,180,10,10],
+	unAgreePrivacyCallBack:true,
+	
+	privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）
+	privacyTwo: ['隐私条款二', 'https://www.jiguang.cn/about'],  //隐私条款二（显示名称和url，请严格按照格式）
+	privacyColor: [-16777216, -65536],                          //隐私条款颜色 （显示名称和url的颜色，请严格按照格式）
+	privacyText: ['登录即同意', '和', '、', '并使用本机号码登录'],  //隐私条款名称外的文字
+	privacyTextSize: 15,                                        //隐私条款文字字体大小
+	privacyTextGravityMode: 'left',                             //隐私条款文本对齐方式，目前仅支持 left、center
+	privacyBookSymbolEnable: false,                             //隐私条款是否显示书名号，默认不显示
+	
+}
+const customUIWithConfigAndroid = {
     backgroundImage: '',                      //背景图
 
     statusBarHidden: false,                   //状态栏是否隐藏
@@ -72,35 +101,34 @@ const customConfigParams = {
     navReturnHidden: false,                   //导航栏返回按钮是否隐藏
     navReturnImage: 'close',                  //导航栏左侧返回按钮图标
     //为保障显示效果，请同时设置x,y,w,h
-    // navReturnX: 10,                        //导航栏左侧返回按钮图标距屏幕上端偏移（仅Android)
-    // navReturnY: 10,                        //导航栏左侧返回按钮图标距屏幕左侧偏移（仅Android)
-    // navReturnW: 30,                        //导航栏左侧返回按钮图标宽度（仅Android)
-    // navReturnH: 30,                        //导航栏左侧返回按钮图标高度（仅Android)
+    navReturnX: 5,                        //导航栏左侧返回按钮图标距屏幕上端偏移（仅Android)
+    navReturnY: 5,                        //导航栏左侧返回按钮图标距屏幕左侧偏移（仅Android)
+    navReturnW: 25,                        //导航栏左侧返回按钮图标宽度（仅Android)
+    navReturnH: 25,                        //导航栏左侧返回按钮图标高度（仅Android)
 
     logoHidden: false,                        //logo是否隐藏
-    logoImage: 'umcsdk_mobile_logo',          //logo(android默认为应用图标;ios默认无)
+    logoImage: 'umcsdk_mobile_logo',          //logo(android默认为应用图标;)
     //为保障显示效果，请同时设置x,y,w,h
-    //logoX: 50,                              //logo相对于屏幕左边x轴偏移
-    //logoY: 50,                              //logo相对于标题栏下边缘y偏移
-    //logoW: 250,                             //logo宽
-    //logoH: 25,                              //logo高
+    // logoX: 50,                              //logo相对于屏幕左边x轴偏移
+    // logoY: 50,                              //logo相对于标题栏下边缘y偏移
+    // logoW: 100,                             //logo宽
+    // logoH: 100,                              //logo高
 
     numberSize: 16,                           //手机号码字体大小（单位:sp）
     numberColor: -16777216,                   //手机号码字体颜色
     //为保障显示效果，请同时设置x,y,w,h
-    //numberX: 50,                            //号码栏相对于屏幕左边x轴偏移
-    //numberY: 100,                           //号码栏相对于标题栏下边缘y偏移
-    //numberW: 250,                           //号码栏宽度
-    //numberH: 25,                            //号码栏高度
+    // numberX: 50,                            //号码栏相对于屏幕左边x轴偏移
+    // numberY: 100,                           //号码栏相对于标题栏下边缘y偏移
+    // numberW: 250,                           //号码栏宽度
+    // numberH: 25,                            //号码栏高度
 
     sloganHidden: false,                      //slogan是否隐藏
     sloganTextSize: 16,                       //slogan字体大小
     sloganTextColor: -16777216,               //slogan文字颜色
+	
     //为保障显示效果，请同时设置x,y,w,h
-    //sloganX: 50,                            //slogan相对于屏幕左边x轴偏移
-    //sloganY: 150,                           //slogan相对于标题栏下边缘y偏移
-    //sloganW: 250,                           //slogan宽度 (仅iOS)
-    //sloganH: 25,                            //slogan高度 (仅iOS)
+    // sloganX: 50,                            //slogan相对于屏幕左边x轴偏移
+    // sloganY: 150,                           //slogan相对于标题栏下边缘y偏移
 
     loginBtnText: '登录按钮',                  //登录按钮文字
     loginBtnTextSize: 16,                     //登录按钮字体大小
@@ -111,10 +139,10 @@ const customConfigParams = {
     loginBtnDisabledImage: 'loginBtn_Dis',    //登录按钮失效图片  (仅ios,三个同时设置生效）
     loginBtnSelectedImage: 'loginBtn_Hig',    //登录按钮按下图片  (仅ios,三个同时设置生效）
     //为保障显示效果，请同时设置x,y,w,h
-    //loginBtnX: 50,                          //登录按钮相对于屏幕左边x轴偏移
-    //loginBtnY: 200,                         //登录按钮相对于标题栏下边缘y偏移
-    //loginBtnW: 250,                         //登录按钮宽度
-    //loginBtnH: 25,                          //登录按钮高度
+    // loginBtnX: 50,                          //登录按钮相对于屏幕左边x轴偏移
+    // loginBtnY: 200,                         //登录按钮相对于标题栏下边缘y偏移
+    // loginBtnW: 250,                         //登录按钮宽度
+    // loginBtnH: 40,                          //登录按钮高度
 
     privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）
     privacyTwo: ['隐私条款二', 'https://www.jiguang.cn/about'],  //隐私条款二（显示名称和url，请严格按照格式）
@@ -134,7 +162,8 @@ const customConfigParams = {
     privacyCheckedImage: 'checkbox_selected',                   //checkBox选中时图片
     privacyUncheckedImage: 'checkbox_unSelected',               //checkBox未选中时图片
     privacyCheckboxSize:10,                                     //设置隐私条款checkbox尺寸 默认是10
-
+	unAgreePrivacyHintToast: true,
+	
     privacyWebNavColor: -16777216,                              //协议页导航栏背景颜色
     privacyWebNavTitle: '服务条款',                              //协议页导航栏标题（仅iOS）
     privacyWebNavTitleSize: 16,                                 //协议页导航栏标题字体大小
@@ -182,11 +211,12 @@ const iosDialogConfig = {
     loginBtnText: '登录按钮',                  //登录按钮文字
     loginBtnTextSize: 16,                     //登录按钮字体大小
     loginBtnTextColor: -16777216,             //登录按钮文字颜色
-    privacyConstraints:[0,100,200,40],        //隐私条款布局对象
+    privacyConstraints:[0,100,200,60],        //隐私条款布局对象
     checkViewConstraints:[-108,100,10,10],    //checkBox布局对象
+
     loadingConstraints:[0,0,20,20],
     showWindow:true,  // 是否弹窗，默认no
-    windowBackgroundImage:"bg", // 弹框内部背景图片
+    //windowBackgroundImage:"bg", // 弹框内部背景图片
     windowBackgroundAlpha: 0.3,  //弹窗外侧 透明度 0~1.0
     windowCornerRadius:10, //弹窗圆角数值
     windowConstraints:[0,0,300,300], //弹窗布局对象
@@ -195,6 +225,15 @@ const iosDialogConfig = {
 }
 
 export default class App extends React.Component {
+
+  createAlert = (title) =>
+    Alert.alert(
+      "提示",
+      title,
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
 
     constructor(props) {
         super(props);
@@ -206,6 +245,11 @@ export default class App extends React.Component {
             console.log('LoginListener:' + JSON.stringify(result));
         };
         JVerification.addLoginEventListener(this.LoginListener);
+		this.UnCheckboxEvent = result => {
+			console.log('UnCheckboxEvent:未选中隐私协议框');
+			this.createAlert('Listener:未选中隐私协议框' );
+		}
+		JVerification.addUncheckBoxEventListener(this.UnCheckboxEvent)
     }
 
     render() {
@@ -215,35 +259,49 @@ export default class App extends React.Component {
                 <Button title='init'
                         onPress={() => JVerification.init(initParams, result => {
                             console.log('init:' + JSON.stringify(result));
+							this.createAlert('init:' + JSON.stringify(result));
                         })}/>
 
                 <Button title='isInitSuccess'
-                        onPress={() => JVerification.isInitSuccess(result =>
-                            console.log('isInitSuccess:' + JSON.stringify(result)))}/>
-
+                        onPress={() => JVerification.isInitSuccess(result => {
+                            console.log('isInitSuccess:' + JSON.stringify(result));
+							this.createAlert('isInitSuccess:' + JSON.stringify(result));
+							})}/>
+								
                 <Button title='checkLoginEnable'
-                        onPress={() => JVerification.checkLoginEnable(result =>
-                            console.log('checkLoginEnable:' + JSON.stringify(result)))}/>
+                        onPress={() => JVerification.checkLoginEnable(result => {
+							console.log('checkLoginEnable:' + JSON.stringify(result));
+							this.createAlert('checkLoginEnable:' + JSON.stringify(result));
+						})}/>
 
                 <Button title='getToken'
                         onPress={() => JVerification.getToken(5000, result => {
                             console.log('getToken:' + JSON.stringify(result));
+							this.createAlert('getToken:' + JSON.stringify(result));
+							
                         })}/>
 
                 <Button title='preLogin'
                         onPress={() => JVerification.preLogin(5000, result => {
                             console.log('preLogin:' + JSON.stringify(result));
+							this.createAlert('preLogin:' + JSON.stringify(result));
                         })}/>
 
                 <Button title='addLoginCustomConfig'
-                       onPress={() => JVerification.addLoginCustomConfig(customConfigParams, customViewParams)}/>
+                       onPress={() => {
+                            if(Platform.OS == 'android'){
+                                JVerification.addLoginCustomConfig(customUIWithConfigAndroid, customViewParams);
+                            } else {
+                                JVerification.addLoginCustomConfig(customUIWithConfigiOS, []);
+                            }
+                        }}/>
 
                 <Button title='自定义弹窗授权页'
                         onPress={() => {
                             if(Platform.OS == 'android'){
                                 JVerification.addLoginCustomConfig(androidDialogConfig, undefined);
                             } else {
-                                JVerification.addLoginCustomConfig(iosDialogConfig, []);
+                                JVerification.addLoginCustomConfig(iosDialogConfig, customViewParams);
                             }
                         }}/>
 
