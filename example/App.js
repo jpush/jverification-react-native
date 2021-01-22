@@ -290,7 +290,7 @@ export default class App extends React.Component {
                 <Button title='addLoginCustomConfig'
                        onPress={() => {
                             if(Platform.OS == 'android'){
-                                JVerification.addLoginCustomConfig(customUIWithConfigAndroid, undefined);
+                                JVerification.addLoginCustomConfig(customUIWithConfigAndroid, customViewParams);
                             } else {
                                 JVerification.addLoginCustomConfig(customUIWithConfigiOS, []);
                             }
@@ -301,7 +301,7 @@ export default class App extends React.Component {
                             if(Platform.OS == 'android'){
                                 JVerification.addLoginCustomConfig(androidDialogConfig, undefined);
                             } else {
-                                JVerification.addLoginCustomConfig(iosDialogConfig, []);
+                                JVerification.addLoginCustomConfig(iosDialogConfig, customViewParams);
                             }
                         }}/>
 

@@ -1,18 +1,31 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {StyleSheet, Text, View,Alert, TouchableHighlight} from 'react-native';
 
 export default class CustomView1 extends React.Component {
+	createAlert = (title) =>
+	  Alert.alert(
+	    "提示",
+	    title,
+	    [
+	      { text: "OK", onPress: () => console.log("OK Pressed") }
+	    ]
+	  );
+	
+	
+	
     render() {
         return (
             <View style={styles.container}>
                 <Button title="this is CustomView1"
                         onPress={() =>
-                            console.log("CustomView1 onClicked")
+							this.createAlert("CustomView1 onClicked")
                         }/>
             </View>
         );
     }
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
