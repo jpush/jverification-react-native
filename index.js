@@ -82,7 +82,7 @@ export default class JVerification {
     }
 
     /*
-     * SDK获取号码认证token
+     * SDK获取预取号token
      * @param time : int
      * @param callback = (result) => {"code":int,'content':String}
      *
