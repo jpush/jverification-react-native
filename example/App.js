@@ -101,34 +101,34 @@ const customUIWithConfigAndroid = {
     navReturnHidden: false,                   //导航栏返回按钮是否隐藏
     navReturnImage: 'close',                  //导航栏左侧返回按钮图标
     //为保障显示效果，请同时设置x,y,w,h
-    // navReturnX: 10,                        //导航栏左侧返回按钮图标距屏幕上端偏移（仅Android)
-    // navReturnY: 10,                        //导航栏左侧返回按钮图标距屏幕左侧偏移（仅Android)
-    // navReturnW: 30,                        //导航栏左侧返回按钮图标宽度（仅Android)
-    // navReturnH: 30,                        //导航栏左侧返回按钮图标高度（仅Android)
+    navReturnX: 5,                        //导航栏左侧返回按钮图标距屏幕上端偏移（仅Android)
+    navReturnY: 5,                        //导航栏左侧返回按钮图标距屏幕左侧偏移（仅Android)
+    navReturnW: 25,                        //导航栏左侧返回按钮图标宽度（仅Android)
+    navReturnH: 25,                        //导航栏左侧返回按钮图标高度（仅Android)
 
     logoHidden: false,                        //logo是否隐藏
     logoImage: 'umcsdk_mobile_logo',          //logo(android默认为应用图标;)
     //为保障显示效果，请同时设置x,y,w,h
-    logoX: 50,                              //logo相对于屏幕左边x轴偏移
-    logoY: 50,                              //logo相对于标题栏下边缘y偏移
-    logoW: 100,                             //logo宽
-    logoH: 100,                              //logo高
+    // logoX: 50,                              //logo相对于屏幕左边x轴偏移
+    // logoY: 50,                              //logo相对于标题栏下边缘y偏移
+    // logoW: 100,                             //logo宽
+    // logoH: 100,                              //logo高
 
     numberSize: 16,                           //手机号码字体大小（单位:sp）
     numberColor: -16777216,                   //手机号码字体颜色
     //为保障显示效果，请同时设置x,y,w,h
-    numberX: 50,                            //号码栏相对于屏幕左边x轴偏移
-    numberY: 100,                           //号码栏相对于标题栏下边缘y偏移
-    numberW: 250,                           //号码栏宽度
-    numberH: 25,                            //号码栏高度
+    // numberX: 50,                            //号码栏相对于屏幕左边x轴偏移
+    // numberY: 100,                           //号码栏相对于标题栏下边缘y偏移
+    // numberW: 250,                           //号码栏宽度
+    // numberH: 25,                            //号码栏高度
 
     sloganHidden: false,                      //slogan是否隐藏
     sloganTextSize: 16,                       //slogan字体大小
     sloganTextColor: -16777216,               //slogan文字颜色
 	
     //为保障显示效果，请同时设置x,y,w,h
-    sloganX: 50,                            //slogan相对于屏幕左边x轴偏移
-    sloganY: 150,                           //slogan相对于标题栏下边缘y偏移
+    // sloganX: 50,                            //slogan相对于屏幕左边x轴偏移
+    // sloganY: 150,                           //slogan相对于标题栏下边缘y偏移
 
     loginBtnText: '登录按钮',                  //登录按钮文字
     loginBtnTextSize: 16,                     //登录按钮字体大小

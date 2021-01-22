@@ -80,6 +80,7 @@ public class JConstans {
     public static final String PRIVACY_W = "privacyW";                                      //隐私条款名称外的文字栏宽度(单位:dp)
     public static final String PRIVACY_H = "privacyH";                                      //隐私条款名称外的文字栏高度度(单位:dp)
     public static final String PRIVACY_BOOK_SYMBOL_ENABLE = "privacyBookSymbolEnable";      //隐私条款运营商协议名是否加书名号
+    public static final String EnableHintToast = "unAgreePrivacyHintToast";                                      //导航栏颜色
 
     public static final String PRIVACY_CHECKBOX_HIDDEN  = "privacyCheckboxHidden";          //隐私条款checkbox是否隐藏
     public static final String PRIVACY_CHECKBOX_SIZE  = "privacyCheckboxSize";              //设置隐私条款checkbox尺寸

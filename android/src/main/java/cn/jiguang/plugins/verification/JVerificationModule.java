@@ -339,6 +339,8 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             builder.setLogBtnTextColor(readableMap.getInt(JConstans.LOGIN_BTN_TEXT_COLOR));
         }
         if(readableMap.hasKey(JConstans.LOGIN_BTN_IMAGE_SELECTOR)){
+            // TODO:
+            JLogger.w("setLogBtnImgPath:"+readableMap.getString(JConstans.LOGIN_BTN_IMAGE_SELECTOR));
             builder.setLogBtnImgPath(readableMap.getString(JConstans.LOGIN_BTN_IMAGE_SELECTOR));
         }
         if(readableMap.hasKey(JConstans.LOGIN_BTN_X)){
@@ -385,6 +387,14 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 builder.setPrivacyTextCenterGravity(false);
             }
         }
+        if (readableMap.hasKey(JConstans.EnableHintToast)){
+           boolean show = readableMap.getBoolean(JConstans.EnableHintToast);
+            if (show == true) {
+                builder.enableHintToast(true,null);
+            }
+        }
+
+
         if(readableMap.hasKey(JConstans.PRIVACY_X)){
             builder.setPrivacyOffsetX(dp2Pix(readableMap.getInt(JConstans.PRIVACY_X)));
         }

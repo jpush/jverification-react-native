@@ -563,7 +563,6 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     if(configParams[PRIVACY_UNCHECKED_IMAGE]){
         config.uncheckedImg = [self imageNamed:configParams[PRIVACY_UNCHECKED_IMAGE]];
     }
-    //TODO:
     if ([configParams[UNCHECK_BOX_CALLBACK] isKindOfClass:[NSNumber class]]) {
         BOOL isNeedCallBack = [configParams[UNCHECK_BOX_CALLBACK] boolValue];
         if (isNeedCallBack) {
@@ -573,7 +572,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
         }
     }
     
-    
+
     CGFloat privacyCheckboxW = config.uncheckedImg.size.width;
     CGFloat privacyCheckboxH = config.uncheckedImg.size.height;
     JVLayoutConstraint *constraintX = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemPrivacy attribute:NSLayoutAttributeLeft multiplier:1 constant:-15];

@@ -207,3 +207,4 @@ yarn.lock
 
 *.gitattributes
 .idea
+index.android.bundle

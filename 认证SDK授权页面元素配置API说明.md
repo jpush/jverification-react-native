@@ -177,6 +177,7 @@
 |privacyCheckedImage|String|设置复选框选中时图片。|
 |privacyUncheckedImage|String|设置复选框未选中时图片。|
 |privacyCheckEnable|boolean|设置隐私条款默认选中状态，默认不选中。|
+|unAgreePrivacyHintToast| boolean| 值为true，隐私条款checkBox未选中时，登录按钮可以被点击 ,点击登录按钮会有toast提示，|
 
 + iOS授权页隐私栏
 
