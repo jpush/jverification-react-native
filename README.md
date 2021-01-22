@@ -80,8 +80,11 @@ const initParams = {
 参考：[App.js](https://github.com/jpush/jverification-react-native/tree/master/example/App.js)
 
 ## 4. API
++ API详细说明：[API详细说明.md](https://github.com/jpush/jverification-react-native/blob/master/API%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E.md) 
 
-详见：[index.js](https://github.com/jpush/jverification-react-native/tree/master/index.js)
++ 授权页面元素配置说明：[认证SDK授权页面元素配置API说明.md](https://github.com/jpush/jverification-react-native/blob/master/%E8%AE%A4%E8%AF%81SDK%E6%8E%88%E6%9D%83%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E9%85%8D%E7%BD%AEAPI%E8%AF%B4%E6%98%8E.md)
+
++ 示例详见：[index.js](https://github.com/jpush/jverification-react-native/tree/master/index.js)
 
 ## 5.  其他
 
