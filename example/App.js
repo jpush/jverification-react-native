@@ -292,7 +292,7 @@ export default class App extends React.Component {
                             if(Platform.OS == 'android'){
                                 JVerification.addLoginCustomConfig(customUIWithConfigAndroid, customViewParams);
                             } else {
-                                JVerification.addLoginCustomConfig(customUIWithConfigiOS, []);
+                                JVerification.addLoginCustomConfig(customUIWithConfigiOS, customViewParams);
                             }
                         }}/>
 
