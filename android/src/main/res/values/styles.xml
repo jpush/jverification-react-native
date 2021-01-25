@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ActivityDialogStyle" >
+        <!--去掉action bar和标题栏-->
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--背景透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--dialog圆角-->
+        <item name="android:windowBackground">@drawable/dialog_bg</item>
+
+        <!--弹窗后整个屏幕的背景是否有遮障层，默认是半透明的-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+</resources>
