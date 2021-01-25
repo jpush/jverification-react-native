@@ -130,7 +130,13 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void dismissLoginAuthActivity(){
-        JVerificationInterface.dismissLoginAuthActivity();
+        reactContext.runOnUiQueueThread(new Runnable() {
+            @Override
+            public void run() {
+                JVerificationInterface.dismissLoginAuthActivity();
+            }
+        });
+
     }
 
     @ReactMethod
