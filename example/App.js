@@ -245,11 +245,13 @@ export default class App extends React.Component {
             console.log('LoginListener:' + JSON.stringify(result));
         };
         JVerification.addLoginEventListener(this.LoginListener);
+		if(Platform.OS == 'ios'){
 		this.UnCheckboxEvent = result => {
 			console.log('UnCheckboxEvent:未选中隐私协议框');
 			this.createAlert('Listener:未选中隐私协议框' );
 		}
 		JVerification.addUncheckBoxEventListener(this.UnCheckboxEvent)
+		}
     }
 
     render() {
@@ -292,14 +294,14 @@ export default class App extends React.Component {
                             if(Platform.OS == 'android'){
                                 JVerification.addLoginCustomConfig(customUIWithConfigAndroid, customViewParams);
                             } else {
-                                JVerification.addLoginCustomConfig(customUIWithConfigiOS, []);
+                                JVerification.addLoginCustomConfig(customUIWithConfigiOS, customViewParams);
                             }
                         }}/>
 
                 <Button title='自定义弹窗授权页'
                         onPress={() => {
                             if(Platform.OS == 'android'){
-                                JVerification.addLoginCustomConfig(androidDialogConfig, undefined);
+                                JVerification.addLoginCustomConfig(androidDialogConfig, customViewParams);
                             } else {
                                 JVerification.addLoginCustomConfig(iosDialogConfig, customViewParams);
                             }
