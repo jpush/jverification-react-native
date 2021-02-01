@@ -1,5 +1,6 @@
 package cn.jiguang.plugins.verification;
 
+import android.app.Activity;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -482,10 +483,20 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         ReadableArray viewPoint = readableMap.hasKey(JConstans.CUSTOM_VIEW_POINT) ? readableMap.getArray(JConstans.CUSTOM_VIEW_POINT) : null;
         JLogger.w("convertToView: viewName="+viewName);
         if (TextUtils.isEmpty(viewName)) {
+            JLogger.e("viewName is null");
             return null;
         }
         ReactRootView reactView = new ReactRootView(reactContext);
-        ReactApplication application = (ReactApplication)getCurrentActivity().getApplication();
+        Activity currentActivity =  getCurrentActivity();
+        if (currentActivity == null){
+            JLogger.e("currentActivity is null");
+            return  null;
+        }
+        ReactApplication application = (ReactApplication)currentActivity.getApplication();
+        if (application == null){
+            JLogger.e("application is null");
+            return  null;
+        }
         reactView.startReactApplication(application.getReactNativeHost().getReactInstanceManager(), viewName);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         if (viewPoint != null) {
