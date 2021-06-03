@@ -1,4 +1,6 @@
+### v 2.4.6
 
+- android 更新到 2.7.2，iOS sdk更新到2.7.1 。
 
 ### v 2.4.5
 - android和iOS sdk更新到2.6.7 ，支持cheockBox未选中回调。补充相关认证授权页API说明文档。
