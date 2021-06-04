@@ -8,6 +8,7 @@ const JVerificationModule = NativeModules.JVerificationModule;
 
 const listeners = {};
 const LoginEvent = 'LoginEvent';  //登录事件
+const UnCheckBox = 'UncheckBoxCallBack';  //iOS 未选中隐私协议CheckBox,点击登录按钮的回调事件
 
 export default class JVerification {
 
@@ -237,6 +238,13 @@ export default class JVerification {
                 callback(result);
             });
     }
+
+    static addUncheckBoxEventListener(callback) {
+		    listeners[callback] = DeviceEventEmitter.addListener(
+		        UnCheckBox, result => {
+		            callback(result);
+		       });
+	}
 
     //移除事件
     static removeListener(callback) {
