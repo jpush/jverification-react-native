@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define JVER_VERSION_NUMBER 2.6.7
+#define JVER_VERSION_NUMBER 2.7.5
 
 
 /**
@@ -35,6 +35,14 @@ typedef NS_ENUM(NSUInteger, JVLayoutItem) {
     JVLayoutItemSuper
 };
 
+/**
+ 设置隐私Label的垂直对齐方式
+ */
+typedef NS_ENUM(NSInteger,JVVerAlignment){
+    JVVerAlignmentTop = 0,//default
+    JVVerAlignmentMiddle,
+    JVVerAlignmentBottom
+};
 
 @interface JVLayoutConstraint : NSObject
 /**
@@ -59,7 +67,7 @@ typedef NS_ENUM(NSUInteger, JVLayoutItem) {
  @param c 常量
  @return JVLayoutConstraint布局对象
  */
-+(instancetype)constraintWithAttribute:(NSLayoutAttribute)attr1
++(instancetype _Nullable )constraintWithAttribute:(NSLayoutAttribute)attr1
                              relatedBy:(NSLayoutRelation)relation
                                 toItem:(JVLayoutItem)item
                              attribute:(NSLayoutAttribute)attr2
@@ -194,6 +202,27 @@ typedef NS_ENUM(NSUInteger, JVLayoutItem) {
  条款链接， 支持在线文件和NSBundle本地文件，  沙盒中文件仅支持 NSTemporaryDirectory() 路径下文件
  */
 @property (nonatomic,strong) NSArray *appPrivacyTwo;
+
+/**隐私条款组合:数组，使用此参数，则默认放弃appPrivacyOne、appPrivacyTwo的效果。
+ NSAttributedString *agreementNavtext1 = [[NSAttributedString alloc]initWithString:@"协议1自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];;
+ NSAttributedString *agreementNavtext2 = [[NSAttributedString alloc]initWithString:@"协议2自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];;
+ NSAttributedString *agreementNavtext3 = [[NSAttributedString alloc]initWithString:@"协议3自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];;
+ NSAttributedString *agreementNavtext4 = [[NSAttributedString alloc]initWithString:@"协议4自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];
+ NSAttributedString *agreementNavtext5 = [[NSAttributedString alloc]initWithString:@"协议5自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+
+ //隐私---新方法 存在appPrivacys则默认使用appPrivacys方式
+ config.appPrivacys = @[
+     @"头部文字",//头部文字
+     @[@"、",@"应用自定义服务条款1",@"https://www.taobao.com/",agreementNavtext1],
+     @[@"、",@"应用自定义服务条款2",@"https://www.jiguang.cn/",agreementNavtext2],
+     @[@"、",@"应用自定义服务条款3",@"https://www.baidu.com/", agreementNavtext3],
+     @[@"、",@"应用自定义服务条款4",@"https://www.taobao.com/",agreementNavtext4],
+     @[@"、",@"应用自定义服务条款5",@"https://www.taobao.com/",agreementNavtext5],
+     @"尾部文字。"
+ ];
+ */
+@property (nonatomic,strong) NSArray * _Nullable appPrivacys;
+
 /**隐私条款名称颜色
  @[基础文字颜色,条款颜色]
  */
@@ -208,6 +237,8 @@ typedef NS_ENUM(NSUInteger, JVLayoutItem) {
 @property (nonatomic,assign) CGFloat privacyLineSpacing;
 /**隐私条款Y偏移量(注:此属性为与屏幕底部的距离)*/
 @property (nonatomic,assign) CGFloat privacyOffsetY DEPRECATED_MSG_ATTRIBUTE("Please use privacyConstraints");
+/**是否隐藏导航栏*/
+@property (nonatomic,assign) BOOL privacysNavCustom;
 /**隐私条款拼接文本数组，数组限制4个NSString对象，否则无效
  默认文本1为：”登录即同意“，文本2:”和“，文本3：”、“，文本4：”并使用本机号码登录“
  设置后，隐私协议栏文本修改为 文本1 + 运营商默认协议名称 + 文本2 + 开发者协议名称1 + 文本3 + 开发者协议文本2 + 文本4
@@ -219,6 +250,8 @@ typedef NS_ENUM(NSUInteger, JVLayoutItem) {
 @property (nonatomic, copy) NSArray <JVLayoutConstraint *>* privacyHorizontalConstraints;
 /**隐私条款check框默认状态 默认:NO */
 @property (nonatomic,assign) BOOL privacyState;
+/*隐私条约Label的垂直对齐方式*/
+@property (nonatomic,assign) JVVerAlignment textVerAlignment;
 /*
  当自定义Alert view,当隐私条款未选中时,点击登录按钮时回调
  当此参数存在时,未选中隐私条款的情况下，登录按钮可以被点击
