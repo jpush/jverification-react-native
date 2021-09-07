@@ -13,24 +13,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface EAccountPreLoginConfigModel : NSObject
 
 /**
- NSURLRequest的最大空闲时间 默认3s
- */
-@property (nonatomic, assign) NSTimeInterval  timeoutIntervalForRequest;
-
-/**
- NSURLSession资源获取超时时间 默认3s
+ 资源获取超时时间 默认6.0s
  */
 @property (nonatomic, assign) NSTimeInterval  timeoutIntervalForResource;
 
 /**
- socket连接超时时间 默认3s
+ 连接超时时间 默认6.0s
  */
-@property (nonatomic, assign) NSTimeInterval  socketConnectTimeoutInterval;
+@property (nonatomic, assign) NSTimeInterval  connectTimeoutInterval;
 
 /**
- socket请求总超时时间 默认6s 建议设置比 socket连接超时时间 长
- */
-@property (nonatomic, assign) NSTimeInterval  socketTotalTimeoutInterval;
+ 总超时时间 默认8.0s ，应设置比其他超时时间长
+*/
+@property (nonatomic, assign) NSTimeInterval  totalTimeoutInterval;
 
 #pragma -mark 初始化方法
 

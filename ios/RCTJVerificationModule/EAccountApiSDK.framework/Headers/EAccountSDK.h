@@ -7,7 +7,7 @@
 //
 
 /**
- 定制版SDK v3.7.2 20191217
+ 定制版SDK v3.8.5 20201030
  */
 
 #import <Foundation/Foundation.h>
@@ -18,7 +18,7 @@
  声明一个block
  @param resultDic 网络返回的data的解析结果
  */
-typedef   void (^successHandler) ( NSDictionary * _Nonnull resultDic);
+typedef   void (^successHandler) (NSDictionary * _Nonnull resultDic);
 
 /**
  声明一个block
@@ -36,14 +36,6 @@ typedef   void (^failureHandler) (NSError * _Nonnull error);
 + (void)initWithSelfKey:(NSString * _Nonnull)appKey
               appSecret:(NSString * _Nonnull)appSecrect;
 
-
-/**
- 默认为正式环境的bundleID,需要使用测试环境的bundleID（企业证书重签名），请添加这个方法，在发布APP的时候请确保没有使用该方法。
- */
-
-+(void)setTestBundleId;
-
-
 /**
  *@description 预登录接口
  @param model 接口超时时间配置
@@ -54,25 +46,38 @@ typedef   void (^failureHandler) (NSError * _Nonnull error);
                 failure:(nonnull failureHandler)fail;
 
 /**
- *@description 预登录接口
- @param apiTimeoutInterval 接口超时时间，传0或者小于0的数，则默认为3s
+ 控制台日志输出控制（默认关闭）
+ @param enable 开关参数
  */
-
-+ (void)requestPreLogin:(NSTimeInterval)apiTimeoutInterval
-                      completion:(nonnull successHandler)completion
-                         failure:(nonnull failureHandler)fail DEPRECATED_MSG_ATTRIBUTE("Please use `requestPRELogin:completion:failure:` instead");
-
++ (void)printConsoleEnable:(BOOL)enable;
 
 /**
- *@description 预登录接口 废弃
+@description   获取当前流量卡运营商信息
+@return NSString    "CT"    中国电信 / "CM"     中国移动 / "CU"     中国联联通 / "UN"    未知
+*/
++ (NSString *)getOperatorType;
+
+/**
+@description   是否开启蜂窝数据
+*/
++ (BOOL)isCellularDataEnable;
+
+/**
+ @description 预登录接口 已废弃
  @param apiTimeoutInterval 接口超时时间，传0或者小于0的数，则默认为3s
  */
++ (void)requestPreLogin:(NSTimeInterval)apiTimeoutInterval
+             completion:(nonnull successHandler)completion
+                failure:(nonnull failureHandler)fail DEPRECATED_MSG_ATTRIBUTE("Please use `requestPRELogin:completion:failure:` instead");
 
+/**
+ @description 预登录接口 已废弃
+ @param apiTimeoutInterval 接口超时时间，传0或者小于0的数，则默认为3s
+ */
 + (void)getMobileCodeWithTimeout:(NSTimeInterval)apiTimeoutInterval
                       completion:(nonnull successHandler)completion
-                         failure:(nonnull failureHandler)fail  DEPRECATED_MSG_ATTRIBUTE("Please use `requestPreLogin:completion:failure:` instead");
+                         failure:(nonnull failureHandler)fail DEPRECATED_MSG_ATTRIBUTE("Please use `requestPreLogin:completion:failure:` instead");
 
-
-+ (void)setDomainName:(EAccountCTEConfig *)config;
++ (void)setDomainName:(EAccountCTEConfig * _Nonnull)config;
 
 @end

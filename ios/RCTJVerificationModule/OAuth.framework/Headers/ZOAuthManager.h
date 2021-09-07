@@ -8,10 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-typedef NS_ENUM(NSUInteger, ServiceType) {
-    ServiceTypeMobile,
-    ServiceTypeOAuth,
-};
+
 
 @interface ZOAuthManager : NSObject
 /**
@@ -19,7 +16,7 @@ typedef NS_ENUM(NSUInteger, ServiceType) {
  *
  *  @param isDebug true／false
  */
-+ (void) setDebug:(Boolean) isDebug ;
++ (void) setDebug:(BOOL) isDebug ;
 
 /**
  *  是否使用SHA256

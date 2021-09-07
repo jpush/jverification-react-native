@@ -67,8 +67,9 @@ public class JConstans {
     public static final String LOGIN_BTN_W = "loginBtnWidth";                               //登录按钮宽度
     public static final String LOGIN_BTN_H = "loginBtnHeight";                              //登录按钮高度
 
-    public static final String PRIVACY_ONE  = "privacyOne";                                 //隐私条款一
-    public static final String PRIVACY_TWO  = "privacyTwo";                                 //隐私条款二
+    public static final String PRIVACY_ONE  = "privacyOne";                                 //隐私条款一 过期 2.7.3+不生效
+    public static final String PRIVACY_TWO  = "privacyTwo";                                 //隐私条款二  过期 2.7.3+不生效
+    public static final String PRIVACY_NAME_AND_URL_BEANLIST  = "privacyNameAndUrlBeanList";                  //隐私条款组合
     public static final String PRIVACY_COLOR  = "privacyColor";                             //隐私条款颜色
     public static final String PRIVACY_TEXT  = "privacyText";                               //隐私条款名称外的文字
     public static final String PRIVACY_TEXT_SIZE  = "privacyTextSize";                      //隐私条款文字字体大小

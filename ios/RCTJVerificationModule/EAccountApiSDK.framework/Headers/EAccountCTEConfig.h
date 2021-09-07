@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *preLoginDomain;
 @property (nonatomic, copy) NSString *uploadLogDomain;
 
+- (instancetype)initWithDefaultConfig;
+
 @end
 
 NS_ASSUME_NONNULL_END

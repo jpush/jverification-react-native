@@ -81,6 +81,7 @@
 //隐私条款
 #define PRIVACY_ONE                     @"privacyOne"               //隐私条款一:数组（务必按顺序）@[条款名称,条款链接]
 #define PRIVACY_TWO                     @"privacyTwo"               //隐私条款二:数组（务必按顺序）@[条款名称,条款链接]
+#define PRIVACY_Arr                     @"privacyNameAndUrlBeanList"               //隐私条款组合:数组（务必按顺序）@[[条款名称,条款链接],[条款名称,条款链接]]
 #define PRIVACY_COLOR                   @"privacyColor"             //隐私条款名称颜色 @[基础文字颜色,条款颜色]
 #define PRIVACY_TEXT                    @"privacyText"              //隐私条款拼接文本数组
 #define PRIVACY_TEXT_SIZE               @"privacyTextSize"          //隐私条款字体大小，默认12
@@ -105,6 +106,7 @@
 #define PRIVACY_WEB_NAV_TITLE_SIZE      @"privacyWebNavTitleSize"   //协议页导航栏标题字体大小
 #define PRIVACY_WEB_NAV_TITLE_COLOR     @"privacyWebNavTitleColor"  //协议页导航栏标题字体颜色
 #define PRIVACY_WEB_NAV_RETURN_IMAGE    @"privacyWebNavReturnImage" //协议页导航栏返回按钮图片
+#define PRIVACY_WEB_NAV_NAVCUSTOM       @"privacyWebNavNavCustom"   //协议页导航是否隐藏
 
 //弹窗
 #define SHOW_WINDOW                                 @"showWindow"                         // 是否弹窗，默认no
@@ -137,7 +139,7 @@ RCT_EXPORT_METHOD(setDebug: (BOOL *)enable)
 }
 
 RCT_EXPORT_METHOD(setupWithConfig: (NSDictionary *)params
-                         callback: (RCTResponseSenderBlock)callback)
+                  callback: (RCTResponseSenderBlock)callback)
 {
     JVAuthConfig *config = [[JVAuthConfig alloc] init];
     if (params[@"appKey"]) {
@@ -177,9 +179,9 @@ RCT_EXPORT_METHOD(isSetupClient: (RCTResponseSenderBlock)callback)
 
 RCT_EXPORT_METHOD(checkVerifyEnable: (RCTResponseSenderBlock)callback)
 {
-   BOOL enable = [JVERIFICATIONService checkVerifyEnable];
-   NSDictionary *data = [self convertToResult:enable];
-   callback(@[data]);
+    BOOL enable = [JVERIFICATIONService checkVerifyEnable];
+    NSDictionary *data = [self convertToResult:enable];
+    callback(@[data]);
 }
 
 RCT_EXPORT_METHOD(getToken: (double)params
@@ -284,7 +286,7 @@ RCT_EXPORT_METHOD(getSmsCode: (NSDictionary *)params callback: (RCTResponseSende
     NSString *phoneNumber = @"";
     NSString *signID = @"";
     NSString *templateID = @"";
-
+    
     if(params[@"phoneNumber"]){
         phoneNumber = params[@"phoneNumber"];
     }
@@ -377,7 +379,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     }
     //导航栏
     if([configParams[NAV_HIDDEN] isKindOfClass:[NSNumber class]]){
-         config.navCustom = [configParams[NAV_HIDDEN] boolValue];
+        config.navCustom = [configParams[NAV_HIDDEN] boolValue];
     }
     if(configParams[NAV_COLOR]){
         NSNumber *color = configParams[NAV_COLOR];
@@ -508,6 +510,52 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
         NSArray *parivacyTwo = configParams[PRIVACY_TWO];
         config.appPrivacyTwo = parivacyTwo;
     }
+    
+    //2.7.3新增 自定义协议组合
+    if([[configParams allKeys] containsObject:PRIVACY_Arr] && configParams[PRIVACY_Arr]){
+        NSArray *parivacyArr = configParams[PRIVACY_Arr];
+        NSMutableArray *appPrivacyss = [NSMutableArray array];
+        //设置头 如勾选即同意
+        if([[configParams allKeys] containsObject:PRIVACY_TEXT] && configParams[PRIVACY_TEXT]){
+            NSArray *privacyTexts = configParams[PRIVACY_TEXT];
+            if ([privacyTexts count]>0)
+                [appPrivacyss addObject:privacyTexts[0]];
+        }
+        //自定义协议部分
+        for (NSInteger i = 0; i<parivacyArr.count; i++) {
+            NSMutableArray *item = [NSMutableArray array];
+            NSDictionary *obj = [parivacyArr objectAtIndex:i];
+            //加入协议之间的分隔符
+            if ([[obj allKeys] containsObject:@"separator"] ) {
+                [item addObject:[obj objectForKey:@"separator"]];
+            }
+            //加入name
+            if ([[obj allKeys] containsObject:@"name"] ) {
+                [item addObject:[obj objectForKey:@"name"]];
+            }
+            //加入url
+            if ([[obj allKeys] containsObject:@"url"] ) {
+                [item addObject:[obj objectForKey:@"url"]];
+            }
+            //加入协议详细页面的导航栏文字 可以是NSAttributedString类型 自定义  这里是直接拿name进行展示
+            if ([[obj allKeys] containsObject:@"name"] ) {
+                [item addObject:[obj objectForKey:@"name"]];
+            }
+            //添加一条协议appPrivacyss中
+            [appPrivacyss addObject:item];
+        }
+        //设置尾
+        if([[configParams allKeys] containsObject:PRIVACY_TEXT] && configParams[PRIVACY_TEXT]){
+            NSArray *privacyTexts = configParams[PRIVACY_TEXT];
+            if ([privacyTexts count]>1)
+                [appPrivacyss addObject:privacyTexts[1]];
+        }
+        //设置
+        if (appPrivacyss.count>1) {
+            config.appPrivacys = appPrivacyss;
+        }
+    }
+    
     if(configParams[PRIVACY_COLOR]){
         NSNumber *privacyNameColorNum = configParams[PRIVACY_COLOR][0];
         NSNumber *privacyUrlColorNum = configParams[PRIVACY_COLOR][1];
@@ -572,7 +620,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
         }
     }
     
-
+    
     CGFloat privacyCheckboxW = config.uncheckedImg.size.width;
     CGFloat privacyCheckboxH = config.uncheckedImg.size.height;
     JVLayoutConstraint *constraintX = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemPrivacy attribute:NSLayoutAttributeLeft multiplier:1 constant:-15];
@@ -580,7 +628,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     JVLayoutConstraint *constraintW = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeWidth multiplier:1 constant:privacyCheckboxW];
     JVLayoutConstraint *constraintH = [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeHeight multiplier:1 constant:privacyCheckboxH];
     config.checkViewConstraints = @[constraintX,constraintY,constraintW,constraintH];
-
+    
     if(configParams[CHECK_VIEW_CONSTRAINTS]){
         NSArray *checkViewConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[CHECK_VIEW_CONSTRAINTS]];
         config.checkViewConstraints = checkViewConstraints;
@@ -609,7 +657,10 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     if(configParams[PRIVACY_WEB_NAV_RETURN_IMAGE]){
         config.agreementNavReturnImage = [self imageNamed:configParams[PRIVACY_WEB_NAV_RETURN_IMAGE]];
     }
-
+    //2.7.5新增隐私协议导航栏是否隐藏
+    if([[configParams allKeys] containsObject:PRIVACY_WEB_NAV_NAVCUSTOM] && configParams[PRIVACY_WEB_NAV_NAVCUSTOM]){
+        config.privacysNavCustom = [self imageNamed:configParams[PRIVACY_WEB_NAV_NAVCUSTOM]];
+    }
     // 弹窗
     if([configParams[SHOW_WINDOW] isKindOfClass:[NSNumber class]]){
         config.showWindow = [configParams[SHOW_WINDOW] boolValue];
@@ -621,7 +672,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
         CGFloat backgroundAlpha = [configParams[WINDOW_BACKGROUND_ALPHA] floatValue];
         config.windowBackgroundAlpha = backgroundAlpha;
     }
-
+    
     if(configParams[WINDOW_CORNER_RADIUS]){
         CGFloat cornerRadius = [configParams[WINDOW_CORNER_RADIUS] floatValue];
         config.windowCornerRadius = cornerRadius;

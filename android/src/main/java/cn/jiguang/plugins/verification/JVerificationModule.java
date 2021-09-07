@@ -19,7 +19,11 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.jiguang.plugins.verification.common.JConstans;
 import cn.jiguang.plugins.verification.common.JLogger;
@@ -27,6 +31,7 @@ import cn.jiguang.verifysdk.api.AuthPageEventListener;
 import cn.jiguang.verifysdk.api.JVerificationInterface;
 import cn.jiguang.verifysdk.api.JVerifyUIConfig;
 import cn.jiguang.verifysdk.api.PreLoginListener;
+import cn.jiguang.verifysdk.api.PrivacyBean;
 import cn.jiguang.verifysdk.api.RequestCallback;
 import cn.jiguang.verifysdk.api.VerifyListener;
 
@@ -363,13 +368,30 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             builder.setLogBtnHeight(dp2Pix(readableMap.getInt(JConstans.LOGIN_BTN_H)));
         }
         //协议
-        if(readableMap.hasKey(JConstans.PRIVACY_ONE)){
+        if(readableMap.hasKey(JConstans.PRIVACY_ONE)){//过期 2.7.3+不生效
             ReadableArray array = readableMap.getArray(JConstans.PRIVACY_ONE);
             builder.setAppPrivacyOne(array.getString(0),array.getString(1));
         }
-        if(readableMap.hasKey(JConstans.PRIVACY_TWO)){
+        if(readableMap.hasKey(JConstans.PRIVACY_TWO)){//过期 2.7.3+不生效
             ReadableArray array = readableMap.getArray(JConstans.PRIVACY_TWO);
             builder.setAppPrivacyTwo(array.getString(0),array.getString(1));
+        }
+        if (readableMap.hasKey(JConstans.PRIVACY_NAME_AND_URL_BEANLIST)) {// since 273
+            ReadableArray jsonArray = readableMap.getArray(JConstans.PRIVACY_NAME_AND_URL_BEANLIST);
+            if(jsonArray!=null&&jsonArray.size()!=0){
+                List<PrivacyBean> beanArrayList = new ArrayList<>();
+
+                for (int i=0;i<jsonArray.size();i++){
+                    ReadableMap jsonObject1 = jsonArray.getMap(i);
+                    String name = jsonObject1.getString("name");
+                    String url = jsonObject1.getString("url");
+                    String beforeName = jsonObject1.getString("beforeName");
+                    String afterName = jsonObject1.getString("afterName");
+                    JLogger.d("setPrivacyNameAndUrlBeanList:"+beforeName+name+afterName+":"+url);
+                    beanArrayList.add(new PrivacyBean(name!=null?name:"",url!=null?url:"",beforeName!=null?beforeName:"",afterName!=null?afterName:""));
+                }
+                builder.setPrivacyNameAndUrlBeanList(beanArrayList);
+            }
         }
         if(readableMap.hasKey(JConstans.PRIVACY_COLOR)){
             ReadableArray array = readableMap.getArray(JConstans.PRIVACY_COLOR);
@@ -377,7 +399,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         }
         if(readableMap.hasKey(JConstans.PRIVACY_TEXT)){
             ReadableArray array = readableMap.getArray(JConstans.PRIVACY_TEXT);
-            builder.setPrivacyText(array.getString(0),array.getString(1),array.getString(2),array.getString(3));
+            builder.setPrivacyText(array.getString(0),array.getString(1));
         }
         if(readableMap.hasKey(JConstans.PRIVACY_TEXT_SIZE)){
             builder.setPrivacyTextSize(readableMap.getInt(JConstans.PRIVACY_TEXT_SIZE));

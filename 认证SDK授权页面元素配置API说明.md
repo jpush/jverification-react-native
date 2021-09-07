@@ -185,6 +185,7 @@
 |:-----:|:----:|:----:|
 |privacyOne|String,String|设置开发者隐私条款1名称和URL(名称，url)|
 |privacyTwo|String,String|设置开发者隐私条款2名称和URL(名称，url)|
+|privacyArr|[[String,String],[String,String]]|设置开发者隐私条款2名称和URL(名称，url)|
 |privacyColor|int,int|设置隐私条款名称颜色(基础文字颜色，协议文字颜色)|
 |privacyText|String,String,String,String|设置隐私条款名称外的文字。<br>如：登录即同意...和...、...并使用本机号码登录<br>参数1为："登录即同意"。<br>参数2为："和"。<br>参数3为："、"。<br>参数4为："并使用本机号码登录"。<br>|
 |privacyTextSize|int|设置隐私条款文字字体大小（单位：sp）。|

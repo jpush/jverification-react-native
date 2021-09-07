@@ -76,10 +76,11 @@ const customUIWithConfigiOS = {
 	checkViewConstraints:[-108,180,10,10],
 	unAgreePrivacyCallBack:true,
 	
-	privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）
-	privacyTwo: ['隐私条款二', 'https://www.jiguang.cn/about'],  //隐私条款二（显示名称和url，请严格按照格式）
+	privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）过期 2.7.3+不生效
+	privacyTwo: ['隐私条款二', 'https://www.jiguang.cn/about'],  //隐私条款二（显示名称和url，请严格按照格式）过期 2.7.3+不生效
+    privacyNameAndUrlBeanList: [{'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、','afterName':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、', 'afterName':'、'}],
 	privacyColor: [-16777216, -65536],                          //隐私条款颜色 （显示名称和url的颜色，请严格按照格式）
-	privacyText: ['登录即同意', '和', '、', '并使用本机号码登录'],  //隐私条款名称外的文字
+	privacyText: ['登录即同意', '并使用本机号码登录'],  //隐私条款名称外的文字
 	privacyTextSize: 15,                                        //隐私条款文字字体大小
 	privacyTextGravityMode: 'left',                             //隐私条款文本对齐方式，目前仅支持 left、center
 	privacyBookSymbolEnable: false,                             //隐私条款是否显示书名号，默认不显示
@@ -144,10 +145,11 @@ const customUIWithConfigAndroid = {
     // loginBtnW: 250,                         //登录按钮宽度
     // loginBtnH: 40,                          //登录按钮高度
 
-    privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）
-    privacyTwo: ['隐私条款二', 'https://www.jiguang.cn/about'],  //隐私条款二（显示名称和url，请严格按照格式）
+    privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）过期 2.7.3+不生效
+    privacyTwo: ['隐私条款二', 'https://www.jiguang.cn/about'],  //隐私条款二（显示名称和url，请严格按照格式）过期 2.7.3+不生效
+    privacyNameAndUrlBeanList: [{'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、','afterName':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、', 'afterName':'、'}],
     privacyColor: [-16777216, -65536],                          //隐私条款颜色 （显示名称和url的颜色，请严格按照格式）
-    privacyText: ['登录即同意', '和', '、', '并使用本机号码登录'],  //隐私条款名称外的文字
+    privacyText: ['登录即同意', '并使用本机号码登录1'],  //隐私条款名称外的文字
     privacyTextSize: 15,                                        //隐私条款文字字体大小
     privacyTextGravityMode: 'left',                             //隐私条款文本对齐方式，目前仅支持 left、center
     privacyBookSymbolEnable: false,                             //隐私条款是否显示书名号，默认不显示
