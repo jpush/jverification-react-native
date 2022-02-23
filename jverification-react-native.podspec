@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.source          = { :git => "https://github.com/jpush/jverification-react-native.git", :tag => "#{s.version}" }
   s.source_files    = 'ios/RCTJVerificationModule/*.{h,m}'
   s.preserve_paths  = "*.js"
-  s.frameworks      = 'UIKit','CFNetwork','CoreFoundation','CoreTelephony','SystemConfiguration','CoreGraphics','Foundation','Security', 'AdSupport', 'CoreLocation', 'MobileCoreServices'
+  s.frameworks      = 'UIKit','CFNetwork','CoreFoundation','CoreTelephony','SystemConfiguration','CoreGraphics','Foundation','Security', 'AdSupport', 'CoreLocation','NetworkExtension.framework', 'MobileCoreServices'
   s.libraries       = 'z','resolv', 'sqlite3', 'c++.1'
   s.vendored_libraries = "ios/RCTJVerificationModule/*.a"
   s.vendored_frameworks = "ios/RCTJVerificationModule/*.framework"

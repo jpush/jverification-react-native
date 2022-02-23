@@ -7,7 +7,7 @@
 //
 
 /**
- 定制版SDK v3.8.5 20201030
+ 定制版SDK v3.8.7 20210629
  */
 
 #import <Foundation/Foundation.h>
@@ -79,5 +79,9 @@ typedef   void (^failureHandler) (NSError * _Nonnull error);
                          failure:(nonnull failureHandler)fail DEPRECATED_MSG_ATTRIBUTE("Please use `requestPreLogin:completion:failure:` instead");
 
 + (void)setDomainName:(EAccountCTEConfig * _Nonnull)config;
+
+#pragma -mark ----------------供其他工程内部调用 打包时删除-----------------------
+
++ (void)startReportLog:(NSMutableDictionary * _Nonnull)logDic;
 
 @end
