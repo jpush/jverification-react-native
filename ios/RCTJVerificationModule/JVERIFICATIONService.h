@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define JVER_VERSION_NUMBER 2.7.5
+#define JVER_VERSION_NUMBER 2.7.7
 
 
 /**
@@ -88,7 +88,8 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 
 
 //MARK:导航栏*************
-
+/**运营商类型*/
+@property(nonatomic,strong)NSString *operatorType;
 /**导航栏颜色*/
 @property (nonatomic,strong) UIColor *navColor;
 /**授权页navigation bar style，已废弃。建议使用preferredStatusBarStyle控制状态栏。preferredStatusBarStyle默认为UIStatusBarStyleDefault,当barStyle的效果和preferredStatusBarStyle冲突时，barStyle的效果会失效。 */
@@ -204,20 +205,14 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 @property (nonatomic,strong) NSArray *appPrivacyTwo;
 
 /**隐私条款组合:数组，使用此参数，则默认放弃appPrivacyOne、appPrivacyTwo的效果。
- NSAttributedString *agreementNavtext1 = [[NSAttributedString alloc]initWithString:@"协议1自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];;
- NSAttributedString *agreementNavtext2 = [[NSAttributedString alloc]initWithString:@"协议2自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];;
- NSAttributedString *agreementNavtext3 = [[NSAttributedString alloc]initWithString:@"协议3自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];;
- NSAttributedString *agreementNavtext4 = [[NSAttributedString alloc]initWithString:@"协议4自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:[UIFont boldSystemFontOfSize:18]}];
- NSAttributedString *agreementNavtext5 = [[NSAttributedString alloc]initWithString:@"协议5自定义标题" attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-
  //隐私---新方法 存在appPrivacys则默认使用appPrivacys方式
  config.appPrivacys = @[
      @"头部文字",//头部文字
-     @[@"、",@"应用自定义服务条款1",@"https://www.taobao.com/",agreementNavtext1],
-     @[@"、",@"应用自定义服务条款2",@"https://www.jiguang.cn/",agreementNavtext2],
-     @[@"、",@"应用自定义服务条款3",@"https://www.baidu.com/", agreementNavtext3],
-     @[@"、",@"应用自定义服务条款4",@"https://www.taobao.com/",agreementNavtext4],
-     @[@"、",@"应用自定义服务条款5",@"https://www.taobao.com/",agreementNavtext5],
+     @[@"、",@"应用自定义服务条款1",@"https://www.taobao.com/",@"应用自定义服务条款1",],
+     @[@"、",@"应用自定义服务条款2",@"https://www.jiguang.cn/",@"应用自定义服务条款2",],
+     @[@"、",@"应用自定义服务条款3",@"https://www.baidu.com/", @"应用自定义服务条款3",],
+     @[@"、",@"应用自定义服务条款4",@"https://www.taobao.com/",@"应用自定义服务条款4",],
+     @[@"、",@"应用自定义服务条款5",@"https://www.taobao.com/",@"应用自定义服务条款5",],
      @"尾部文字。"
  ];
  */
