@@ -7,8 +7,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "jcore-react-native": "^1.7.0",
-    "jverification-react-native": "^2.4.9",
+    "jcore-react-native": "^1.9.5",
+    "jverification-react-native": "^2.5.1",
     "react": "16.8.6",
     "react-native": "^0.65.1"
   },
@@ -18,7 +18,7 @@
     "@react-native-community/eslint-config": "^0.0.3",
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
-    "metro-react-native-babel-preset": "0.54.1",
+    "metro-react-native-babel-preset": "^0.59",
     "react-test-renderer": "16.8.6"
   },
   "jest": {

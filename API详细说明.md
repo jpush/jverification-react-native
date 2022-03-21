@@ -403,7 +403,7 @@ const customConfigParams = {
 
     privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）
     privacyTwo: ['隐私条款二', 'https://www.jiguang.cn/about'],  //隐私条款二（显示名称和url，请严格按照格式）
-    privacyNameAndUrlBeanList: [{'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、','afterName':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、', 'afterName':'、'}],
+    privacyNameAndUrlBeanList: [{'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、'}],
     privacyColor: [-16777216, -65536],                          //隐私条款颜色 （显示名称和url的颜色，请严格按照格式）
     privacyText: ['登录即同意', '并使用本机号码登录'],               //隐私条款名称外的文字
     privacyTextSize: 15,                                        //隐私条款文字字体大小

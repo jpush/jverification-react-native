@@ -188,7 +188,7 @@ export default class JVerification {
      *
      *       privacyOne: StringArray                   //[隐私条款一名称,隐私条款一链接]
      *       privacyTwo: StringArray                   //[隐私条款二名称,隐私条款二链接]
-     *       privacyNameAndUrlBeanList                 //[{'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、','afterName':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、', 'afterName':'、'}]
+     *       privacyNameAndUrlBeanList                 //[{'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、'}]
      *       privacyColor: intArray                    //[隐私条款名称颜色,隐私条款链接颜色]
      *       privacyText: StringArray                  //[隐私条款名称外的文字,隐私条款名称外的文字,隐私条款名称外的文字,隐私条款名称外的文字]
      *       privacyTextSize: int                      //隐私条款文字字体大小

@@ -386,9 +386,8 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     String name = jsonObject1.getString("name");
                     String url = jsonObject1.getString("url");
                     String beforeName = jsonObject1.getString("beforeName");
-                    String afterName = jsonObject1.getString("afterName");
-                    JLogger.d("setPrivacyNameAndUrlBeanList:"+beforeName+name+afterName+":"+url);
-                    beanArrayList.add(new PrivacyBean(name!=null?name:"",url!=null?url:"",beforeName!=null?beforeName:"",afterName!=null?afterName:""));
+                    JLogger.d("setPrivacyNameAndUrlBeanList:"+beforeName+name+":"+url);
+                    beanArrayList.add(new PrivacyBean(name!=null?name:"",url!=null?url:"",beforeName!=null?beforeName:""));
                 }
                 builder.setPrivacyNameAndUrlBeanList(beanArrayList);
             }
