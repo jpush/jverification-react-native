@@ -23,7 +23,7 @@
             android:name="com.cmic.sso.sdk.activity.LoginAuthActivity"
             android:theme="@style/ActivityDialogStyle"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:launchMode="singleTop">
         </activity>
         <!-- since 2.0.0 optional 可选项，使用一键登录功能必须添加  -->
