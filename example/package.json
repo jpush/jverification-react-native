@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "jcore-react-native": "^1.9.6",
-    "jverification-react-native": "^2.5.1",
+    "jverification-react-native": "^2.5.3",
     "react": "16.8.6",
     "react-native": "^0.65.1"
   },

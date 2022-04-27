@@ -31,7 +31,7 @@
         <activity android:name="cn.jiguang.verifysdk.CtLoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/ActivityDialogStyle"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:launchMode="singleTop">
         </activity>
 
