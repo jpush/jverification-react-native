@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define JVER_VERSION_NUMBER 2.7.7
+#define JVER_VERSION_NUMBER 2.7.9
 
 
 /**
@@ -304,7 +304,8 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 @property (nonatomic, copy) NSArray <JVLayoutConstraint*>* windowConstraints;
 /*弹窗横屏布局，横屏下优先级高于windowConstraints*/
 @property (nonatomic, copy) NSArray <JVLayoutConstraint*>* windowHorizontalConstraints;
-
+/*是否在未勾选隐私协议的情况下 弹窗提示窗口*/
+@property (nonatomic, assign) BOOL isAlertPrivacyVC;
 
 /*弹窗close按钮图片 @[普通状态图片，高亮状态图片]*/
 @property (nonatomic, copy) NSArray <UIImage *>*windowCloseBtnImgs;

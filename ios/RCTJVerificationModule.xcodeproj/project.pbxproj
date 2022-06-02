@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080EACA328476AFD00315926 /* QuickLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080EACA228476AFD00315926 /* QuickLogin.framework */; };
 		5CEEEC422361C4CD0072E0C1 /* EAccountApiSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEEEC3E2361C4CD0072E0C1 /* EAccountApiSDK.framework */; };
 		5CEEEC442361C4CD0072E0C1 /* account_login_sdk_noui_core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEEEC402361C4CD0072E0C1 /* account_login_sdk_noui_core.framework */; };
 		5CEEEC492361C5210072E0C1 /* libc++.1.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CEEEC482361C5210072E0C1 /* libc++.1.tbd */; };
@@ -24,10 +25,7 @@
 		62890E7921902C8400803A2B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7821902C8400803A2B /* CoreGraphics.framework */; };
 		62890E7B21902C9400803A2B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7A21902C9400803A2B /* libsqlite3.tbd */; };
 		62890E7D21902C9A00803A2B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62890E7C21902C9A00803A2B /* MobileCoreServices.framework */; };
-		9D41558125B2E71100C27629 /* OAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D41557D25B2E71100C27629 /* OAuth.framework */; };
-		9D41558225B2E71100C27629 /* jverification-ios-2.6.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D41557E25B2E71100C27629 /* jverification-ios-2.6.7.a */; };
 		9D41558325B2E71100C27629 /* TYRZUISDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D41557F25B2E71100C27629 /* TYRZUISDK.framework */; };
-		9D41558425B2E71100C27629 /* ESOneKeyLogin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D41558025B2E71100C27629 /* ESOneKeyLogin.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		080EACA228476AFD00315926 /* QuickLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QuickLogin.framework; sourceTree = "<group>"; };
 		5CEEEC3E2361C4CD0072E0C1 /* EAccountApiSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EAccountApiSDK.framework; sourceTree = "<group>"; };
 		5CEEEC402361C4CD0072E0C1 /* account_login_sdk_noui_core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = account_login_sdk_noui_core.framework; sourceTree = "<group>"; };
 		5CEEEC482361C5210072E0C1 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libc++.1.tbd"; sourceTree = DEVELOPER_DIR; };
@@ -63,10 +62,7 @@
 		62890E7821902C8400803A2B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		62890E7A21902C9400803A2B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		62890E7C21902C9A00803A2B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		9D41557D25B2E71100C27629 /* OAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OAuth.framework; sourceTree = "<group>"; };
-		9D41557E25B2E71100C27629 /* jverification-ios-2.6.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jverification-ios-2.6.7.a"; sourceTree = "<group>"; };
 		9D41557F25B2E71100C27629 /* TYRZUISDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TYRZUISDK.framework; sourceTree = "<group>"; };
-		9D41558025B2E71100C27629 /* ESOneKeyLogin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ESOneKeyLogin.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,19 +74,17 @@
 				62890E7D21902C9A00803A2B /* MobileCoreServices.framework in Frameworks */,
 				5CEEEC422361C4CD0072E0C1 /* EAccountApiSDK.framework in Frameworks */,
 				62890E7B21902C9400803A2B /* libsqlite3.tbd in Frameworks */,
+				080EACA328476AFD00315926 /* QuickLogin.framework in Frameworks */,
 				62890E7921902C8400803A2B /* CoreGraphics.framework in Frameworks */,
 				62890E7721902C7800803A2B /* Security.framework in Frameworks */,
 				5CEEEC442361C4CD0072E0C1 /* account_login_sdk_noui_core.framework in Frameworks */,
 				62890E7521902C6F00803A2B /* SystemConfiguration.framework in Frameworks */,
 				62890E7321902C6700803A2B /* CoreTelephony.framework in Frameworks */,
 				62890E7121902C5D00803A2B /* libz.tbd in Frameworks */,
-				9D41558425B2E71100C27629 /* ESOneKeyLogin.framework in Frameworks */,
 				9D41558325B2E71100C27629 /* TYRZUISDK.framework in Frameworks */,
 				62890E6F21902C5600803A2B /* libresolv.tbd in Frameworks */,
 				62890E6D21902C4E00803A2B /* CoreFoundation.framework in Frameworks */,
-				9D41558125B2E71100C27629 /* OAuth.framework in Frameworks */,
 				62890E6B21902C4600803A2B /* CFNetwork.framework in Frameworks */,
-				9D41558225B2E71100C27629 /* jverification-ios-2.6.7.a in Frameworks */,
 				62890E6921902C4100803A2B /* CoreLocation.framework in Frameworks */,
 				62890E6721902C3B00803A2B /* AdSupport.framework in Frameworks */,
 			);
@@ -119,9 +113,7 @@
 		62890E522190232500803A2B /* RCTJVerificationModule */ = {
 			isa = PBXGroup;
 			children = (
-				9D41558025B2E71100C27629 /* ESOneKeyLogin.framework */,
-				9D41557E25B2E71100C27629 /* jverification-ios-2.6.7.a */,
-				9D41557D25B2E71100C27629 /* OAuth.framework */,
+				080EACA228476AFD00315926 /* QuickLogin.framework */,
 				9D41557F25B2E71100C27629 /* TYRZUISDK.framework */,
 				5CEEEC402361C4CD0072E0C1 /* account_login_sdk_noui_core.framework */,
 				5CEEEC3E2361C4CD0072E0C1 /* EAccountApiSDK.framework */,

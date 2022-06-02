@@ -7,7 +7,7 @@
 //
 
 /**
- 定制版SDK v3.8.7 20210629
+ 定制版SDK v3.8.11 20211203
  */
 
 #import <Foundation/Foundation.h>

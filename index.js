@@ -204,6 +204,7 @@ export default class JVerification {
      *       privacyCheckedImage: string               //隐私条款复选框选中图片
      *       privacyUncheckedImage: string             //隐私条款复选框未选中图片
      *       privacyCheckboxSize:int                   //设置隐私条款checkbox尺寸 默认是10
+     *       isAlertPrivacyVC: boolean                 //是否在未勾选隐私协议的情况下 弹窗提示窗口
      *
      *       privacyWebNavColor: int                   //协议展示web页面导航栏背景颜色
      *       privacyWebNavTitle:String                 //协议页导航栏标题（仅iOS）
