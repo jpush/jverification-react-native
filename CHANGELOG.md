@@ -1,3 +1,5 @@
+### v 2.4.9
+- ios 解决react-nativev68 ios debug 报错的问题
 ### v 2.4.8
 - android 更新到 2.7.2，iOS sdk更新到2.7.1 。
 
