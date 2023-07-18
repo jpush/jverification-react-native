@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "jcore-react-native": "^1.9.9",
-    "jverification-react-native": "^2.5.5",
+    "jcore-react-native": "^2.1.2",
+    "jverification-react-native": "2.5.6",
     "react": "18.2.0",
     "react-native": "0.72.3"
   },

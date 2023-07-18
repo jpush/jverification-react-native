@@ -226,7 +226,8 @@ RCT_EXPORT_METHOD(customUIWithConfig: (NSDictionary *)configParams viewParams: (
                     rctView = [[RCTRootView alloc] initWithBridge:self.bridge moduleName:viewParams[i][CUSTOM_VIEW_NAME] initialProperties:nil];
                 }
                 else {
-                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+//                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
                     rctView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName:viewParams[i][CUSTOM_VIEW_NAME] initialProperties:nil launchOptions:nil];
                 }
                 NSArray *point = viewParams[i][CUSTOM_VIEW_POINT];
@@ -616,8 +617,9 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     if ([configParams[UNCHECK_BOX_CALLBACK] isKindOfClass:[NSNumber class]]) {
         BOOL isNeedCallBack = [configParams[UNCHECK_BOX_CALLBACK] boolValue];
         if (isNeedCallBack) {
-            config.customPrivacyAlertViewBlock = ^(UIViewController*vc){
-                [self sendUncheckBoxEvent];
+              __weak __typeof(self)weakSelf = self;
+            config.customPrivacyAlertViewBlock = ^(UIViewController *vc , NSArray *appPrivacys,void(^loginAction)(void)){
+                [weakSelf sendUncheckBoxEvent];
             };
         }
     }

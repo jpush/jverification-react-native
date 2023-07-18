@@ -7,7 +7,7 @@
 //
 
 /**
- 定制版SDK v3.8.11 20211203
+ 定制版SDK v4.5.0 20230518
  */
 
 #import <Foundation/Foundation.h>
@@ -80,7 +80,7 @@ typedef   void (^failureHandler) (NSError * _Nonnull error);
 
 + (void)setDomainName:(EAccountCTEConfig * _Nonnull)config;
 
-#pragma -mark ----------------供其他工程内部调用 打包时删除-----------------------
+#pragma -mark ----------------other method-----------------------
 
 + (void)startReportLog:(NSMutableDictionary * _Nonnull)logDic;
 
