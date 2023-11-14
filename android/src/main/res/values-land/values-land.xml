@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="umcsdk_btn_height">44dp</dimen>
+    <dimen name="umcsdk_capaids_margin">25dp</dimen>
+    <dimen name="umcsdk_dimen_eight">8dp</dimen>
+    <dimen name="umcsdk_dimen_fifteen">15dp</dimen>
+    <dimen name="umcsdk_dimen_ten">16dp</dimen>
+    <dimen name="umcsdk_dimen_twenty">20dp</dimen>
+    <dimen name="umcsdk_font_eighteen">18sp</dimen>
+    <dimen name="umcsdk_font_eleven">11sp</dimen>
+    <dimen name="umcsdk_font_fourteen">14sp</dimen>
+    <dimen name="umcsdk_font_seventeen">17sp</dimen>
+    <dimen name="umcsdk_font_sixteen">16sp</dimen>
+    <dimen name="umcsdk_font_twenteen">12sp</dimen>
+    <dimen name="umcsdk_loginbtn_left">40dp</dimen>
+    <dimen name="umcsdk_loginbtn_margin">15dip</dimen>
+    <dimen name="umcsdk_min_width">280dp</dimen>
+    <dimen name="umcsdk_mobilelogo_margin">30dp</dimen>
+    <dimen name="umcsdk_padding_account">50dp</dimen>
+    <dimen name="umcsdk_padding_container">5dp</dimen>
+    <dimen name="umcsdk_server_checkbox_size">9sp</dimen>
+    <dimen name="umcsdk_server_clause_margin">15dip</dimen>
+    <dimen name="umcsdk_smscode_login_margin">15dip</dimen>
+    <dimen name="umcsdk_smscode_margin">15dp</dimen>
+    <dimen name="umcsdk_title_height">50dp</dimen>
+    <dimen name="umcsdk_version_margin">10dp</dimen>
+</resources>

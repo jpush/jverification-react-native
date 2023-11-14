@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="umcsdk_account_login">Using historical account Quick Login</string>
+    <string name="umcsdk_account_name">China Mobile Internet Pass</string>
+    <string name="umcsdk_auto_login">lPhonenumberlogin</string>
+    <string name="umcsdk_auto_login_ing">Phonenumberlogin-ing………</string>
+    <string name="umcsdk_capability">Your phone number, number, status and other information</string>
+    <string name="umcsdk_capaids_text">The application requests the following permissions</string>
+    <string name="umcsdk_clause">《China Mobile and pass the Terms of Service》</string>
+    <string name="umcsdk_cmcc_wap">If you send SMS verification, this SMS for free</string>
+    <string name="umcsdk_cmcc_wifi">Automatically send SMS verification, this SMS for free</string>
+    <string name="umcsdk_get">Get</string>
+    <string name="umcsdk_get_sms_code">GetSMSCode</string>
+    <string name="umcsdk_getphonenumber_timeout">Get phone number timeout！</string>
+    <string name="umcsdk_getsmscode_failure">Get SMScode failure</string>
+    <string name="umcsdk_hint_passwd">Plese input your sms code</string>
+    <string name="umcsdk_hint_username">Plese input your phone number</string>
+    <string name="umcsdk_local_mobile">Phonenumber</string>
+    <string name="umcsdk_login">Login</string>
+    <string name="umcsdk_login_failure">Get phone number fails, use SMS verification code</string>
+    <string name="umcsdk_login_ing">Login-ing</string>
+    <string name="umcsdk_login_other_number">OtherPhonenumberLogin</string>
+    <string name="umcsdk_login_owner_number">Phonenumberlogin</string>
+    <string name="umcsdk_login_success">Loginsuccess</string>
+    <string name="umcsdk_network_error">Network error</string>
+    <string name="umcsdk_openapi_error">UMCSDK openapi error</string>
+    <string name="umcsdk_other_wap">Support China Unicom, Telecom users can send free SMS verification</string>
+    <string name="umcsdk_other_wifi">Support China Unicom, Telecom users send free SMS verification</string>
+    <string name="umcsdk_permission">Refused to grant permission will not be able to continue the current operation, whether or not to submit an authorization？</string>
+    <string name="umcsdk_permission_no">Deny</string>
+    <string name="umcsdk_permission_ok">Allow</string>
+    <string name="umcsdk_permission_tips">Prompt</string>
+    <string name="umcsdk_phonenumber_failure">Please enter the correct phone number!</string>
+    <string name="umcsdk_pref_about">About</string>
+    <string name="umcsdk_sms_login">SMScodeLogin</string>
+    <string name="umcsdk_smscode_error">Please enter the correct SMS verification code</string>
+    <string name="umcsdk_smscode_wait_time">seconds retry</string>
+    <string name="umcsdk_smslogin_failure">SMS code login failure</string>
+    <string name="umcsdk_sure">Sure</string>
+    <string name="umcsdk_switch_account">Switch</string>
+    <string name="umcsdk_verify_identity">Verifying your identity, please wait...</string>
+</resources>

@@ -95,6 +95,8 @@ public class JConstans {
     public static final String PRIVACY_WEB_NAV_TITLE_COLOR  = "privacyWebNavTitleColor";    //协议展示web页面导航栏标题文字颜色
     public static final String PRIVACY_WEB_NAV_RETURN_IMAGE = "privacyWebNavReturnImage";   //协议展示web页面导航栏返回按钮图标
 
+    public static final String PRIVACY_ENABLE_PRIVACY_CHHECK_DIALOG = "enablePrivacyCheckDialog";   //协议的二次弹窗
+
     public static final String CUSTOM_VIEW_NAME = "customViewName";
     public static final String CUSTOM_VIEW_POINT = "customViewPoint";
 
