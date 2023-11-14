@@ -17,23 +17,19 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application>
-        <!-- since 2.0.0 optional 可选项，使用一键登录功能必须添加  -->
-        <!-- since 2.1.1 optional 可选项，通过screenOrientation设置授权页面横竖屏展示  -->
+       <activity
+            android:name="com.cmic.gen.sdk.view.GenLoginAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="unspecified"
+            android:theme="@style/ActivityDialogStyle"/>
+        <!-- Required -->
         <activity
-            android:name="com.cmic.sso.sdk.activity.LoginAuthActivity"
-            android:theme="@style/ActivityDialogStyle"
+            android:name="cn.jiguang.verifysdk.CtLoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="fullSensor"
-            android:launchMode="singleTop">
-        </activity>
-        <!-- since 2.0.0 optional 可选项，使用一键登录功能必须添加  -->
-        <!-- since 2.1.1 optional 可选项，通过screenOrientation设置授权页面横竖屏展示  -->
-        <activity android:name="cn.jiguang.verifysdk.CtLoginActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/ActivityDialogStyle"
-            android:screenOrientation="fullSensor"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop"
+            android:screenOrientation="unspecified"
+            android:theme="@style/ActivityDialogStyle" />
 
     </application>
 

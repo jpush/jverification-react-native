@@ -35,6 +35,11 @@ import cn.jiguang.verifysdk.api.PrivacyBean;
 import cn.jiguang.verifysdk.api.RequestCallback;
 import cn.jiguang.verifysdk.api.VerifyListener;
 
+import android.view.Gravity;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class JVerificationModule extends ReactContextBaseJavaModule {
 
     private ReactApplicationContext reactContext;
@@ -86,6 +91,12 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
     public void checkVerifyEnable(Callback callback){
         if(callback==null)return;
         callback.invoke(convertToResult(JVerificationInterface.checkVerifyEnable(reactContext)));
+    }
+
+    @ReactMethod
+    public void checkVerifyEnable(boolean strictMode, Callback callback){
+        if(callback==null)return;
+        callback.invoke(convertToResult(JVerificationInterface.checkVerifyEnable(reactContext,strictMode)));
     }
 
     @ReactMethod
@@ -415,13 +426,13 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 builder.setPrivacyTextCenterGravity(false);
             }
         }
+
         if (readableMap.hasKey(JConstans.EnableHintToast)){
            boolean show = readableMap.getBoolean(JConstans.EnableHintToast);
             if (show == true) {
                 builder.enableHintToast(true,null);
             }
         }
-
 
         if(readableMap.hasKey(JConstans.PRIVACY_X)){
             builder.setPrivacyOffsetX(dp2Pix(readableMap.getInt(JConstans.PRIVACY_X)));
@@ -473,7 +484,109 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         // 二级协议弹窗
         if (readableMap.hasKey(JConstans.PRIVACY_ENABLE_PRIVACY_CHHECK_DIALOG)) {
             Boolean enablePrivacyCheckDialog = readableMap.getBoolean(JConstans.PRIVACY_ENABLE_PRIVACY_CHHECK_DIALOG);
-            builder.enablePrivacyCheckDialog = enablePrivacyCheckDialog;
+            builder.enablePrivacyCheckDialog(enablePrivacyCheckDialog);
+        }
+
+        if (readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_GRAVITY_MODE_CENTER)) {
+            Boolean privacyCheckDialogGravityCenter = readableMap.getBoolean(JConstans.PRIVACY_CHHECK_DIALOG_GRAVITY_MODE_CENTER);
+            if(privacyCheckDialogGravityCenter){
+                builder.setprivacyCheckDialogGravity(Gravity.CENTER);
+            }else{
+                builder.setprivacyCheckDialogGravity(Gravity.BOTTOM);
+            }
+        }else{
+            builder.setprivacyCheckDialogGravity(Gravity.BOTTOM);
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_X)){
+            builder.setPrivacyCheckDialogOffsetX(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_X)));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_Y)){
+            builder.setPrivacyCheckDialogOffsetY(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_Y)));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_WIDTH)){
+            builder.setPrivacyCheckDialogWidth(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_WIDTH)));
+        }else{
+            builder.setPrivacyCheckDialogWidth(WRAP_CONTENT);
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_HEIGHT)){
+            builder.setPrivacyCheckDialogHeight(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_HEIGHT)));
+        }else{
+            builder.setPrivacyCheckDialogHeight(WRAP_CONTENT);
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_TITLE_TEXT)){
+            builder.setPrivacyCheckDialogTitleText(readableMap.getString(JConstans.PRIVACY_CHHECK_DIALOG_TITLE_TEXT));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_TITLE_TEXT_SIZE)){
+            builder.setPrivacyCheckDialogTitleTextSize(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_TITLE_TEXT_SIZE));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_TITLE_TEXT_COLOR)){
+            builder.setPrivacyCheckDialogTitleTextColor(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_TITLE_TEXT_COLOR));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_GRAVITY_MODE)){
+            if(readableMap.getString(JConstans.PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_GRAVITY_MODE).equals(JConstans.PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_GRAVITY_LEFT)){
+                builder.setPrivacyCheckDialogContentTextGravity(Gravity.LEFT);
+            }else if(readableMap.getString(JConstans.PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_GRAVITY_MODE).equals(JConstans.PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_GRAVITY_CENTER)){
+                builder.setPrivacyCheckDialogContentTextGravity(Gravity.CENTER);
+            }else {
+                builder.setPrivacyCheckDialogContentTextGravity(Gravity.CENTER);
+            }
+        }else {
+            builder.setPrivacyCheckDialogContentTextGravity(Gravity.CENTER);
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_SIZE)){
+            builder.setPrivacyCheckDialogContentTextSize(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_SIZE));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_TOP)){
+            builder.setPrivacyCheckDialogLogBtnMarginT(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_TOP)));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_BOTTOM)){
+            builder.setPrivacyCheckDialogLogBtnMarginB(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_BOTTOM)));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_LEFT)){
+            builder.setPrivacyCheckDialogLogBtnMarginL(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_LEFT)));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_IMG_PATH)){
+            try {
+                String imageString = readableMap.getString(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_IMG_PATH);
+                if(!TextUtils.isEmpty(imageString)){
+                    builder.setPrivacyCheckDialogLogBtnImgPath(imageString);
+                }
+            }catch (Exception e){
+                JLogger.e("setPrivacyCheckDialogLogBtnImgPath error:"+e.getMessage());
+            }
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_TEXT_COLOR)){
+            builder.setPrivacyCheckDialoglogBtnTextColor(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_TEXT_COLOR));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_WIDTH)){
+            builder.setPrivacyCheckDialogLogBtnWidth(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_WIDTH)));
+        }else{
+            builder.setPrivacyCheckDialogLogBtnWidth(WRAP_CONTENT);
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_HEIGHT)){
+            builder.setPrivacyCheckDialogLogBtnHeight(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_HEIGHT)));
+        }else{
+            builder.setPrivacyCheckDialogLogBtnHeight(WRAP_CONTENT);
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_TEXT)){
+            builder.setPrivacyCheckDialogLogBtnText(readableMap.getString(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_TEXT));
         }
 
         //  授权页动画

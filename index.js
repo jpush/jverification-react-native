@@ -69,6 +69,18 @@ export default class JVerification {
     }
 
     /*
+     * SDK判断网络环境是否支持-是否开启严格模式
+     * @param callback = (result) => {"enable":boolean}
+     * */
+    static checkLoginEnable(strictMode,callback) {
+        if (Platform.OS == 'android') {
+            JVerificationModule.checkVerifyEnable(strictMode,callback);
+        } else {
+            JVerificationModule.checkVerifyEnable(callback);
+        }
+    }
+
+    /*
      * SDK获取号码认证token
      * @param time : int
      * @param callback = (result) => {"code":int,'content':String,'operator':String}
@@ -211,7 +223,35 @@ export default class JVerification {
      *       privacyWebNavTitle:String                 //协议页导航栏标题（仅iOS）
      *       privacyWebNavTitleSize: int               //协议展示web页面导航栏标题文字大小
      *       privacyWebNavTitleColor: int              //协议展示web页面导航栏标题文字颜色
-     *       privacyWebNavReturnImage: String      //协议展示web页面导航栏返回按钮图标
+     *       privacyWebNavReturnImage: String          //协议展示web页面导航栏返回按钮图标
+     * 
+     *       privacyCheckDialogGravityModeCenter: boolean   //协议的二次弹窗对齐方式 目前仅支持 bottom、center
+     * 
+     *       setPrivacyCheckDialogOffsetX: int         //隐私二次弹窗相对于屏幕左边x轴偏移
+     *       setPrivacyCheckDialogOffsetY: int         //隐私二次弹窗相对于屏幕左边x轴偏移
+     *       setPrivacyCheckDialogWidth: int           //隐私二次弹窗 宽
+     *       setPrivacyCheckDialogHeight: int          //隐私二次弹窗 高
+     *       
+     *       setPrivacyCheckDialogTitleText:String     //协议二次弹窗标题
+     *       setPrivacyCheckDialogTitleTextSize: int   //协议二次弹窗标题字号
+     *       setPrivacyCheckDialogTitleTextColor: int  //协议二次弹窗标题文字颜色
+     *     
+     *       setPrivacyCheckDialogContentTextGravity: String  //协议的二次弹窗对齐方式 目前仅支持 left、center
+     *       setPrivacyCheckDialogContentTextSize: int        //协议的二次弹窗文字大小
+     * 
+     *       setPrivacyCheckDialogLogBtnMarginL: int          //隐私二次弹窗相对于屏幕左边x轴偏移       
+     *       setPrivacyCheckDialogLogBtnMarginT: int          //协议二次弹窗相对于屏幕左边y轴偏移
+     *       setPrivacyCheckDialogLogBtnMarginB: int          //协议二次弹窗相对于屏幕左边b轴偏移
+     * 
+     *       setPrivacyCheckDialogLogBtnImgPath: String       //协议的二次弹窗按钮背景图片
+     * 
+     *       setPrivacyCheckDialoglogBtnTextColor: int        //协议二次弹窗按钮字体颜色
+     * 
+     *       setPrivacyCheckDialogLogBtnWidth: int           //隐私二次弹窗 登录按钮宽
+     *       setPrivacyCheckDialogLogBtnHeight: int          //隐私二次弹窗 登录按钮高
+     * 
+     *       setPrivacyCheckDialogLogBtnText:String          //协议的二次弹窗按钮标题字体
+     * 
      *  }
      *
      *  var customViewParams = {

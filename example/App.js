@@ -171,6 +171,7 @@ const customUIWithConfigAndroid = {
     privacyWebNavTitleSize: 16,                                 //协议页导航栏标题字体大小
     privacyWebNavTitleColor: -1,                                //协议页导航栏标题字体颜色
     privacyWebNavReturnImage: 'close',                          //协议页导航栏返回按钮图片
+    enablePrivacyCheckDialog: true,                             //是否开启协议二次弹窗
 };
 
 const customViewParams = [
@@ -273,7 +274,7 @@ export default class App extends React.Component {
 							})}/>
 								
                 <Button title='checkLoginEnable'
-                        onPress={() => JVerification.checkLoginEnable(result => {
+                        onPress={() => JVerification.checkLoginEnable(true,result => {
 							console.log('checkLoginEnable:' + JSON.stringify(result));
 							this.createAlert('checkLoginEnable:' + JSON.stringify(result));
 						})}/>

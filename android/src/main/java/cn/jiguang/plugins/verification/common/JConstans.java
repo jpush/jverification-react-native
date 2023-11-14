@@ -95,7 +95,41 @@ public class JConstans {
     public static final String PRIVACY_WEB_NAV_TITLE_COLOR  = "privacyWebNavTitleColor";    //协议展示web页面导航栏标题文字颜色
     public static final String PRIVACY_WEB_NAV_RETURN_IMAGE = "privacyWebNavReturnImage";   //协议展示web页面导航栏返回按钮图标
 
+    //*******************************协议二次弹窗*******************************
+
+    public static final String PRIVACY_CHHECK_DIALOG_GRAVITY_MODE_CENTER  = "privacyCheckDialogGravityModeCenter";       //协议二次弹窗居中对齐（默认下对齐bottom）
+
     public static final String PRIVACY_ENABLE_PRIVACY_CHHECK_DIALOG = "enablePrivacyCheckDialog";   //协议的二次弹窗
+
+    public static final String PRIVACY_CHHECK_DIALOG_OFFSET_X = "setPrivacyCheckDialogOffsetX";   //协议的二次弹窗偏移X
+    public static final String PRIVACY_CHHECK_DIALOG_OFFSET_Y = "setPrivacyCheckDialogOffsetY";   //协议的二次弹窗偏移Y
+
+    public static final String PRIVACY_CHHECK_DIALOG_WIDTH = "setPrivacyCheckDialogWidth";   //协议的二次弹窗宽
+    public static final String PRIVACY_CHHECK_DIALOG_HEIGHT = "setPrivacyCheckDialogHeight";   //协议的二次弹窗高
+
+    public static final String PRIVACY_CHHECK_DIALOG_TITLE_TEXT = "setPrivacyCheckDialogTitleText";   //协议的二次弹窗标题
+    public static final String PRIVACY_CHHECK_DIALOG_TITLE_TEXT_SIZE = "setPrivacyCheckDialogTitleTextSize";   //协议的二次弹窗标题字体大小
+    public static final String PRIVACY_CHHECK_DIALOG_TITLE_TEXT_COLOR = "setPrivacyCheckDialogTitleTextColor";   //协议的二次弹窗标题字体颜色
+
+    public static final String PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_GRAVITY_MODE  = "setPrivacyCheckDialogContentTextGravity";   //协议的二次弹窗文字是否居中对齐
+    public static final String PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_GRAVITY_LEFT  = "left";                         //协议的二次弹窗文字是否居中对齐
+    public static final String PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_GRAVITY_CENTER  = "center";                     //协议的二次弹窗文字是否居中对齐
+
+    public static final String PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_SIZE = "setPrivacyCheckDialogContentTextSize";   //协议的二次弹窗内容字体大小
+
+    public static final String PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_TOP = "setPrivacyCheckDialogLogBtnMarginT";   //协议的二次弹窗按钮区域距上偏移
+    public static final String PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_BOTTOM = "setPrivacyCheckDialogLogBtnMarginB";   //协议的二次弹窗按钮区域距下偏移
+    public static final String PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_LEFT = "setPrivacyCheckDialogLogBtnMarginL";   //协议的二次弹窗按钮区域距左偏移
+
+    public static final String PRIVACY_CHHECK_DIALOG_LOG_BTN_IMG_PATH = "setPrivacyCheckDialogLogBtnImgPath";   //协议的二次弹窗按钮背景图片
+
+    public static final String PRIVACY_CHHECK_DIALOG_LOG_BTN_TEXT_COLOR = "setPrivacyCheckDialoglogBtnTextColor";   //协议的二次弹窗按钮字体颜色
+
+    public static final String PRIVACY_CHHECK_DIALOG_LOG_BTN_WIDTH = "setPrivacyCheckDialogLogBtnWidth";   //协议的二次弹窗按钮宽
+    public static final String PRIVACY_CHHECK_DIALOG_LOG_BTN_HEIGHT = "setPrivacyCheckDialogLogBtnHeight";   //协议的二次弹窗按钮高
+
+
+    public static final String PRIVACY_CHHECK_DIALOG_LOG_BTN_TEXT = "setPrivacyCheckDialogLogBtnText";   //协议的二次弹窗按钮字体
 
     public static final String CUSTOM_VIEW_NAME = "customViewName";
     public static final String CUSTOM_VIEW_POINT = "customViewPoint";
