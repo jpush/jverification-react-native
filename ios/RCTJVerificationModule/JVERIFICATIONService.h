@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define JVER_VERSION_NUMBER 3.1.0
+#define JVER_VERSION_NUMBER 3.1.9
 
 NS_ASSUME_NONNULL_BEGIN
 /**
@@ -503,6 +503,16 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 @property (nonatomic,assign) CGFloat smsNumberTFSize;
 /*手机号码输入框字体，优先级高于smsNumberSize*/
 @property (nonatomic,strong) UIFont *smsNumberTFFont;
+/*手机号码输入框样式，borderStyle*/
+@property (nonatomic,assign) UITextBorderStyle smsNumberTFBorderStyle;
+/*手机号码输入框样式，背景图片*/
+@property (nonatomic,strong) UIImage *smsNumberTFBackground;
+/*手机号码输入框样式，禁用状态时背景图片*/
+@property (nonatomic,strong) UIImage *smsNumberTFDisabledBackground;
+/*手机号码输入框样式，富媒体字体样式*/
+@property (nonatomic,strong) NSAttributedString *smsNumberTFAttributedText;
+/*手机号码输入框样式，提示富媒体字体样式*/
+@property (nonatomic,strong) NSAttributedString *smsNumberTFAttributedPlaceholder;
 /*号码输入框布局 宽高自适应，不需要设置*/
 @property (nonatomic, copy) NSArray <JVLayoutConstraint*>* smsNumberTFConstraints;
 /*号码输入框 横屏布局,横屏时优先级高于smsNumberTFConstraints*/
@@ -521,6 +531,16 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 @property (nonatomic,assign) CGFloat smsCodeTFSize;
 /*验证码输入框字体，优先级高于numberSize*/
 @property (nonatomic,strong) UIFont *smsCodeTFFont;
+/*验证码输入框样式，borderStyle*/
+@property (nonatomic,assign) UITextBorderStyle smsCodeTFBorderStyle;
+/*验证码输入框样式，背景图片*/
+@property (nonatomic,strong) UIImage *smsCodeTFBackground;
+/*验证码输入框样式，禁用状态时背景图片*/
+@property (nonatomic,strong) UIImage *smsCodeTFDisabledBackground;
+/*验证码输入框样式，富媒体字体样式*/
+@property (nonatomic,strong) NSAttributedString *smsCodeTFAttributedText;
+/*验证码输入框样式，提示富媒体字体样式*/
+@property (nonatomic,strong) NSAttributedString *smsCodeTFAttributedPlaceholder;
 /*验证码输入框布局 宽高自适应，不需要设置*/
 @property (nonatomic, copy) NSArray <JVLayoutConstraint*>* smsCodeTFConstraints;
 /*验证码输入框 横屏布局,横屏时优先级高于smsCodeTFConstraints*/
@@ -692,6 +712,26 @@ DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVTelecomUIConfig :
 @end
 
 
+#pragma mark -- 合规相关
+
+@interface JVCollectControl : NSObject
+
+/* model 设备型号。设置为NO,不采集设备型号信息。默认为YES。 */
+@property (nonatomic, assign) BOOL model;
+/* osVersionName 系统版本。设置为NO,不采集系统版本信息。默认为YES。 */
+@property (nonatomic, assign) BOOL osVersionName;
+/* resolution 设备屏幕分辨率。设置为NO,不采集屏幕分辨率信息。默认为YES。 */
+@property (nonatomic, assign) BOOL resolution;
+/* language 设备系统语言。设置为NO,不采集设备系统语言信息。默认为YES。 */
+@property (nonatomic, assign) BOOL language;
+/* systemName 设备系统名称。设置为NO,不采集设备系统名称信息。默认为YES。 */
+@property (nonatomic, assign) BOOL systemName;
+/* gps 经纬度信息。设置为NO,不采集经纬度信息。默认为YES。 */
+@property (nonatomic, assign) BOOL gps;
+
+@end
+
+
 @interface JVAuthConfig : NSObject
 
 /* appKey 必须的,应用唯一的标识. */
@@ -704,10 +744,11 @@ DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVTelecomUIConfig :
 @property (nonatomic, assign) BOOL isProduction;
 /* 设置初始化超时时间，单位毫秒，合法范围是(0,30000]，推荐设置为5000-10000,默认值为10000*/
 @property(nonatomic, assign) NSTimeInterval timeout;
-/* authBlock 初始化回调，timeout不设置或无效的情况下，默认10s超时*/
+/* authBlock 初始化回调，timeout不设置或无效的情况下，默认10s超时*/ 
 @property (nonatomic, copy) void (^authBlock)(NSDictionary *result);
 
 @end
+
 
 
 
@@ -861,6 +902,12 @@ DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVTelecomUIConfig :
 + (BOOL)checkVerifyEnable;
 
 /*!
+ * @abstract 校验预取号缓存是否有效
+ * 初始化成功后API生效
+ */
++ (BOOL)validePreloginCache;
+
+/*!
  * @abstract 清除预取号缓存
  */
 + (void)clearPreLoginCache;
@@ -916,6 +963,13 @@ DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVTelecomUIConfig :
  *
  */
 + (void)setLocationEanable:(BOOL)isEanble;
+
+/**
+ 数据采集控制
+
+ @param control 数据采集配置。
+ */
++ (void)setCollectControl:(JVCollectControl *)control;
 
 @end
 NS_ASSUME_NONNULL_END
