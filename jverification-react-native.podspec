@@ -17,7 +17,6 @@ Pod::Spec.new do |s|
   s.preserve_paths  = "*.js"
   s.frameworks      = 'UIKit','CFNetwork','CoreFoundation','CoreTelephony','SystemConfiguration','CoreGraphics','Foundation','Security', 'AdSupport', 'CoreLocation','NetworkExtension', 'MobileCoreServices'
   s.libraries       = 'z','resolv', 'sqlite3', 'c++.1'
-  s.vendored_libraries = "ios/RCTJVerificationModule/*.a"
-  s.vendored_frameworks = ["ios/RCTJVerificationModule/OAuth_3Wang_SA_620.xcframework","ios/RCTJVerificationModule/EAccountApiSDK.framework","ios/RCTJVerificationModule/TYRZUISDK.xcframework"]
+  s.vendored_frameworks = "ios/RCTJVerificationModule/*.xcframework"
   s.dependency 'React'
 end

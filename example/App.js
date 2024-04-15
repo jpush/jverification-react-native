@@ -49,7 +49,7 @@ class Button extends React.Component {
 
 const initParams = {
     'time': 5000,
-    'appKey': 'a0e6ace8d5b3e0247e3f58db', //仅iOS
+    'appKey': '57b61780276de6990eb9403c', //仅iOS
     'channel': 'channel',                 //仅iOS
     'advertisingId': 'advertisingId',     //仅iOS
     'isProduction': false,                //仅iOS

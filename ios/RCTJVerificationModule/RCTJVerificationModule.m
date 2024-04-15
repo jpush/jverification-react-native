@@ -227,7 +227,17 @@ RCT_EXPORT_METHOD(customUIWithConfig: (NSDictionary *)configParams viewParams: (
                 }
                 else {
 //                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
+//                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
+                    NSURL *jsCodeLocation;
+                    RCTBundleURLProvider *provider = [RCTBundleURLProvider sharedSettings];
+                    if([provider respondsToSelector:@selector(jsBundleURLForBundleRoot:fallbackResource:)]){
+                        SEL methodSelector = NSSelectorFromString(@"jsBundleURLForBundleRoot:fallbackResource:");
+                        jsCodeLocation = [provider performSelector:methodSelector withObject:@"index" withObject:nil];
+                    }
+                    if([provider respondsToSelector:@selector(jsBundleURLForBundleRoot:)]){
+                        SEL methodSelector = NSSelectorFromString(@"jsBundleURLForBundleRoot:");
+                        jsCodeLocation = [provider performSelector:methodSelector withObject:@"index" withObject:nil];
+                    }
                     rctView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation moduleName:viewParams[i][CUSTOM_VIEW_NAME] initialProperties:nil launchOptions:nil];
                 }
                 NSArray *point = viewParams[i][CUSTOM_VIEW_POINT];

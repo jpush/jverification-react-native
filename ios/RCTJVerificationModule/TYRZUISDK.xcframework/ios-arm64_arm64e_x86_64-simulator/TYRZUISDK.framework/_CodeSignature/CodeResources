@@ -22,15 +22,19 @@
 		</data>
 		<key>Headers/UAFSDKLogin.h</key>
 		<data>
-		uQRuHikW9xF6ZhgUqhwITKvFqUg=
+		3xkv6VfzfAclNmqzR//7zZxEHnM=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		ZQ6Ieb3qM457PsxylNL1M0gTHmc=
+		v/mTyZB7MuPmIt2DoTS5kqffON8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		GNnsZxqWEwCt9/IWFk1lW/T7O64=
+		1Y4Bjw0cgWmdgLvAfhX8i4XPKgw=
+		</data>
+		<key>PrivacyInfo.xcprivacy</key>
+		<data>
+		fnlLuXFypeSnpj5P/pF0zvNQhEY=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -83,22 +87,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uQRuHikW9xF6ZhgUqhwITKvFqUg=
+			3xkv6VfzfAclNmqzR//7zZxEHnM=
 			</data>
 			<key>hash2</key>
 			<data>
-			OPZa2Jcn7teFT1e6X1qtrdoszS1hW+lxlxGRjHsUio8=
+			iOaSeR+ASbv9Aznd9NM6QfrEP6pMoqm321XhJGqWe60=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GNnsZxqWEwCt9/IWFk1lW/T7O64=
+			1Y4Bjw0cgWmdgLvAfhX8i4XPKgw=
 			</data>
 			<key>hash2</key>
 			<data>
-			fikYnY3vrMc0jap1ZPWIbjknLnZOIijIGgYtfLgGdqI=
+			HQpRTFWO/+g+F2ez1KHuOgjAMuM2vnw9AiaHGir2xM0=
+			</data>
+		</dict>
+		<key>PrivacyInfo.xcprivacy</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fnlLuXFypeSnpj5P/pF0zvNQhEY=
+			</data>
+			<key>hash2</key>
+			<data>
+			7m6Wmgt4x2P4VhgtmC8ekTg57cpV0CqpXpSu9AscqNY=
 			</data>
 		</dict>
 	</dict>
