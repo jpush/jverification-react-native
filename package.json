@@ -15,9 +15,8 @@
     "JVerification"
   ],
   "peerDependencies": {
-    "jcore-react-native": "^2.1.5",
-    "react": "18.2.0",
-    "react-native": "0.72.3"
+    "jcore-react-native": ">= 1.9.3",
+    "react-native": ">= 0.60"
   },
   "dependencies": {
   }

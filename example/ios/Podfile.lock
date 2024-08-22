@@ -73,9 +73,9 @@ PODS:
   - hermes-engine (0.72.3):
     - hermes-engine/Pre-built (= 0.72.3)
   - hermes-engine/Pre-built (0.72.3)
-  - JCore (2.1.6):
+  - JCore (2.1.9):
     - React
-  - jverification-react-native (2.6.0):
+  - jverification-react-native (2.6.3):
     - React
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.1100)
@@ -680,8 +680,8 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: 10fbd3f62405c41ea07e71973ea61e1878d07322
-  JCore: d59e798acf6106ab8b629abb2069f846542a709d
-  jverification-react-native: b62a4670ab66e0f9711d5eaa0c372a76180889eb
+  JCore: 42e4110491eb9d4da5d8f6cbf82e8821cd481e8b
+  jverification-react-native: c9acbfdbf5a4e2bab0da1dfb76152a48af6c4e1b
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
