@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define JVER_VERSION_NUMBER 3.2.1
+#define JVER_VERSION_NUMBER 3.2.3
 
 NS_ASSUME_NONNULL_BEGIN
 /**
@@ -716,18 +716,8 @@ DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVTelecomUIConfig :
 
 @interface JVCollectControl : NSObject
 
-/* model 设备型号。设置为NO,不采集设备型号信息。默认为YES。 */
-@property (nonatomic, assign) BOOL model;
-/* osVersionName 系统版本。设置为NO,不采集系统版本信息。默认为YES。 */
-@property (nonatomic, assign) BOOL osVersionName;
-/* resolution 设备屏幕分辨率。设置为NO,不采集屏幕分辨率信息。默认为YES。 */
-@property (nonatomic, assign) BOOL resolution;
-/* language 设备系统语言。设置为NO,不采集设备系统语言信息。默认为YES。 */
-@property (nonatomic, assign) BOOL language;
-/* systemName 设备系统名称。设置为NO,不采集设备系统名称信息。默认为YES。 */
-@property (nonatomic, assign) BOOL systemName;
-/* gps 经纬度信息。设置为NO,不采集经纬度信息。默认为YES。 */
-@property (nonatomic, assign) BOOL gps;
+/* cell 基站信息。设置为NO,不采集基站信息。默认为YES。*/
+@property (nonatomic, assign) BOOL cell;
 
 @end
 
@@ -955,21 +945,23 @@ DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVTelecomUIConfig :
  */
 + (void)setGetCodeInternal:(NSTimeInterval)intervalTime;
 
-
-/*!
- * @abstract 设置SDK地理位置权限开关
- *
- * @discussion 关闭地理位置之后，pushSDK地理围栏的相关功能将受到影响，默认是开启。
- *
- */
-+ (void)setLocationEanable:(BOOL)isEanble;
-
 /**
  数据采集控制
+ 
+ 请在初始化函数之前调用该接口。
 
  @param control 数据采集配置。
  */
 + (void)setCollectControl:(JVCollectControl *)control;
+
+/**
+ 如果有安全风控需求时可调用该接口
+ 
+ 请在初始化函数之前调用该接口。
+ 
+ @param enable YES为打开，NO为关闭，默认为YES。
+ */
++ (void)setSecureControl:(BOOL)enable;
 
 @end
 NS_ASSUME_NONNULL_END
