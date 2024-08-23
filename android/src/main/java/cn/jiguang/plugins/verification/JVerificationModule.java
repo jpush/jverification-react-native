@@ -116,7 +116,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             @Override
             public void onResult(final int code, final String content, final JSONObject operatorReturn) {
                 if(callback==null)return;
-                callback.invoke(convertToResult(code,content));
+                callback.invoke(convertToResult(code,content, operatorReturn.toString()));
             }
         });
     }
