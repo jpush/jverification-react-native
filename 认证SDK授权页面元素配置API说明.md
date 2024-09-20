@@ -13,6 +13,9 @@
 |参数名称|参数类型|参数说明|
 |:-----:|:----:|:-----:|
 |backgroundImage|String|授权界面背景图片|
+|backgroundGifImage|String|授权界面背景gif图片,与backgroundImage属性不可同时生效|
+|backgroundVideo|String|授权界面背景视频资源,与backgroundImage属性不可同时生效|
+|backgroundPlaceHolderImage|String|授权界面背景视频单帧默认图片,与backgroundImage属性不可同时生效|
 
 + Android授权页状态栏
 

@@ -59,6 +59,12 @@ const initParams = {
 
 
 const customUIWithConfigiOS = {
+    backgroundImage: 'cmBackground.jpeg', // 背景图
+    // backgroundGifImage: 'auth.gif', // 背景gif图
+    // backgroundVideo: 'videoBg.mp4', // 背景视频
+    // backgroundVideo: 'http://vjs.zencdn.net/v/oceans.mp4', // 背景视频，可以是网络视频
+    // backgroundVideoPlaceHolderImage: 'cmBackground.jpeg', //背景视频占位图
+
     showWindow:false,
 	navReturnHidden:false,
 	//logo

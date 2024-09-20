@@ -21,6 +21,9 @@
 #define JVERIFICATION_RESOURCE          @"JVerificationResource"
 //背景图
 #define BACK_GROUND_IMAGE               @"backgroundImage"
+#define BACK_GROUND_GIF_IMAGE           @"backgroundGifImage"
+#define BACK_GROUND_VIDEO               @"backgroundVideo"
+#define BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE   @"backgroundVideoPlaceHolderImage"
 //状态栏
 #define STATUS_BAR_HIDDEN               @"statusBarHidden"          //状态栏是否隐藏
 #define STATUS_BAR_MODE                 @"statusBarMode"            //状态栏模式
@@ -373,6 +376,23 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     if(configParams[BACK_GROUND_IMAGE]){
         config.authPageBackgroundImage = [self imageNamed:configParams[BACK_GROUND_IMAGE]];
     }
+    //背景Gif图
+    if(configParams[BACK_GROUND_GIF_IMAGE]){
+        config.authPageGifImagePath = [[self jvbundlePath] stringByAppendingPathComponent:configParams[BACK_GROUND_GIF_IMAGE]];
+    }
+    //背景视频图
+    if(configParams[BACK_GROUND_VIDEO]){
+        if ([configParams[BACK_GROUND_VIDEO] hasPrefix:@"http"] || [configParams[BACK_GROUND_VIDEO] hasPrefix:@"https"]) {
+            config.authPageVideoPath = configParams[BACK_GROUND_VIDEO];
+        }else {
+            config.authPageVideoPath = [[self jvbundlePath] stringByAppendingPathComponent:configParams[BACK_GROUND_VIDEO]];
+        }
+    }
+    //背景视频占位图
+    if(configParams[BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE]){
+        config.authPageVideoPlaceHolderImageName = [[self jvbundlePath] stringByAppendingPathComponent:configParams[BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE]];
+    }
+    
     //状态栏
     if([configParams[STATUS_BAR_HIDDEN] isKindOfClass:[NSNumber class]]){
         config.prefersStatusBarHidden = [configParams[STATUS_BAR_HIDDEN] boolValue];
@@ -738,6 +758,11 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     NSString *bundlePath = [[NSBundle mainBundle] pathForResource:JVERIFICATION_RESOURCE ofType:@"bundle"];
     UIImage *image= [UIImage imageWithContentsOfFile:[bundlePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",imageName]]];
     return image;
+}
+
+- (NSString *)jvbundlePath {
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:JVERIFICATION_RESOURCE ofType:@"bundle"];
+    return bundlePath;
 }
 
 //设置x,y,w,h
