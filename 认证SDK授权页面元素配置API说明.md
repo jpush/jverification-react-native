@@ -241,6 +241,12 @@
 |privacyNeedStartAnim|boolean|设置拉起授权页时是否需要显示默认动画。默认展示。|
 |privacyNeedCloseAnim|boolean|设置关闭授权页时是否需要显示默认动画。默认展示。|
 
++ iOS授权页loading
+|方法|参数类型|说明|
+|:-----:|:----:|:----:|
+|loadingConstraints|数组[float,float,float,float]|竖屏方向，弹窗布局对象(窗口宽度，窗口高度，窗口相对屏幕中心的x轴偏移量，窗口相对屏幕中心的y轴偏移量)|
+|loadingHorizontalConstraints|数组[float,float,float,float]|水平方向，弹窗布局对象(窗口宽度，窗口高度，窗口相对屏幕中心的x轴偏移量，窗口相对屏幕中心的y轴偏移量)|
+
 
 + Android弹窗模式
 

@@ -91,6 +91,7 @@ const customUIWithConfigiOS = {
 	privacyTextGravityMode: 'left',                             //隐私条款文本对齐方式，目前仅支持 left、center
 	privacyBookSymbolEnable: false,                             //隐私条款是否显示书名号，默认不显示
 	
+    loadingConstraints:[0,0,20,20],
 }
 const customUIWithConfigAndroid = {
     backgroundImage: '',                      //背景图

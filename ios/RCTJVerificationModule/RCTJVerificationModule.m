@@ -123,6 +123,8 @@
 #define WINDOW_CLOSE_BTN_HORIZONTAL_CONSTRAINTS     @"windowCloseBtnHorizontalConstraints"//弹窗close按钮 横屏布局,横屏下优先级高于windowCloseBtnConstraints
 #define WINDOW_CLOSE_BTN_IMGS                       @"windowCloseBtnImgs"                 //弹窗close按钮图片 @[普通状态图片，高亮状态图片]
 
+#define LOADING_CONSTRAINTS                         @"loadingConstraints"
+
 #define UIColorFromRGBValue(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static double defaultTime  = 5000;
@@ -746,6 +748,12 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
         NSArray *windowCloseBtnHorizontalConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[WINDOW_CLOSE_BTN_HORIZONTAL_CONSTRAINTS]];
         config.windowCloseBtnHorizontalConstraints = windowCloseBtnHorizontalConstraints;
     }
+    
+    if(configParams[LOADING_CONSTRAINTS]){
+        NSArray *loadingConstraints= [RCTJVerificationModule configConstraintWithAttributes:configParams[LOADING_CONSTRAINTS]];
+        config.loadingConstraints = loadingConstraints;
+    }
+    
     return config;
 }
 

@@ -402,6 +402,8 @@ const customConfigParams = {
     //loginBtnW: 250,                         //登录按钮宽度
     //loginBtnH: 25,                          //登录按钮高度
 
+    loadingConstraints:[0,0,20,20],           //登录loading视图约束
+
     privacyOne: ['隐私条款一', 'https://www.jiguang.cn/about'],  //隐私条款一（显示名称和url，请严格按照格式）
     privacyTwo: ['隐私条款二', 'https://www.jiguang.cn/about'],  //隐私条款二（显示名称和url，请严格按照格式）
     privacyNameAndUrlBeanList: [{'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、'}],
