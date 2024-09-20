@@ -87,19 +87,23 @@ const customUIWithConfigiOS = {
 	
 }
 const customUIWithConfigAndroid = {
-    backgroundImage: '',                      //背景图
+    // backgroundImage: 'main_bg',                      //背景
+    // backgroundGifImage: 'main_gif' ,                  //背景gif
+    backgroundVideo: 'test',                   //背景视频
+    backgroundVideoPlaceHolderImage: 'main_bg', //背景视频默认图  
 
+    statusBarTransparent: true,                   //状态栏是否透明
     statusBarHidden: false,                   //状态栏是否隐藏
-    statusBarMode: 'light',                   //状态栏模式 light,dark
+    statusBarMode: 'dark',                   //状态栏模式 light,dark
 
-    navHidden: false,                         //导航栏是否隐藏
+    navHidden: true,                         //导航栏是否隐藏
     navColor: -16777216,                      //导航栏颜色
 
     navTitle: 'RN-JVerification',             //导航栏标题
     navTitleSize: 16,                         //导航栏标题文字字体大小(单位:sp）
     navTitleColor: -1,                        //导航栏标题文字颜色
 
-    navReturnHidden: false,                   //导航栏返回按钮是否隐藏
+    navReturnHidden: true,                   //导航栏返回按钮是否隐藏
     navReturnImage: 'close',                  //导航栏左侧返回按钮图标
     //为保障显示效果，请同时设置x,y,w,h
     navReturnX: 5,                        //导航栏左侧返回按钮图标距屏幕上端偏移（仅Android)

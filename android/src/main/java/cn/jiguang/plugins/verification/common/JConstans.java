@@ -15,8 +15,13 @@ public class JConstans {
     //*******************************自定义登录页面*******************************
 
     public static final String BACK_GROUND_IMAGE = "backgroundImage";                       //背景图
+    public static final String BACK_GROUND_GIF_IMAGE = "backgroundGifImage";                //背景gif
+    public static final String BACK_GROUND_VIDEO = "backgroundVideo";                       //背景视频
+    public static final String BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE = "backgroundVideoPlaceHolderImage";  //背景视频默认图
+
 
     public static final String STATUS_BAR_HIDDEN = "statusBarHidden";                       //状态栏是否隐藏
+    public static final String STATUS_BAR_TRANSPARNT = "statusBarTransparent";              //状态栏是否透明
     public static final String STATUS_BAR_MODE = "statusBarMode";                           //状态栏模式。light和dark
     public static final String STATUS_BAR_MODE_LIGHT = "light";                             //状态栏暗色模式。
     public static final String STATUS_BAR_MODE_DARK = "dark";                               //状态栏暗色模式。仅在android 6.0以上设备生效。

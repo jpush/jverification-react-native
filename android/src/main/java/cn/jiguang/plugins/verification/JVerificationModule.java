@@ -250,9 +250,34 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.BACK_GROUND_IMAGE)){
             builder.setAuthBGImgPath(readableMap.getString(JConstans.BACK_GROUND_IMAGE));
         }
+        //背景GIF
+        if(readableMap.hasKey(JConstans.BACK_GROUND_GIF_IMAGE)){
+            builder.setAuthBGGifPath(readableMap.getString(JConstans.BACK_GROUND_GIF_IMAGE));
+        }
+        //背景视频
+        if(readableMap.hasKey(JConstans.BACK_GROUND_VIDEO)){
+            String img = "";
+            if(readableMap.hasKey(JConstans.BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE)) {
+                img = readableMap.getString(JConstans.BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE);
+            }
+            try {
+                String videoString = readableMap.getString(JConstans.BACK_GROUND_VIDEO);
+                Class drawable = R.raw.class;
+                Field field =drawable.getField(videoString);
+                int videoId = field.getInt(field.getName());
+
+                builder.setAuthBGVideoPath("android.resource://" +getPackageName() + "/" + videoId, img);
+            }catch (Exception e){
+                JLogger.e("setAuthBGVideoPath error:"+e.getMessage());
+            }
+        }
         //状态栏
         if(readableMap.hasKey(JConstans.STATUS_BAR_HIDDEN)){
             builder.setStatusBarHidden(readableMap.getBoolean(JConstans.STATUS_BAR_HIDDEN));
+        }
+        //状态栏透明
+        if(readableMap.hasKey(JConstans.STATUS_BAR_TRANSPARNT)){
+            builder.setStatusBarTransparent(readableMap.getBoolean(JConstans.STATUS_BAR_TRANSPARNT));
         }
         if(readableMap.hasKey(JConstans.STATUS_BAR_MODE)){
             if(readableMap.getString(JConstans.STATUS_BAR_MODE).equals(JConstans.STATUS_BAR_MODE_LIGHT)){

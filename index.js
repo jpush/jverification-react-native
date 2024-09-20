@@ -145,7 +145,11 @@ export default class JVerification {
      *   均可选,需要在login前调用生效(ios需要将图片放入JVerificationResource.bundle)
      *   var customConfigParams = {
      *       backgroundImage: String                   //背景图
-     *
+     *       backgroundGifImage: String                   //背景gif
+     *       backgroundVideo: String                   //背景视频
+     *       backgroundVideoPlaceHolderImage: String                   //背景视频默认图
+     * 
+     *       statusBarTransparent: boolean             //状态栏是否透明
      *       statusBarHidden: boolean                  //状态栏是否隐藏
      *       statusBarMode: String                     //状态栏模式 light,dark
      *
