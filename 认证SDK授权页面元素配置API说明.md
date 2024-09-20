@@ -13,6 +13,9 @@
 |参数名称|参数类型|参数说明|
 |:-----:|:----:|:-----:|
 |backgroundImage|String|授权界面背景图片|
+|backgroundGifImage|String|授权界面背景gif图片,与backgroundImage属性不可同时生效|
+|backgroundVideo|String|授权界面背景视频资源,与backgroundImage属性不可同时生效|
+|backgroundPlaceHolderImage|String|授权界面背景视频单帧默认图片,与backgroundImage属性不可同时生效|
 
 + Android授权页状态栏
 
@@ -237,6 +240,12 @@
 |:-----:|:----:|:----:|
 |privacyNeedStartAnim|boolean|设置拉起授权页时是否需要显示默认动画。默认展示。|
 |privacyNeedCloseAnim|boolean|设置关闭授权页时是否需要显示默认动画。默认展示。|
+
++ iOS授权页loading
+|方法|参数类型|说明|
+|:-----:|:----:|:----:|
+|loadingConstraints|数组[float,float,float,float]|竖屏方向，弹窗布局对象(窗口宽度，窗口高度，窗口相对屏幕中心的x轴偏移量，窗口相对屏幕中心的y轴偏移量)|
+|loadingHorizontalConstraints|数组[float,float,float,float]|水平方向，弹窗布局对象(窗口宽度，窗口高度，窗口相对屏幕中心的x轴偏移量，窗口相对屏幕中心的y轴偏移量)|
 
 
 + Android弹窗模式

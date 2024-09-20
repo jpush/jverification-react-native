@@ -59,6 +59,12 @@ const initParams = {
 
 
 const customUIWithConfigiOS = {
+    backgroundImage: 'cmBackground.jpeg', // 背景图
+    // backgroundGifImage: 'auth.gif', // 背景gif图
+    // backgroundVideo: 'videoBg.mp4', // 背景视频
+    // backgroundVideo: 'http://vjs.zencdn.net/v/oceans.mp4', // 背景视频，可以是网络视频
+    // backgroundVideoPlaceHolderImage: 'cmBackground.jpeg', //背景视频占位图
+
     showWindow:false,
 	navReturnHidden:false,
 	//logo
@@ -85,6 +91,7 @@ const customUIWithConfigiOS = {
 	privacyTextGravityMode: 'left',                             //隐私条款文本对齐方式，目前仅支持 left、center
 	privacyBookSymbolEnable: false,                             //隐私条款是否显示书名号，默认不显示
 	
+    loadingConstraints:[0,0,20,20],
 }
 const customUIWithConfigAndroid = {
     // backgroundImage: 'main_bg',                      //背景
