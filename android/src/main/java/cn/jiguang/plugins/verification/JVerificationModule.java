@@ -262,7 +262,6 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             }
             try {
                 String videoString = readableMap.getString(JConstans.BACK_GROUND_VIDEO);
-                Class drawable = R.raw.class;
                 Field field =drawable.getField(videoString);
                 int videoId = field.getInt(field.getName());
 
