@@ -344,7 +344,11 @@ static addLoginCustomConfig(customConfigParams, customViewParams) {
 //一键登录页面自定义配置，需要在调用login之前设置，全屏模式
 const customConfigParams = {
     backgroundImage: '',                      //背景图
+    backgroundGifImage: String                //背景gif
+    backgroundVideo: String                   //背景视频
+    backgroundVideoPlaceHolderImage: String   //背景视频默认图
 
+    statusBarTransparent: boolean             //状态栏是否透明
     statusBarHidden: false,                   //状态栏是否隐藏
     statusBarMode: 'light',                   //状态栏模式 light,dark
 
