@@ -260,12 +260,11 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             if(readableMap.hasKey(JConstans.BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE)) {
                 img = readableMap.getString(JConstans.BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE);
             }
+
             try {
                 String videoString = readableMap.getString(JConstans.BACK_GROUND_VIDEO);
-                Field field =drawable.getField(videoString);
-                int videoId = field.getInt(field.getName());
-
-                builder.setAuthBGVideoPath("android.resource://" +getPackageName() + "/" + videoId, img);
+                int resId = reactContext.getResources().getIdentifier(videoString, "raw", reactContext.getPackageName());
+                builder.setAuthBGVideoPath("android.resource://" +reactContext.getPackageName() + "/" + resId, img);
             }catch (Exception e){
                 JLogger.e("setAuthBGVideoPath error:"+e.getMessage());
             }
