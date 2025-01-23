@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define JVER_VERSION_NUMBER 3.2.3
+#define JVER_VERSION_NUMBER 3.2.6
 
 NS_ASSUME_NONNULL_BEGIN
 /**
@@ -404,6 +404,9 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 /*是否在协议二次弹窗添加自定义控件*/
 @property (nonatomic,copy) void(^customAgreementAlertView)(UIView *superView,void(^hidAlertView)(void));
 
+/**协议二次弹窗标题文本*/
+@property (nonatomic,copy) NSString *agreementAlertViewTitleText;
+
 /**协议二次弹窗标题文本样式*/
 @property (nonatomic,strong) UIFont *agreementAlertViewTitleTexFont;
 
@@ -416,11 +419,23 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 /**协议二次弹窗内容文本字体大小*/
 @property (nonatomic,assign) NSInteger agreementAlertViewContentTextFontSize;
 
+/**协议二次弹窗背景颜色*/
+@property (nonatomic,strong) UIColor *agreementAlertViewBackgroundColor;
+
+/**协议二次弹窗背景图片*/
+@property (nonatomic,strong) UIImage *agreementAlertViewBackgroundImage;
+
 /**协议二次弹窗登录按钮背景图片添加到数组(顺序如下)
  @[激活状态的图片,失效状态的图片,高亮状态的图片]
  注意:当customPrivacyAlertViewBlock不为空，并且隐私栏为选中时，失效状态的图片设置无效
  */
 @property (nonatomic,copy) NSArray *agreementAlertViewLogBtnImgs;
+
+/**协议二次弹窗登录按钮文本*/
+@property (nonatomic,copy) NSString *agreementAlertViewLogBtnText;
+
+/**协议二次弹窗登录按钮文本字体大小*/
+@property (nonatomic,assign) NSInteger agreementAlertViewLogBtnTextFontSize;
 
 /**协议二次弹窗登录按钮文本颜色*/
 @property (nonatomic,strong) UIColor *agreementAlertViewLogBtnTextColor;
@@ -682,6 +697,9 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 /*是否在协议二次弹窗添加自定义控件*/
 @property (nonatomic,copy) void(^smsCustomAgreementAlertView)(UIView *superView,void(^hidAlertView)(void));
 
+/**协议二次弹窗标题文本*/
+@property (nonatomic,copy) NSString *smsAgreementAlertViewTitleText;
+
 /**协议二次弹窗标题文本样式*/
 @property (nonatomic,strong) UIFont *smsAgreementAlertViewTitleTexFont;
 
@@ -694,14 +712,27 @@ typedef NS_ENUM(NSInteger,JVVerAlignment){
 /**协议二次弹窗内容文本字体大小*/
 @property (nonatomic,assign) NSInteger smsAgreementAlertViewContentTextFontSize;
 
+/**协议二次弹窗背景颜色*/
+@property (nonatomic,strong) UIColor *smsAgreementAlertViewBackgroundColor;
+
+/**协议二次弹窗背景图片*/
+@property (nonatomic,strong) UIImage *smsAgreementAlertViewBackgroundImage;
+
 /**协议二次弹窗登录按钮背景图片添加到数组(顺序如下)
  @[激活状态的图片,失效状态的图片,高亮状态的图片]
  注意:当customPrivacyAlertViewBlock不为空，并且隐私栏为选中时，失效状态的图片设置无效
  */
 @property (nonatomic,copy) NSArray *smsAgreementAlertViewLogBtnImgs;
 
+/**协议二次弹窗登录按钮文本*/
+@property (nonatomic,copy) NSString *smsAgreementAlertViewLogBtnText;
+
+/**协议二次弹窗登录按钮文本字体大小*/
+@property (nonatomic,assign) NSInteger smsAgreementAlertViewLogBtnTextFontSize;
+
 /**协议二次弹窗登录按钮文本颜色*/
 @property (nonatomic,strong) UIColor *smsAgreementAlertViewLogBtnTextColor;
+
 @end
 
 DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVMobileUIConfig : JVUIConfig
@@ -947,8 +978,6 @@ DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVTelecomUIConfig :
 
 /**
  数据采集控制
- 
- 请在初始化函数之前调用该接口。
 
  @param control 数据采集配置。
  */
@@ -956,8 +985,6 @@ DEPRECATED_MSG_ATTRIBUTE("Please use JVUIConfig") @interface JVTelecomUIConfig :
 
 /**
  如果有安全风控需求时可调用该接口
- 
- 请在初始化函数之前调用该接口。
  
  @param enable YES为打开，NO为关闭，默认为YES。
  */

@@ -25,6 +25,12 @@
 - (void) initWithApiKey:(NSString*)apiKey withUA:(NSString *)ua;
 
 /**
+ *  初始化方法 3
+ */
+- (void) initWithApiKey:(NSString*)apiKey withUA:(NSString *)ua ifGM:(BOOL)ifGM;
+
+
+/**
  *  一键登录功能 - 预取号接口
  */
 - (void)login:(double)timeout resultListener:(void (^)(NSDictionary *data))listener;
@@ -50,6 +56,8 @@
  *  号码认证功能 - 清除缓存
  */
 - (void) clearCUOauthCache;
+
+
 /**
  *  SDK Debug功能
  */
@@ -58,5 +66,12 @@
  *  SDK 获取当前版本号功能
  */
 + (NSString *)getVersionInfo;
+
+
+
+/**
+ *  uaid功能
+ */
+- (void)uaid:(double)timeout resultListener:(void (^)(NSDictionary *data))listener;
 
 @end
