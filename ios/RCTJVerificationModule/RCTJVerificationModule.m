@@ -138,7 +138,7 @@ RCT_EXPORT_MODULE(JVerificationModule);
     return YES;
 }
 
-RCT_EXPORT_METHOD(setDebug: (BOOL *)enable)
+RCT_EXPORT_METHOD(setDebug: (BOOL )enable)
 {
     [JVERIFICATIONService setDebug: enable];
     debug = enable;
@@ -264,7 +264,7 @@ RCT_EXPORT_METHOD(customUIWithConfig: (NSDictionary *)configParams viewParams: (
     });
 }
 
-RCT_EXPORT_METHOD(getAuthorizationWithController: (BOOL *)enable)
+RCT_EXPORT_METHOD(getAuthorizationWithController: (BOOL )enable)
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIViewController *vc = [UIApplication sharedApplication].keyWindow.rootViewController;
