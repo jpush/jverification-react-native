@@ -220,19 +220,48 @@ RCT_EXPORT_METHOD(clearPreLoginCache)
     [JVERIFICATIONService clearPreLoginCache];
 }
 
+- (UIView *)getRootViewUseRootViewFactory:(NSString *)moduleName {
+    UIView *rctView;
+    id delegate = [UIApplication sharedApplication].delegate;
+    if (delegate && [delegate respondsToSelector:@selector(rootViewFactory)]) {
+        id factory = [delegate performSelector:@selector(rootViewFactory)];
+        SEL selector = @selector(viewWithModuleName:);
+        if (factory && [factory isKindOfClass:NSClassFromString(@"RCTRootViewFactory")] && [factory respondsToSelector:selector]) {
+            rctView = [factory performSelector:selector withObject:moduleName];
+            return rctView;
+        }
+    }
+    return nil;
+}
+
 RCT_EXPORT_METHOD(customUIWithConfig: (NSDictionary *)configParams viewParams: (NSArray *)viewParams)
 {
+    
     JVUIConfig *config = [self convertToCinfig:configParams];
     dispatch_async(dispatch_get_main_queue(), ^{
         [JVERIFICATIONService customUIWithConfig:config customViews:^(UIView *customAreaView) {
             for (int i = 0; i < viewParams.count; i++) {
-                RCTRootView *rctView;
-                if (self.bridge) {
+                UIView *rctView;
+                
+                rctView = [self getRootViewUseRootViewFactory:viewParams[i][CUSTOM_VIEW_NAME]];
+                
+                if (rctView) {
+                    if (debug) {
+                        NSLog(@"use RootViewFactory");
+                    }
+                }
+                else if (self.bridge) {
                     rctView = [[RCTRootView alloc] initWithBridge:self.bridge moduleName:viewParams[i][CUSTOM_VIEW_NAME] initialProperties:nil];
+                    if (debug) {
+                        NSLog(@"use bridge");
+                    }
                 }
                 else {
 //                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 //                    NSURL *jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
+                    if (debug) {
+                        NSLog(@"use rctrootview");
+                    }
                     NSURL *jsCodeLocation;
                     RCTBundleURLProvider *provider = [RCTBundleURLProvider sharedSettings];
                     if([provider respondsToSelector:@selector(jsBundleURLForBundleRoot:fallbackResource:)]){
