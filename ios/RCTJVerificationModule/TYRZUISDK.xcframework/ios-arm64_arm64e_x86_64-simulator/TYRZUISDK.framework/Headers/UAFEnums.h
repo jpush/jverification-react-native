@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, UAPresentationDirection) {
 };
 
 typedef NS_ENUM(NSUInteger, UALanguageType) {
-    UALanguageSimplifiedChinese = 0,  //简体中文
+    UALanguageSimplifiedChinese = 1,  //简体中文
     UALanguageTraditionalChinese,     //繁体中文
     UALanguageEnglish,                //英文
 };

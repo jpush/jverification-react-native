@@ -10,11 +10,11 @@
 		</data>
 		<key>Headers/UAFCustomModel.h</key>
 		<data>
-		ltlTovNVVmwv5n5V6NB5hTWr1ww=
+		+WOaiXTbCniyt3vNUmyY/uJqI4o=
 		</data>
 		<key>Headers/UAFEnums.h</key>
 		<data>
-		IFUODURH70sJmORs3hxrEN5kjZk=
+		JfAObmcYfZSrOEwTCAY3GR7UmBw=
 		</data>
 		<key>Headers/UAFSDKErrorCode.h</key>
 		<data>
@@ -22,11 +22,11 @@
 		</data>
 		<key>Headers/UAFSDKLogin.h</key>
 		<data>
-		3xkv6VfzfAclNmqzR//7zZxEHnM=
+		DmaEzySqTAtc+PzqhmOU+rwNeHY=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		v/mTyZB7MuPmIt2DoTS5kqffON8=
+		OqF/MnOGv9DAO2Y1rsTFsNfPS64=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -54,22 +54,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ltlTovNVVmwv5n5V6NB5hTWr1ww=
+			+WOaiXTbCniyt3vNUmyY/uJqI4o=
 			</data>
 			<key>hash2</key>
 			<data>
-			7xD6LqdnACMlTnemRqtJc5oEIr3Oz3UPjNjGhC6Pqr0=
+			CbAytJJyvZlzE2erWFBz5QIPQbVy5tUVmdu7ve1JfBw=
 			</data>
 		</dict>
 		<key>Headers/UAFEnums.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			IFUODURH70sJmORs3hxrEN5kjZk=
+			JfAObmcYfZSrOEwTCAY3GR7UmBw=
 			</data>
 			<key>hash2</key>
 			<data>
-			WmqVyWgoQeXt4LR9UBPRWd2XvuqyUFApL0qwdm7THOQ=
+			/susWyfr9e/1KIIMRnnjnOZWDEQEKSJvzWgOW7xDcXE=
 			</data>
 		</dict>
 		<key>Headers/UAFSDKErrorCode.h</key>
@@ -87,11 +87,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			3xkv6VfzfAclNmqzR//7zZxEHnM=
+			DmaEzySqTAtc+PzqhmOU+rwNeHY=
 			</data>
 			<key>hash2</key>
 			<data>
-			iOaSeR+ASbv9Aznd9NM6QfrEP6pMoqm321XhJGqWe60=
+			yIKKkPfo4mS82RZVirlpNa0Kb7ku594wrnE73O5dyPA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

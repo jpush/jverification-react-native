@@ -57,18 +57,6 @@ export default class JVerification {
     }
 
     /*
-     * SDK判断网络环境是否支持
-     * @param callback = (result) => {"enable":boolean}
-     * */
-    static checkLoginEnable(callback) {
-        if (Platform.OS == 'android') {
-            JVerificationModule.checkVerifyEnable(callback);
-        } else {
-            JVerificationModule.checkVerifyEnable(callback);
-        }
-    }
-
-    /*
      * SDK判断网络环境是否支持-是否开启严格模式
      * @param callback = (result) => {"enable":boolean}
      * */
@@ -117,14 +105,21 @@ export default class JVerification {
     /*
      * SDK请求授权一键登录
      * @param enable : boolean
-     *
+     * @param time : int
+     * @param callback = (result) => {"code":int,'content':String}
+     * 
+     * 
      * boolean:是否自动关闭授权页，true - 是，false - 否；若此字段设置为false，请在收到一键登录回调后调用SDK提供的关闭授权页面方法
+     * time:超时时间（毫秒）,有效取值范围(0,10000],若小于等于0则取默认值5000.大于10000则取10000.为保证获取token的成功率，建议设置为3000-5000ms.
+     * code:返回码，6000代表获取成功，其他为失败，详见错误码描述
+     * content:成功时为logintoken,用于置换手机号
+     * 
      * */
-    static login(enable) {
+    static login(enable, time , callback) {
         if (Platform.OS == 'android') {
-            JVerificationModule.loginAuth(enable);
+            JVerificationModule.loginAuth(enable, time , callback);
         } else {
-            JVerificationModule.getAuthorizationWithController(enable);
+            JVerificationModule.getAuthorizationWithController(enable, time , callback);
         }
     }
 
@@ -140,6 +135,15 @@ export default class JVerification {
         }
     }
 
+
+    static smsLogin(enable, time , callback) {
+        if (Platform.OS == 'android') {
+            JVerificationModule.smsLogin(enable, time , callback);
+        } else {
+            JVerificationModule.smsLogin(enable, time , callback);
+        }
+    }
+
     /**
      * 设置一键登录页面样式
      *   均可选,需要在login前调用生效(ios需要将图片放入JVerificationResource.bundle)
@@ -148,6 +152,7 @@ export default class JVerification {
      *       backgroundGifImage: String                //背景gif
      *       backgroundVideo: String                   //背景视频
      *       backgroundVideoPlaceHolderImage: String   //背景视频默认图
+     *       appLanguageType: String                  //语言 0.中文简体（默认） 1.中文繁体 2.英文    
      * 
      *       statusBarTransparent: boolean             //状态栏是否透明
      *       statusBarHidden: boolean                  //状态栏是否隐藏
@@ -161,9 +166,10 @@ export default class JVerification {
      *       navTitleColor: number                     //导航栏标题文字颜色
      *
      *       navReturnHidden: boolean                  //导航栏返回按钮是否隐藏
+     *       navTransparent: boolean                  //导航栏是否透明
      *       navReturnImage: string                    //导航栏左侧返回按钮图标
-     *       navReturnX: int                           //导航栏返回按钮距屏幕左侧偏移 （仅Android)
-     *       navReturnY: int                           //导航栏返回按钮距屏幕右侧偏移 （仅Android)
+     *       navReturnX: int                           //导航栏返回按钮距屏幕左侧偏移 
+     *       navReturnY: int                           //导航栏返回按钮距屏幕右侧偏移 
      *       navReturnW: int                           //导航栏返回按钮宽度 （仅Android)
      *       navReturnH: int                           //导航栏返回按钮高度 （仅Android)
      *
@@ -204,17 +210,19 @@ export default class JVerification {
      *
      *       privacyOne: StringArray                   //[隐私条款一名称,隐私条款一链接]
      *       privacyTwo: StringArray                   //[隐私条款二名称,隐私条款二链接]
-     *       privacyNameAndUrlBeanList                 //[{'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','beforeName':'、'}]
+     *       privacyNameAndUrlBeanList                 //[{'name':'隐私条款一','url':'https://www.jiguang.cn/about','separator':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','separator':'、'}]
      *       privacyColor: intArray                    //[隐私条款名称颜色,隐私条款链接颜色]
      *       privacyText: StringArray                  //[隐私条款名称外的文字,隐私条款名称外的文字,隐私条款名称外的文字,隐私条款名称外的文字]
      *       privacyTextSize: int                      //隐私条款文字字体大小
      *       privacyTextGravityMode: String            //隐私条款文本对齐方式，目前仅支持 left、center
      *       privacyBookSymbolEnable: boolean          //隐私条款运营商协议名是否加书名号
      *       privacyX:int                              //隐私条款相对于屏幕左边x轴偏移
-     *       privacyY:int                              //隐私条款相对于导航栏下边缘y偏移
+     *       privacyY:int                              //隐私条款相对于页面下边缘y偏移
      *       privacyW:int                              //隐私条款宽度
      *       privacyH:int                              //隐私条款高度
-     *
+     *       textVerAlignment: String                  //设置条款文字是否垂直居中对齐(默认居中对齐) 0是top 1是m 2是b only iOS
+     *       openPrivacyInBrowser: boolean            //是否在浏览器中打开隐私条款 默认是false  
+     * 
      *       privacyCheckboxHidden: boolean            //隐私条款checkbox是否隐藏
      *       privacyCheckEnable: boolean               //隐私条款默认选中状态。默认不选中
      *       privacyCheckedImage: string               //隐私条款复选框选中图片
@@ -229,10 +237,29 @@ export default class JVerification {
      *       privacyWebNavTitleColor: int              //协议展示web页面导航栏标题文字颜色
      *       privacyWebNavReturnImage: String          //协议展示web页面导航栏返回按钮图标
      * 
-     *       privacyCheckDialogGravityModeCenter: boolean   //协议的二次弹窗对齐方式 目前仅支持 bottom、center
+     *       //////////iOS 二次弹窗////////////
+     *       agreementAlertViewCornerRadius: double                  //协议二次弹窗的圆角
+     *       agreementAlertViewBackgroundColor: int                  //协议二次弹窗背景颜色
+     *       agreementAlertViewBackgroundImgPath: String            //协议二次弹窗背景图片
+     *       agreementAlertViewTitleText: String                    //协议二次弹窗标题文本
+     *       agreementAlertViewTitleTexSize: int                    //协议二次弹窗标题文本样式
+     *       agreementAlertViewTitleTextColor: int                  //协议二次弹窗标题文本颜色
+     *       agreementAlertViewContentTextAlignment: String        //协议二次弹窗内容文本对齐方式
+     *       agreementAlertViewContentTextFontSize: int             //协议二次弹窗内容文本字体大小
+     *       agreementAlertViewLogBtnText: String                   //协议二次弹窗登录按钮文本
+     *       agreementAlertViewLogBtnTextFontSize: int             //协议二次弹窗登录按钮文本字体大小
+     *       agreementAlertViewLoginBtnNormalImagePath: String      //协议二次弹窗登录按钮背景图片 - 激活状态的图片
+     *       agreementAlertViewLoginBtnPressedImagePath: String     //协议二次弹窗登录按钮背景图片 - 高亮状态的图片
+     *       agreementAlertViewLoginBtnUnableImagePath: String      //协议二次弹窗登录按钮背景图片 - 失效状态的图片
+     *       agreementAlertViewLogBtnTextColor: int                 //协议二次弹窗登录按钮文本颜色
+     *       agreementAlertViewUIFrames: object     //协议二次弹窗各控件的frame设置 { "superViewFrame": [left, top, width, height],"alertViewFrame": [left, top, width, height],"titleFrame": [left, top, width, height],"contentFrame": [left, top, width, height],"buttonFrame": [left, top, width, height]}
+     *       //////////iOS 二次弹窗////////////
      * 
-     *       setPrivacyCheckDialogOffsetX: int         //隐私二次弹窗相对于屏幕左边x轴偏移
-     *       setPrivacyCheckDialogOffsetY: int         //隐私二次弹窗相对于屏幕左边x轴偏移
+     *       //////////android 二次弹窗////////////
+     *       privacyCheckDialogGravityModeCenter: boolean   //协议的二次弹窗对齐方式 目前仅支持 bottom、center  
+     * 
+     *       setPrivacyCheckDialogOffsetX: int         //隐私二次弹窗相对于屏幕左边x轴偏移 
+     *       setPrivacyCheckDialogOffsetY: int         //隐私二次弹窗相对于屏幕左边x轴偏移 
      *       setPrivacyCheckDialogWidth: int           //隐私二次弹窗 宽
      *       setPrivacyCheckDialogHeight: int          //隐私二次弹窗 高
      *       
@@ -246,6 +273,7 @@ export default class JVerification {
      *       setPrivacyCheckDialogLogBtnMarginL: int          //隐私二次弹窗相对于屏幕左边x轴偏移       
      *       setPrivacyCheckDialogLogBtnMarginT: int          //协议二次弹窗相对于屏幕左边y轴偏移
      *       setPrivacyCheckDialogLogBtnMarginB: int          //协议二次弹窗相对于屏幕左边b轴偏移
+     *       setPrivacyCheckDialogLogBtnMarginR: int          //协议二次弹窗相对于屏幕右边x轴偏移
      * 
      *       setPrivacyCheckDialogLogBtnImgPath: String       //协议的二次弹窗按钮背景图片
      * 
@@ -255,6 +283,117 @@ export default class JVerification {
      *       setPrivacyCheckDialogLogBtnHeight: int          //隐私二次弹窗 登录按钮高
      * 
      *       setPrivacyCheckDialogLogBtnText:String          //协议的二次弹窗按钮标题字体
+     *
+     *       setPrivacyCheckDialogContentTextPaddingL: int   //隐私协议弹窗内容文字左边距
+     *       setPrivacyCheckDialogContentTextPaddingT: int   //隐私协议弹窗内容文字上边距
+     *       setPrivacyCheckDialogContentTextPaddingR: int   //隐私协议弹窗内容文字右边距
+     *       setPrivacyCheckDialogContentTextPaddingB: int   //隐私协议弹窗内容文字下边距
+     *       //////////android 二次弹窗////////////
+     * 
+     *      smsUIConfig: {
+                smsAuthPageBackgroundImagePath: String                   //登录界面背景图片
+                smsNavText: String                                      //导航栏标题文字
+                smsNavTextColor: int                                    //导航栏标题颜色 only iOS
+                smsNavTextBold: bool                                    //导航栏标题是否加粗 only iOS
+                smsNavTextSize: int                                     //导航栏标题大小 only iOS
+                smsSloganTextSize: int                                 //设置slogan字体大小
+                isSmsSloganHidden: bool                                //设置slogan字体是否隐藏 only android
+                isSmsSloganTextBold: bool                              //设置slogan字体是否加粗 only android
+                smsSloganOffsetX: int                                  //设置slogan相对于屏幕左边x轴偏移
+                smsSloganOffsetY: int                                  //设置slogan相对于标题栏下边缘y偏移
+                smsSloganOffsetBottomY: int                            //设置slogan相对于屏幕底部下边缘y轴偏移
+                smsSloganWidth: int                                    //设置slogan宽度 only iOS
+                smsSloganHeight: int                                   //设置slogan高度 only iOS
+                smsSloganTextColor: int                                //设置移动slogan文字颜色
+                smsLogoWidth: int                                      //设置logo宽度（单位：dp）
+                smsLogoHeight: int                                     //设置logo高度（单位：dp）
+                smsLogoOffsetX: int                                    //设置logo相对于屏幕左边x轴偏移
+                smsLogoOffsetY: int                                    //设置logo相对于标题栏下边缘y偏移
+                smsLogoOffsetBottomY: int                              //设置logo相对于屏幕底部y轴偏移
+                isSmsLogoHidden: bool                                  //隐藏logo
+                smsLogoResName: String                                 //设置logo图片
+                smsPhoneTextViewOffsetX: int                           //设置号码标题相对于屏幕左边x轴偏移 only android
+                smsPhoneTextViewOffsetY: int                           //设置号码标题相对于标题栏下边缘y偏移 only android
+                smsPhoneTextViewTextSize: int                          //设置号码标题字体大小 only android
+                smsPhoneTextViewTextColor: int                         //设置号码标题文字颜色 only android
+                smsPhoneInputViewOffsetX: int                          //设置号码输入框相对于屏幕左边x轴偏移
+                smsPhoneInputViewOffsetY: int                          //设置号码输入框相对于屏幕底部y轴偏移
+                smsPhoneInputViewWidth: int                            //设置号码输入框宽度
+                smsPhoneInputViewHeight: int                           //设置号码输入框高度
+                smsPhoneInputViewTextColor: int                        //设置手机号码输入框字体颜色
+                smsPhoneInputViewTextSize: int                         //设置手机号码输入框字体大小
+                smsPhoneInputViewPlaceholderText: String               //设置手机号码输入框提示词 only iOS
+                smsVerifyCodeTextViewOffsetX: int                      //设置验证码标题相对于屏幕左边x轴偏移 only android
+                smsVerifyCodeTextViewOffsetY: int                      //设置验证码标题相对于标题栏下边缘y偏移 only android
+                smsVerifyCodeTextViewTextSize: int                     //设置验证码标题字体大小 only android
+                smsVerifyCodeTextViewTextColor: int                    //设置验证码标题文字颜色 only android
+                smsVerifyCodeEditTextViewTextSize: int                 //设置验证码输入框字体大小
+                smsVerifyCodeEditTextViewTextColor: int                //设置验证码输入框字体颜色
+                smsVerifyCodeEditTextViewPlaceholderText: String       //设置验证码输入框提示词 only iOS
+                smsVerifyCodeEditTextViewOffsetX: int                  //设置验证码输入框相对于屏幕左边x轴偏移
+                smsVerifyCodeEditTextViewOffsetY: int                  //设置验证码输入框相对于标题栏下边缘y偏移
+                smsVerifyCodeEditTextViewOffsetR: int                  //设置验证码输入框相对于屏幕右边偏移
+                smsVerifyCodeEditTextViewWidth: int                    //设置验证码输入框宽度
+                smsVerifyCodeEditTextViewHeight: int                   //设置验证码输入框高度
+                smsGetVerifyCodeTextViewOffsetX: int                   //设置获取验证码按钮相对于屏幕左边x轴偏移
+                smsGetVerifyCodeTextViewOffsetY: int                   //设置获取验证码按钮相对于标题栏下边缘y偏移
+                smsGetVerifyCodeTextViewTextSize: int                  //设置获取验证码按钮字体大小
+                smsGetVerifyCodeTextViewTextColor: int                 //设置获取验证码按钮文字颜色
+                smsGetVerifyCodeTextViewOffsetR: int                   //设置获取验证码按钮相对于屏幕右边偏移
+                smsGetVerifyCodeBtnWidth: int                          //设置获取验证码按钮宽度 only iOS
+                smsGetVerifyCodeBtnHeight: int                         //设置获取验证码按钮高度 only iOS
+                smsGetVerifyCodeBtnCornerRadius: int                   //设置获取验证码按钮圆角度数 only iOS
+                smsGetVerifyCodeBtnBackgroundPath: String              //设置获取验证码按钮图片
+                smsGetVerifyCodeBtnBackgroundPaths: StringArray       //设置获取验证码按钮图片[激活状态,失效状态,高亮状态] only iOS
+                smsGetVerifyCodeBtnText: String                        //设置获取验证码按钮文字 only iOS
+                smsLogBtnOffsetX: int                                  //设置登录按钮相对于屏幕左边x轴偏移
+                smsLogBtnOffsetY: int                                  //设置登录按钮相对于标题栏下边缘y偏移
+                smsLogBtnWidth: int                                    //设置登录按钮宽度
+                smsLogBtnHeight: int                                   //设置登录按钮高度
+                smsLogBtnTextSize: int                                 //设置登录按钮字体大小
+                smsLogBtnBottomOffsetY: int                           //设置登录按钮相对屏幕底部y轴偏移
+                smsLogBtnText: String                                  //设置登录按钮文字
+                smsLogBtnTextColor: int                                //设置登录按钮文字颜色
+                isSmsLogBtnTextBold: bool                              //设置登录按钮字体是否加粗
+                smsLogBtnBackgroundPath: String                        //设置授权登录按钮图片
+                smsLogBtnBackgroundPaths: String                       //设置授权登录按钮图片[激活状态,失效状态,高亮状态] only iOS
+                smsFirstSeperLineOffsetX: int                          //第一分割线相对于屏幕左边x轴偏移 only android
+                smsFirstSeperLineOffsetY: int                          //第一分割线相对于标题栏下边缘y偏移 only android
+                smsFirstSeperLineOffsetR: int                          //第一分割线相对于屏幕右边偏移 only android
+                smsFirstSeperLineColor: int                            //第一分割线颜色 only android
+                smsSecondSeperLineOffsetX: int                         //第二分割线相对于屏幕左边x轴偏移 only android
+                smsSecondSeperLineOffsetY: int                         //第二分割线相对于标题栏下边缘y偏移 only android
+                smsSecondSeperLineOffsetR: int                         //第二分割线相对于屏幕右边偏移 only android
+                smsSecondSeperLineColor: int                           //第二分割线颜色 only android
+                isSmsPrivacyTextGravityCenter: bool                    //设置隐私条款文字是否居中对齐（默认左对齐）
+                smsPrivacyColor: IntArray                             //设置隐私条款名称颜色[基础文字颜色,协议文字颜色] only iOS
+                smsPrivacyTextVerAlignment: int                        //设置隐私条款垂直对齐方式 0:top 1:middle 2:bottom only iOS
+                smsPrivacyOffsetX: int                                 //协议相对于屏幕左边x轴偏移
+                smsPrivacyOffsetY: int                                 //协议相对于底部y偏移
+                smsPrivacyTopOffsetY: int                              //协议相对于标题栏下边缘y偏移
+                smsPrivacyWidth: int                                   //协议宽度 only iOS
+                smsPrivacyHeight: int                                  //协议高度 only iOS
+                smsPrivacyMarginL: int                                 //设置协议相对于登录页左边的间距 only android
+                smsPrivacyMarginR: int                                 //设置协议相对于登录页右边的间距 only android
+                smsPrivacyMarginT: int                                 //设置协议相对于登录页顶部的间距 only android
+                smsPrivacyMarginB: int                                 //设置协议相对于登录页底部的间距 only android
+                smsPrivacyCheckboxSize: int                            //设置隐私条款checkbox尺寸
+                smsPrivacyCheckboxOffsetX: int                         //设置隐私条款checkbox相对于屏幕左边x轴偏移
+                smsPrivacyCheckboxOffsetY: int                         //设置隐私条款checkbox相对于屏幕y轴偏移
+                isSmsPrivacyCheckboxInCenter: bool                     //设置隐私条款checkbox是否相对协议文字纵向居中
+                smsPrivacyCheckboxState: bool                          //设置隐私条款checkbox默认状态:是否选择 默认:NO
+                smsPrivacyCheckboxMargin: IntArray                    //设置协议相对于登录页的间距 only android
+                smsPrivacyCheckboxUncheckedImgPath: String             //设置隐私条款checkbox未选中时图片 only iOS
+                smsPrivacyCheckboxCheckedImgPath: String               //设置隐私条款checkbox选中时图片 only iOS
+                smsPrivacyBeanList: Array                    //[{'name':'隐私条款一','url':'https://www.jiguang.cn/about','separator':'、'}, {'name':'隐私条款一','url':'https://www.jiguang.cn/about','separator':'、'}]
+                smsPrivacyClauseStart: String                          //设置协议条款开头文本
+                smsPrivacyClauseEnd: String                            //设置协议条款结尾文本
+                enableSMSService: bool                                 //如果开启了短信服务,在认证服务失败时,短信服务又可用的情况下拉起短信服务
+                //android独占
+                smsPrivacyUncheckedMsg: String                         //短信协议没有被勾选的提示
+                smsGetCodeFailMsg: String                              //短信获取失败提示
+                smsPhoneInvalidMsg: String                             //手机号无效提示
+     *      }
      * 
      *  }
      *

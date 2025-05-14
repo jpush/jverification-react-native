@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define UAFSDKVERSION @"quick_login_iOS_5.9.8"
+#define UAFSDKVERSION @"quick_login_iOS_5.9.11"
 
 @class UAFCustomModel;
 NS_ASSUME_NONNULL_BEGIN
@@ -20,6 +20,7 @@ typedef void(^UAFContinueLoginEvent)(BOOL shouldContinueLogin);
 @optional
 - (void)authRequestWillStart:(UAFContinueLoginEvent)loginEvent;
 - (void)authViewPrivacyCheckboxStateToggled:(BOOL)checked;
+- (void)authViewTouchInsidePrivaryName:(NSString *)name link:(NSString *)link;
 
 @end
 

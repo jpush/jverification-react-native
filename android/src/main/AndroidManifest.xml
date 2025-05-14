@@ -31,6 +31,12 @@
             android:screenOrientation="unspecified"
             android:theme="@style/ActivityDialogStyle" />
 
+        <activity
+            android:name="cn.jiguang.verifysdk.SmsLoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="unspecified"
+            android:theme="@style/ActivityDialogStyle" />
         <!-- Required -->
         <meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}"/>
         <meta-data android:name="JPUSH_CHANNEL" android:value="${JPUSH_CHANNEL}"/>

@@ -1,13 +1,17 @@
 package cn.jiguang.plugins.verification;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ImageButton;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -29,15 +33,15 @@ import cn.jiguang.plugins.verification.common.JConstans;
 import cn.jiguang.plugins.verification.common.JLogger;
 import cn.jiguang.verifysdk.api.AuthPageEventListener;
 import cn.jiguang.verifysdk.api.JVerificationInterface;
+import cn.jiguang.verifysdk.api.JVerifyLoginBtClickCallback;
 import cn.jiguang.verifysdk.api.JVerifyUIConfig;
 import cn.jiguang.verifysdk.api.PreLoginListener;
 import cn.jiguang.verifysdk.api.PrivacyBean;
 import cn.jiguang.verifysdk.api.RequestCallback;
+import cn.jiguang.verifysdk.api.SmsClickActionListener;
+import cn.jiguang.verifysdk.api.SmsListener;
 import cn.jiguang.verifysdk.api.VerifyListener;
 
-import android.view.Gravity;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class JVerificationModule extends ReactContextBaseJavaModule {
@@ -62,11 +66,6 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void init(){
-        JVerificationInterface.init(reactContext);
-    }
-
-    @ReactMethod
     public void init(ReadableMap readableMap, final Callback callback){
         int time = 10000;
         if(readableMap!=null){
@@ -88,15 +87,12 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void checkVerifyEnable(Callback callback){
-        if(callback==null)return;
-        callback.invoke(convertToResult(JVerificationInterface.checkVerifyEnable(reactContext)));
-    }
-
-    @ReactMethod
     public void checkVerifyEnable(boolean strictMode, Callback callback){
         if(callback==null)return;
-        callback.invoke(convertToResult(JVerificationInterface.checkVerifyEnable(reactContext,strictMode)));
+        String ot = JVerificationInterface.operatorType(reactContext);
+        WritableMap m = convertToResult(JVerificationInterface.checkVerifyEnable(reactContext,strictMode));
+        m.putString("operatorType", ot);
+        callback.invoke(m);
     }
 
     @ReactMethod
@@ -127,7 +123,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void loginAuth(boolean enable){
+    public void loginAuth(boolean enable, int time, Callback callback){
         if(builder==null){
             builder = new JVerifyUIConfig.Builder();
         }
@@ -135,12 +131,64 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         JVerificationInterface.loginAuth(reactContext, enable, new VerifyListener() {
             @Override
             public void onResult(int code, String content, String operator, final JSONObject operatorReturn) {
-                sendEvent(JConstans.LOGIN_EVENT,convertToResult(code,content,operator));
+                reactContext.runOnUiQueueThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        WritableMap m = convertToResult(code, content, operator);
+                        if (callback == null) {
+                            return;
+                        }
+                        callback.invoke(m);
+                    }
+                });
+
+                reactContext.runOnUiQueueThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        WritableMap m = convertToResult(code,content,operator);
+                        sendEvent(JConstans.LOGIN_EVENT,m);
+                    }
+                });
             }
         }, new AuthPageEventListener() {
             @Override
             public void onEvent(int code, String content) {
                 sendEvent(JConstans.LOGIN_EVENT,convertToResult(code,content));
+            }
+        });
+    }
+
+    @ReactMethod
+    public void smsLogin(boolean enable, int time, Callback callback){
+        if(builder==null){
+            builder = new JVerifyUIConfig.Builder();
+        }
+        JVerificationInterface.setCustomUIWithConfig(builder.build());
+        JVerificationInterface.smsLoginAuth(reactContext, enable, time, new SmsListener() {
+            @Override
+            public void onResult(int code, String content, String phoneNumber) {
+                reactContext.runOnUiQueueThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        WritableMap m = convertToResult(code,content);
+                        if (phoneNumber != null) {
+                            m.putString("phoneNumber", phoneNumber);
+                        }
+                        if(callback==null)return;
+                        callback.invoke(m);
+                    }
+                });
+
+                reactContext.runOnUiQueueThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        WritableMap m = convertToResult(code,content);
+                        if (phoneNumber != null) {
+                            m.putString("phoneNumber", phoneNumber);
+                        }
+                        sendEvent(JConstans.SMS_LOGIN_EVENT,m);
+                    }
+                });
             }
         });
     }
@@ -246,6 +294,11 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(builder==null){
             builder = new JVerifyUIConfig.Builder();
         }
+
+        //语言
+        if(readableMap.hasKey(JConstans.APP_LANGUAGE_TYPE)){
+            builder.setAppLanguageType(Integer.parseInt(readableMap.getString(JConstans.APP_LANGUAGE_TYPE)));
+        }
         //背景图
         if(readableMap.hasKey(JConstans.BACK_GROUND_IMAGE)){
             builder.setAuthBGImgPath(readableMap.getString(JConstans.BACK_GROUND_IMAGE));
@@ -286,9 +339,45 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 builder.setStatusBarColorWithNav(true);
             }
         }
+
+        //虚拟按键
+        if(readableMap.hasKey(JConstans.VIRTUAL_BUTTON_TRANSPARENT)){
+            builder.setVirtualButtonTransparent(readableMap.getBoolean(JConstans.VIRTUAL_BUTTON_TRANSPARENT));
+        }
+        if(readableMap.hasKey(JConstans.VIRTUAL_BUTTON_HIDDEN)){
+            builder.setVirtualButtonHidden(readableMap.getBoolean(JConstans.VIRTUAL_BUTTON_HIDDEN)); 
+        }
+        if(readableMap.hasKey(JConstans.VIRTUAL_BUTTON_COLOR)){
+            builder.setVirtualButtonColor(readableMap.getInt(JConstans.VIRTUAL_BUTTON_COLOR));
+        }
+
+        /************** web页 ***************/
+        if(readableMap.hasKey(JConstans.PRIVACY_STATUS_BAR_COLOR_WITH_NAV)){
+            builder.setPrivacyStatusBarColorWithNav(readableMap.getBoolean(JConstans.PRIVACY_STATUS_BAR_COLOR_WITH_NAV));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_STATUS_BAR_DARK_MODE)){
+            builder.setPrivacyStatusBarDarkMode(readableMap.getBoolean(JConstans.PRIVACY_STATUS_BAR_DARK_MODE));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_STATUS_BAR_TRANSPARENT)){
+            builder.setPrivacyStatusBarTransparent(readableMap.getBoolean(JConstans.PRIVACY_STATUS_BAR_TRANSPARENT));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_STATUS_BAR_HIDDEN)){
+            builder.setPrivacyStatusBarHidden(readableMap.getBoolean(JConstans.PRIVACY_STATUS_BAR_HIDDEN));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_VIRTUAL_BUTTON_TRANSPARENT)){
+            builder.setPrivacyVirtualButtonTransparent(readableMap.getBoolean(JConstans.PRIVACY_VIRTUAL_BUTTON_TRANSPARENT));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_VIRTUAL_BUTTON_COLOR)){
+            builder.setPrivacyVirtualButtonColor(readableMap.getInt(JConstans.PRIVACY_VIRTUAL_BUTTON_COLOR));
+        }
+
+
         //导航栏
         if(readableMap.hasKey(JConstans.NAV_HIDDEN)){
             builder.setNavHidden(readableMap.getBoolean(JConstans.NAV_HIDDEN));
+        }
+        if(readableMap.hasKey(JConstans.NAV_TRANSPARENT)){
+            builder.setNavTransparent(readableMap.getBoolean(JConstans.NAV_TRANSPARENT));
         }
         if(readableMap.hasKey(JConstans.NAV_COLOR)){
             builder.setNavColor(readableMap.getInt(JConstans.NAV_COLOR));
@@ -302,6 +391,12 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.NAV_TITLE_COLOR)){
             builder.setNavTextColor(readableMap.getInt(JConstans.NAV_TITLE_COLOR));
         }
+        if(readableMap.hasKey(JConstans.NAV_TEXT_BOLD)){
+            builder.setNavTextBold(readableMap.getBoolean(JConstans.NAV_TEXT_BOLD));
+        }
+        if(readableMap.hasKey(JConstans.NAV_BAR_DARK_MODE)){
+            builder.setNavBarDarkMode(readableMap.getBoolean(JConstans.NAV_BAR_DARK_MODE));
+        }
         if(readableMap.hasKey(JConstans.NAV_RETURN_BTN_HIDDEN)){
             builder.setNavReturnBtnHidden(readableMap.getBoolean(JConstans.NAV_RETURN_BTN_HIDDEN));
         }
@@ -309,16 +404,16 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             builder.setNavReturnImgPath(readableMap.getString(JConstans.NAV_RETURN_BTN_IMAGE));
         }
         if(readableMap.hasKey(JConstans.NAV_RETURN_BTN_X)){
-            builder.setNavReturnBtnOffsetX(dp2Pix(readableMap.getInt(JConstans.NAV_RETURN_BTN_X)));
+            builder.setNavReturnBtnOffsetX(readableMap.getInt(JConstans.NAV_RETURN_BTN_X));
         }
         if(readableMap.hasKey(JConstans.NAV_RETURN_BTN_Y)){
-            builder.setNavReturnBtnOffsetY(dp2Pix(readableMap.getInt(JConstans.NAV_RETURN_BTN_Y)));
+            builder.setNavReturnBtnOffsetY(readableMap.getInt(JConstans.NAV_RETURN_BTN_Y));
         }
         if(readableMap.hasKey(JConstans.NAV_RETURN_BTN_W)){
-            builder.setNavReturnBtnWidth(dp2Pix(readableMap.getInt(JConstans.NAV_RETURN_BTN_W)));
+            builder.setNavReturnBtnWidth(readableMap.getInt(JConstans.NAV_RETURN_BTN_W));
         }
         if(readableMap.hasKey(JConstans.NAV_RETURN_BTN_H)){
-            builder.setNavReturnBtnHeight(dp2Pix(readableMap.getInt(JConstans.NAV_RETURN_BTN_H)));
+            builder.setNavReturnBtnHeight(readableMap.getInt(JConstans.NAV_RETURN_BTN_H));
         }
         //logo
         if(readableMap.hasKey(JConstans.LOGO_HIDDEN)){
@@ -328,16 +423,19 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             builder.setLogoImgPath(readableMap.getString(JConstans.LOGO_IMAGE));
         }
         if(readableMap.hasKey(JConstans.LOGO_X)){
-            builder.setLogoOffsetX(dp2Pix(readableMap.getInt(JConstans.LOGO_X)));
+            builder.setLogoOffsetX(readableMap.getInt(JConstans.LOGO_X));
         }
         if(readableMap.hasKey(JConstans.LOGO_Y)){
-            builder.setLogoOffsetY(dp2Pix(readableMap.getInt(JConstans.LOGO_Y)));
+            builder.setLogoOffsetY(readableMap.getInt(JConstans.LOGO_Y));
         }
         if(readableMap.hasKey(JConstans.LOGO_W)){
-            builder.setLogoWidth(dp2Pix(readableMap.getInt(JConstans.LOGO_W)));
+            builder.setLogoWidth(readableMap.getInt(JConstans.LOGO_W));
         }
         if(readableMap.hasKey(JConstans.LOGO_H)){
-            builder.setLogoHeight(dp2Pix(readableMap.getInt(JConstans.LOGO_H)));
+            builder.setLogoHeight(readableMap.getInt(JConstans.LOGO_H));
+        }
+        if(readableMap.hasKey(JConstans.LOGO_OFFSET_BOTTOM_Y)){
+            builder.setLogoOffsetBottomY(readableMap.getInt(JConstans.LOGO_OFFSET_BOTTOM_Y));
         }
         //号码
         if(readableMap.hasKey(JConstans.NUMBER_SIZE)){
@@ -347,16 +445,22 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             builder.setNumberColor(readableMap.getInt(JConstans.NUMBER_COLOR));
         }
         if(readableMap.hasKey(JConstans.NUMBER_X)){
-            builder.setNumFieldOffsetX(dp2Pix(readableMap.getInt(JConstans.NUMBER_X)));
+            builder.setNumFieldOffsetX(readableMap.getInt(JConstans.NUMBER_X));
         }
         if(readableMap.hasKey(JConstans.NUMBER_Y)){
-            builder.setNumFieldOffsetY(dp2Pix(readableMap.getInt(JConstans.NUMBER_Y)));
+            builder.setNumFieldOffsetY(readableMap.getInt(JConstans.NUMBER_Y));
         }
         if(readableMap.hasKey(JConstans.NUMBER_W)){
-            builder.setNumberFieldWidth(dp2Pix(readableMap.getInt(JConstans.NUMBER_W)));
+            builder.setNumberFieldWidth(readableMap.getInt(JConstans.NUMBER_W));
         }
         if(readableMap.hasKey(JConstans.NUMBER_H)){
-            builder.setNumberFieldHeight(dp2Pix(readableMap.getInt(JConstans.NUMBER_H)));
+            builder.setNumberFieldHeight(readableMap.getInt(JConstans.NUMBER_H));
+        }
+        if(readableMap.hasKey(JConstans.NUMBER_TEXT_BOLD)){
+            builder.setNumberTextBold(readableMap.getBoolean(JConstans.NUMBER_TEXT_BOLD));
+        }
+        if(readableMap.hasKey(JConstans.NUMBER_FIELD_OFFSET_BOTTOM_Y)){
+            builder.setNumberFieldOffsetBottomY(readableMap.getInt(JConstans.NUMBER_FIELD_OFFSET_BOTTOM_Y));
         }
         //slogan
         if(readableMap.hasKey(JConstans.SLOGAN_HIDDEN)){
@@ -369,15 +473,22 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             builder.setSloganTextColor(readableMap.getInt(JConstans.SLOGAN_TEXT_COLOR));
         }
         if(readableMap.hasKey(JConstans.SLOGAN_X)){
-            builder.setSloganOffsetX(dp2Pix(readableMap.getInt(JConstans.SLOGAN_X)));
+            builder.setSloganOffsetX(readableMap.getInt(JConstans.SLOGAN_X));
         }
         if(readableMap.hasKey(JConstans.SLOGAN_Y)){
-            builder.setSloganOffsetY(dp2Pix(readableMap.getInt(JConstans.SLOGAN_Y)));
+            builder.setSloganOffsetY(readableMap.getInt(JConstans.SLOGAN_Y));
+        }
+        if(readableMap.hasKey(JConstans.SLOGAN_TEXT_BOLD)){
+            builder.setSloganTextBold(readableMap.getBoolean(JConstans.SLOGAN_TEXT_BOLD));
+        }
+        if(readableMap.hasKey(JConstans.SLOGAN_BOTTOM_OFFSET_Y)){
+            builder.setSloganBottomOffsetY(readableMap.getInt(JConstans.SLOGAN_BOTTOM_OFFSET_Y));
         }
         //登录按钮
         if(readableMap.hasKey(JConstans.LOGIN_BTN_TEXT)){
             builder.setLogBtnText(readableMap.getString(JConstans.LOGIN_BTN_TEXT));
         }
+
         if(readableMap.hasKey(JConstans.LOGIN_BTN_TEXT_SIZE)){
             builder.setLogBtnTextSize(readableMap.getInt(JConstans.LOGIN_BTN_TEXT_SIZE));
         }
@@ -390,18 +501,31 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             builder.setLogBtnImgPath(readableMap.getString(JConstans.LOGIN_BTN_IMAGE_SELECTOR));
         }
         if(readableMap.hasKey(JConstans.LOGIN_BTN_X)){
-            builder.setLogBtnOffsetX(dp2Pix(readableMap.getInt(JConstans.LOGIN_BTN_X)));
+            builder.setLogBtnOffsetX(readableMap.getInt(JConstans.LOGIN_BTN_X));
         }
         if(readableMap.hasKey(JConstans.LOGIN_BTN_Y)){
-            builder.setLogBtnOffsetY(dp2Pix(readableMap.getInt(JConstans.LOGIN_BTN_Y)));
+            builder.setLogBtnOffsetY(readableMap.getInt(JConstans.LOGIN_BTN_Y));
         }
         if(readableMap.hasKey(JConstans.LOGIN_BTN_W)){
-            builder.setLogBtnWidth(dp2Pix(readableMap.getInt(JConstans.LOGIN_BTN_W)));
+            builder.setLogBtnWidth(readableMap.getInt(JConstans.LOGIN_BTN_W));
         }
         if(readableMap.hasKey(JConstans.LOGIN_BTN_H)){
-            builder.setLogBtnHeight(dp2Pix(readableMap.getInt(JConstans.LOGIN_BTN_H)));
+            builder.setLogBtnHeight(readableMap.getInt(JConstans.LOGIN_BTN_H));
+        }
+        if(readableMap.hasKey(JConstans.LOG_BTN_BOTTOM_OFFSET_Y)){
+            builder.setLogoOffsetY(-1);
+            builder.setLogBtnBottomOffsetY(readableMap.getInt(JConstans.LOG_BTN_BOTTOM_OFFSET_Y));
+        }
+        if(readableMap.hasKey(JConstans.LOG_BTN_TEXT_BOLD)){
+            builder.setLogBtnTextBold(readableMap.getBoolean(JConstans.LOG_BTN_TEXT_BOLD));
+        }
+        if(readableMap.hasKey(JConstans.LOG_BTN_BACKGROUND_PATH)){
+            builder.setLogBtnImgPath(readableMap.getString(JConstans.LOG_BTN_BACKGROUND_PATH));
         }
         //协议
+        if(readableMap.hasKey(JConstans.OPEN_PRIVACY_IN_BROWSER)){
+            builder.setOpenPrivacyInBrowser(readableMap.getBoolean(JConstans.OPEN_PRIVACY_IN_BROWSER));
+        }
         if(readableMap.hasKey(JConstans.PRIVACY_ONE)){//过期 2.7.3+不生效
             ReadableArray array = readableMap.getArray(JConstans.PRIVACY_ONE);
             builder.setAppPrivacyOne(array.getString(0),array.getString(1));
@@ -437,8 +561,14 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.PRIVACY_TEXT_SIZE)){
             builder.setPrivacyTextSize(readableMap.getInt(JConstans.PRIVACY_TEXT_SIZE));
         }
+        if(readableMap.hasKey(JConstans.PRIVACY_TEXT_BOLD)){
+            builder.setPrivacyTextBold(readableMap.getBoolean(JConstans.PRIVACY_TEXT_BOLD));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_UNDERLINE_TEXT)){
+            builder.setPrivacyUnderlineText(readableMap.getBoolean(JConstans.PRIVACY_UNDERLINE_TEXT));
+        }
         if(readableMap.hasKey(JConstans.PRIVACY_W)){
-            builder.setPrivacyTextWidth(dp2Pix(readableMap.getInt(JConstans.PRIVACY_W)));
+            builder.setPrivacyTextWidth(readableMap.getInt(JConstans.PRIVACY_W));
         }
         if(readableMap.hasKey(JConstans.PRIVACY_TEXT_GRAVITY_MODE)){
             if(readableMap.getString(JConstans.PRIVACY_TEXT_GRAVITY_MODE).equals(JConstans.PRIVACY_TEXT_GRAVITY_CENTER)){
@@ -456,15 +586,29 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 builder.enableHintToast(true,null);
             }
         }
-
         if(readableMap.hasKey(JConstans.PRIVACY_X)){
-            builder.setPrivacyOffsetX(dp2Pix(readableMap.getInt(JConstans.PRIVACY_X)));
+            builder.setPrivacyOffsetX(readableMap.getInt(JConstans.PRIVACY_X));
+            builder.setPrivacyMarginL(readableMap.getInt(JConstans.PRIVACY_X));
         }
         if(readableMap.hasKey(JConstans.PRIVACY_Y)){
-            builder.setPrivacyOffsetY(dp2Pix(readableMap.getInt(JConstans.PRIVACY_Y)));
+            builder.setPrivacyOffsetY(readableMap.getInt(JConstans.PRIVACY_Y));
+            builder.setPrivacyMarginB(readableMap.getInt(JConstans.PRIVACY_Y));
         }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_OFFSET_X) && readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_OFFSET_Y)){
+            int privacyCheckboxOffsetX = readableMap.getInt(JConstans.PRIVACY_CHECKBOX_OFFSET_X);
+            int privacyCheckboxOffsetY = readableMap.getInt(JConstans.PRIVACY_CHECKBOX_OFFSET_Y);
+            builder.setPrivacyCheckboxMargin(
+                    privacyCheckboxOffsetX,
+                    privacyCheckboxOffsetY,
+                    3,3);
+        }
+
         if(readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_HIDDEN)){
             builder.setPrivacyCheckboxHidden(readableMap.getBoolean(JConstans.PRIVACY_CHECKBOX_HIDDEN));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_IN_CENTER)){
+            builder.setPrivacyCheckboxInCenter(readableMap.getBoolean(JConstans.PRIVACY_CHECKBOX_IN_CENTER));
         }
         if(readableMap.hasKey(JConstans.PRIVACY_CHECKBOX_SIZE)){
             builder.setPrivacyCheckboxSize(readableMap.getInt(JConstans.PRIVACY_CHECKBOX_SIZE));
@@ -489,6 +633,12 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
          }
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_TITLE_COLOR)){
             builder.setPrivacyNavTitleTextColor(readableMap.getInt(JConstans.PRIVACY_WEB_NAV_TITLE_COLOR));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_NAV_TITLE_TEXT_BOLD)){
+            builder.setPrivacyNavTitleTextBold(readableMap.getBoolean(JConstans.PRIVACY_NAV_TITLE_TEXT_BOLD));
+        }
+        if(readableMap.hasKey(JConstans.PRIVACY_NAV_RETURN_BTN_PATH)){
+            builder.setPrivacyNavReturnBtnPath(readableMap.getString(JConstans.PRIVACY_NAV_RETURN_BTN_PATH));
         }
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_RETURN_IMAGE)){
             try {
@@ -522,21 +672,21 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_X)){
-            builder.setPrivacyCheckDialogOffsetX(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_X)));
+            builder.setPrivacyCheckDialogOffsetX(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_X));
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_Y)){
-            builder.setPrivacyCheckDialogOffsetY(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_Y)));
+            builder.setPrivacyCheckDialogOffsetY(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_OFFSET_Y));
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_WIDTH)){
-            builder.setPrivacyCheckDialogWidth(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_WIDTH)));
+            builder.setPrivacyCheckDialogWidth(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_WIDTH));
         }else{
             builder.setPrivacyCheckDialogWidth(WRAP_CONTENT);
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_HEIGHT)){
-            builder.setPrivacyCheckDialogHeight(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_HEIGHT)));
+            builder.setPrivacyCheckDialogHeight(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_HEIGHT));
         }else{
             builder.setPrivacyCheckDialogHeight(WRAP_CONTENT);
         }
@@ -569,16 +719,33 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             builder.setPrivacyCheckDialogContentTextSize(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_CONTENT_TEXT_SIZE));
         }
 
+        if(readableMap.hasKey(JConstans.SET_PRIVACY_CHECK_DIALOG_CONTENT_TEXT_PADDING_T)){
+            builder.setPrivacyCheckDialogContentTextPaddingT(readableMap.getInt(JConstans.SET_PRIVACY_CHECK_DIALOG_CONTENT_TEXT_PADDING_T));
+        }
+        if(readableMap.hasKey(JConstans.SET_PRIVACY_CHECK_DIALOG_CONTENT_TEXT_PADDING_L)){
+            builder.setPrivacyCheckDialogContentTextPaddingL(readableMap.getInt(JConstans.SET_PRIVACY_CHECK_DIALOG_CONTENT_TEXT_PADDING_L));
+        }
+        if(readableMap.hasKey(JConstans.SET_PRIVACY_CHECK_DIALOG_CONTENT_TEXT_PADDING_B)){
+            builder.setPrivacyCheckDialogContentTextPaddingB(readableMap.getInt(JConstans.SET_PRIVACY_CHECK_DIALOG_CONTENT_TEXT_PADDING_B));
+        }
+        if(readableMap.hasKey(JConstans.SET_PRIVACY_CHECK_DIALOG_CONTENT_TEXT_PADDING_R)){
+            builder.setPrivacyCheckDialogContentTextPaddingR(readableMap.getInt(JConstans.SET_PRIVACY_CHECK_DIALOG_CONTENT_TEXT_PADDING_R));
+        }
+
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_TOP)){
-            builder.setPrivacyCheckDialogLogBtnMarginT(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_TOP)));
+            builder.setPrivacyCheckDialogLogBtnMarginT(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_TOP));
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_BOTTOM)){
-            builder.setPrivacyCheckDialogLogBtnMarginB(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_BOTTOM)));
+            builder.setPrivacyCheckDialogLogBtnMarginB(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_BOTTOM));
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_LEFT)){
-            builder.setPrivacyCheckDialogLogBtnMarginL(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_LEFT)));
+            builder.setPrivacyCheckDialogLogBtnMarginL(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_LEFT));
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_RIGHET)){
+            builder.setPrivacyCheckDialogLogBtnMarginR(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_MARGIN_RIGHET));
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_IMG_PATH)){
@@ -597,13 +764,13 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_WIDTH)){
-            builder.setPrivacyCheckDialogLogBtnWidth(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_WIDTH)));
+            builder.setPrivacyCheckDialogLogBtnWidth(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_WIDTH));
         }else{
             builder.setPrivacyCheckDialogLogBtnWidth(WRAP_CONTENT);
         }
 
         if(readableMap.hasKey(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_HEIGHT)){
-            builder.setPrivacyCheckDialogLogBtnHeight(dp2Pix(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_HEIGHT)));
+            builder.setPrivacyCheckDialogLogBtnHeight(readableMap.getInt(JConstans.PRIVACY_CHHECK_DIALOG_LOG_BTN_HEIGHT));
         }else{
             builder.setPrivacyCheckDialogLogBtnHeight(WRAP_CONTENT);
         }
@@ -640,6 +807,303 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             }
         }
 
+        if(readableMap.hasKey(JConstans.SET_PRIVACY_CHECK_DIALOG_BACKGROUND_COLOR)){
+            builder.setPrivacyCheckDialogBackgroundColor(readableMap.getInt(JConstans.SET_PRIVACY_CHECK_DIALOG_BACKGROUND_COLOR));
+        }
+
+        if(readableMap.hasKey(JConstans.SET_PRIVACY_CHECK_DIALOG_BACKGROUND_IMG_PATH)){
+            try {
+                String imageString = readableMap.getString(JConstans.SET_PRIVACY_CHECK_DIALOG_BACKGROUND_IMG_PATH);
+                if(!TextUtils.isEmpty(imageString)){
+                    builder.setPrivacyCheckDialogBackgroundImgPath(imageString);
+                }
+            }catch (Exception e){
+                JLogger.e("setPrivacyCheckDialogBackgroundImgPath error:"+e.getMessage());
+            }
+        }
+
+        if(readableMap.hasKey(JConstans.PRIVACY_VIEW_DARK_MODE)){
+            builder.setIsPrivacyViewDarkMode(readableMap.getBoolean(JConstans.PRIVACY_VIEW_DARK_MODE));
+        }
+
+
+        /************** SMS UI配置***************/
+        if(readableMap.hasKey(JConstans.SMS_UI_CONFIG)) {
+            ReadableMap smsUIConfig = readableMap.getMap(JConstans.SMS_UI_CONFIG);
+            
+            if(smsUIConfig.hasKey(JConstans.ENABLE_SMS_SERVICE) && smsUIConfig.getBoolean(JConstans.ENABLE_SMS_SERVICE)) {
+                builder.enableSMSService(true);
+                
+                if(smsUIConfig.hasKey(JConstans.SMS_NAV_TEXT)) {
+                    builder.setSmsNavText(smsUIConfig.getString(JConstans.SMS_NAV_TEXT));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SLOGAN_TEXT_SIZE)) {
+                    builder.setSmsSloganTextSize(smsUIConfig.getInt(JConstans.SMS_SLOGAN_TEXT_SIZE)); 
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SLOGAN_HIDDEN)) {
+                    builder.setSmsSloganHidden(smsUIConfig.getBoolean(JConstans.SMS_SLOGAN_HIDDEN));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SLOGAN_TEXT_BOLD)) {
+                    builder.setSmsSloganTextBold(smsUIConfig.getBoolean(JConstans.SMS_SLOGAN_TEXT_BOLD));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SLOGAN_OFFSET_X)) {
+                    builder.setSmsSloganOffsetX(smsUIConfig.getInt(JConstans.SMS_SLOGAN_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SLOGAN_OFFSET_Y)) {
+                    builder.setSmsSloganOffsetY(smsUIConfig.getInt(JConstans.SMS_SLOGAN_OFFSET_Y)); 
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SLOGAN_OFFSET_BOTTOM_Y)) {
+                    builder.setSmsSloganOffsetBottomY(smsUIConfig.getInt(JConstans.SMS_SLOGAN_OFFSET_BOTTOM_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SLOGAN_TEXT_COLOR)) {
+                    builder.setSmsSloganTextColor(smsUIConfig.getInt(JConstans.SMS_SLOGAN_TEXT_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOGO_WIDTH)) {
+                    builder.setSmsLogoWidth(smsUIConfig.getInt(JConstans.SMS_LOGO_WIDTH));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOGO_HEIGHT)) {
+                    builder.setSmsLogoHeight(smsUIConfig.getInt(JConstans.SMS_LOGO_HEIGHT));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOGO_OFFSET_X)) {
+                    builder.setSmsLogoOffsetX(smsUIConfig.getInt(JConstans.SMS_LOGO_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOGO_OFFSET_Y)) {
+                    builder.setSmsLogoOffsetY(smsUIConfig.getInt(JConstans.SMS_LOGO_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOGO_OFFSET_BOTTOM_Y)) {
+                    builder.setSmsLogoOffsetBottomY(smsUIConfig.getInt(JConstans.SMS_LOGO_OFFSET_BOTTOM_Y)); 
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOGO_HIDDEN)) {
+                    builder.setSmsLogoHidden(smsUIConfig.getBoolean(JConstans.SMS_LOGO_HIDDEN));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOGO_RES_NAME)) {
+                    builder.setSmsLogoImgPath(smsUIConfig.getString(JConstans.SMS_LOGO_RES_NAME));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_TEXT_VIEW_OFFSET_X)) {
+                    builder.setSmsPhoneTextViewOffsetX(smsUIConfig.getInt(JConstans.SMS_PHONE_TEXT_VIEW_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_TEXT_VIEW_OFFSET_Y)) {
+                    builder.setSmsPhoneTextViewOffsetY(smsUIConfig.getInt(JConstans.SMS_PHONE_TEXT_VIEW_OFFSET_Y)); 
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_TEXT_VIEW_TEXT_SIZE)) {
+                    builder.setSmsPhoneTextViewTextSize(smsUIConfig.getInt(JConstans.SMS_PHONE_TEXT_VIEW_TEXT_SIZE));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_TEXT_VIEW_TEXT_COLOR)) {
+                    builder.setSmsPhoneTextViewTextColor(smsUIConfig.getInt(JConstans.SMS_PHONE_TEXT_VIEW_TEXT_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_INPUT_VIEW_OFFSET_X)) {
+                    builder.setSmsPhoneInputViewOffsetX(smsUIConfig.getInt(JConstans.SMS_PHONE_INPUT_VIEW_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_INPUT_VIEW_OFFSET_Y)) {
+                    builder.setSmsPhoneInputViewOffsetY(smsUIConfig.getInt(JConstans.SMS_PHONE_INPUT_VIEW_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_INPUT_VIEW_WIDTH)) {
+                    builder.setSmsPhoneInputViewWidth(smsUIConfig.getInt(JConstans.SMS_PHONE_INPUT_VIEW_WIDTH));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_INPUT_VIEW_HEIGHT)) {
+                    builder.setSmsPhoneInputViewHeight(smsUIConfig.getInt(JConstans.SMS_PHONE_INPUT_VIEW_HEIGHT));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_INPUT_VIEW_TEXT_COLOR)) {
+                    builder.setSmsPhoneInputViewTextColor(smsUIConfig.getInt(JConstans.SMS_PHONE_INPUT_VIEW_TEXT_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_INPUT_VIEW_TEXT_SIZE)) {
+                    builder.setSmsPhoneInputViewTextSize(smsUIConfig.getInt(JConstans.SMS_PHONE_INPUT_VIEW_TEXT_SIZE));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_TEXT_VIEW_OFFSET_X)) {
+                    builder.setSmsVerifyCodeTextViewOffsetX(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_TEXT_VIEW_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_TEXT_VIEW_OFFSET_Y)) {
+                    builder.setSmsVerifyCodeTextViewOffsetY(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_TEXT_VIEW_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_TEXT_VIEW_TEXT_SIZE)) {
+                    builder.setSmsVerifyCodeTextSizeTextSize(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_TEXT_VIEW_TEXT_SIZE));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_TEXT_VIEW_TEXT_COLOR)) {
+                    builder.setSmsVerifyCodeTextViewTextColor(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_TEXT_VIEW_TEXT_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_TEXT_SIZE)) {
+                    builder.setSmsVerifyCodeEditTextViewTextSize(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_TEXT_SIZE));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_TEXT_COLOR)) {
+                    builder.setSmsVerifyCodeEditTextViewTextColor(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_TEXT_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_OFFSET_X)) {
+                    builder.setSmsVerifyCodeEditTextViewTextOffsetX(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_OFFSET_Y)) {
+                    builder.setSmsVerifyCodeEditTextViewOffsetY(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_OFFSET_R)) {
+                    builder.setSmsVerifyCodeEditTextViewOffsetR(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_OFFSET_R));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_WIDTH)) {
+                    builder.setSmsVerifyCodeEditTextViewWidth(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_WIDTH));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_HEIGHT)) {
+                    builder.setSmsVerifyCodeEditTextViewHeight(smsUIConfig.getInt(JConstans.SMS_VERIFY_CODE_EDIT_TEXT_VIEW_HEIGHT));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_OFFSET_X)) {
+                    builder.setSmsGetVerifyCodeTextViewOffsetX(smsUIConfig.getInt(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_OFFSET_Y)) {
+                    builder.setSmsGetVerifyCodeTextViewOffsetY(smsUIConfig.getInt(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_TEXT_SIZE)) {
+                    builder.setSmsGetVerifyCodeTextSize(smsUIConfig.getInt(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_TEXT_SIZE));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_TEXT_COLOR)) {
+                    builder.setSmsGetVerifyCodeTextViewTextColor(smsUIConfig.getInt(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_TEXT_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_OFFSET_R)) {
+                    builder.setSmsGetVerifyCodeTextViewOffsetR(smsUIConfig.getInt(JConstans.SMS_GET_VERIFY_CODE_TEXT_VIEW_OFFSET_R));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_GET_VERIFY_CODE_BTN_BACKGROUND_PATH)) {
+                    builder.setSmsGetVerifyCodeBtnBackgroundPath(smsUIConfig.getString(JConstans.SMS_GET_VERIFY_CODE_BTN_BACKGROUND_PATH));
+                }
+
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_OFFSET_X)) {
+                    builder.setSmsLogBtnOffsetX(smsUIConfig.getInt(JConstans.SMS_LOG_BTN_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_OFFSET_Y)) {
+                    builder.setSmsLogBtnOffsetY(smsUIConfig.getInt(JConstans.SMS_LOG_BTN_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_WIDTH)) {
+                    builder.setSmsLogBtnWidth(smsUIConfig.getInt(JConstans.SMS_LOG_BTN_WIDTH));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_HEIGHT)) {
+                    builder.setSmsLogBtnHeight(smsUIConfig.getInt(JConstans.SMS_LOG_BTN_HEIGHT));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_TEXT_SIZE)) {
+                    builder.setSmsLogBtnTextSize(smsUIConfig.getInt(JConstans.SMS_LOG_BTN_TEXT_SIZE));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_BOTTOM_OFFSET_Y)) {
+                    builder.setSmsLogBtnBottomOffsetY(smsUIConfig.getInt(JConstans.SMS_LOG_BTN_BOTTOM_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_TEXT)) {
+                    builder.setSmsLogBtnText(smsUIConfig.getString(JConstans.SMS_LOG_BTN_TEXT));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_TEXT_COLOR)) {
+                    builder.setSmsLogBtnTextColor(smsUIConfig.getInt(JConstans.SMS_LOG_BTN_TEXT_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_TEXT_BOLD)) {
+                    builder.isSmsLogBtnTextBold(smsUIConfig.getBoolean(JConstans.SMS_LOG_BTN_TEXT_BOLD));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_LOG_BTN_BACKGROUND_PATH)) {
+                    builder.setSmsLogBtnBackgroundPath(smsUIConfig.getString(JConstans.SMS_LOG_BTN_BACKGROUND_PATH));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_FIRST_SEPER_LINE_OFFSET_X)) {
+                    builder.setSmsFirstSeperLineOffsetX(smsUIConfig.getInt(JConstans.SMS_FIRST_SEPER_LINE_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_FIRST_SEPER_LINE_OFFSET_Y)) {
+                    builder.setSmsFirstSeperLineOffsetY(smsUIConfig.getInt(JConstans.SMS_FIRST_SEPER_LINE_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_FIRST_SEPER_LINE_OFFSET_R)) {
+                    builder.setSmsFirstSeperLineOffsetR(smsUIConfig.getInt(JConstans.SMS_FIRST_SEPER_LINE_OFFSET_R));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_FIRST_SEPER_LINE_COLOR)) {
+                    builder.setSmsFirstSeperLineColor(smsUIConfig.getInt(JConstans.SMS_FIRST_SEPER_LINE_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SECOND_SEPER_LINE_OFFSET_X)) {
+                    builder.setSmsSecondSeperLineOffsetX(smsUIConfig.getInt(JConstans.SMS_SECOND_SEPER_LINE_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SECOND_SEPER_LINE_OFFSET_Y)) {
+                    builder.setSmsSecondSeperLineOffsetY(smsUIConfig.getInt(JConstans.SMS_SECOND_SEPER_LINE_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SECOND_SEPER_LINE_OFFSET_R)) {
+                    builder.setSmsSecondSeperLineOffsetR(smsUIConfig.getInt(JConstans.SMS_SECOND_SEPER_LINE_OFFSET_R));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_SECOND_SEPER_LINE_COLOR)) {
+                    builder.setSmsSecondSeperLineColor(smsUIConfig.getInt(JConstans.SMS_SECOND_SEPER_LINE_COLOR));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_TEXT_GRAVITY_CENTER)) {
+                    builder.isSmsPrivacyTextGravityCenter(smsUIConfig.getBoolean(JConstans.SMS_PRIVACY_TEXT_GRAVITY_CENTER));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_OFFSET_X)) {
+                    builder.setSmsPrivacyOffsetX(smsUIConfig.getInt(JConstans.SMS_PRIVACY_OFFSET_X));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_OFFSET_Y)) {
+                    builder.setSmsPrivacyOffsetY(smsUIConfig.getInt(JConstans.SMS_PRIVACY_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_TOP_OFFSET_Y)) {
+                    builder.setSmsPrivacyTopOffsetY(smsUIConfig.getInt(JConstans.SMS_PRIVACY_TOP_OFFSET_Y));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_MARGIN_L)) {
+                    builder.setSmsPrivacyMarginL(smsUIConfig.getInt(JConstans.SMS_PRIVACY_MARGIN_L));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_MARGIN_R)) {
+                    builder.setSmsPrivacyMarginR(smsUIConfig.getInt(JConstans.SMS_PRIVACY_MARGIN_R));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_MARGIN_T)) {
+                    builder.setSmsPrivacyMarginT(smsUIConfig.getInt(JConstans.SMS_PRIVACY_MARGIN_T));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_MARGIN_B)) {
+                    builder.setSmsPrivacyMarginB(smsUIConfig.getInt(JConstans.SMS_PRIVACY_MARGIN_B));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_CHECKBOX_SIZE)) {
+                    builder.setSmsPrivacyCheckboxSize(smsUIConfig.getInt(JConstans.SMS_PRIVACY_CHECKBOX_SIZE));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_CHECKBOX_OFFSET_X) && smsUIConfig.hasKey(JConstans.SMS_PRIVACY_CHECKBOX_OFFSET_Y)) {
+                    int [] smscbmargin = {
+                            smsUIConfig.getInt(JConstans.SMS_PRIVACY_CHECKBOX_OFFSET_X),
+                            smsUIConfig.getInt(JConstans.SMS_PRIVACY_CHECKBOX_OFFSET_Y),
+                            3,3};
+                    builder.setSmsPrivacyCheckboxMargin(smscbmargin);
+                }
+
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_CHECKBOX_IN_CENTER)) {
+                    builder.isSmsPrivacyCheckboxInCenter(smsUIConfig.getBoolean(JConstans.SMS_PRIVACY_CHECKBOX_IN_CENTER));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_CHECKBOX_MARGIN)) {
+                    ReadableArray smsPrivacyCheckboxMarginArray = smsUIConfig.getArray(JConstans.SMS_PRIVACY_CHECKBOX_MARGIN);
+                    int[] intArray = new int[smsPrivacyCheckboxMarginArray.size()];
+                    for (int i = 0; i < smsPrivacyCheckboxMarginArray.size(); i++) {
+                        intArray[i] = smsPrivacyCheckboxMarginArray.getInt(i);
+                    }
+                    builder.setSmsPrivacyCheckboxMargin(intArray);
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_BEAN_LIST)) {
+                    ReadableArray jsonArray = smsUIConfig.getArray(JConstans.SMS_PRIVACY_BEAN_LIST);
+                    int length = jsonArray.size();
+                    ReadableMap jsonObject;
+                    PrivacyBean privacyBean;
+                    ArrayList<PrivacyBean> privacyBeans = new ArrayList<>(length);
+                    for (int i = 0; i < length; i++) {
+                        jsonObject = jsonArray.getMap(i);
+                        privacyBean = new PrivacyBean(jsonObject.getString("name"), jsonObject.getString("url"),
+                                jsonObject.getString("beforeName"));
+
+                        privacyBeans.add(privacyBean);
+                    }
+                    builder.setSmsPrivacyBeanList(privacyBeans);
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_CLAUSE_START)) {
+                    builder.setSmsPrivacyClauseStart(smsUIConfig.getString(JConstans.SMS_PRIVACY_CLAUSE_START));
+                }
+                if(smsUIConfig.hasKey(JConstans.SMS_PRIVACY_CLAUSE_END)) {
+                    builder.setSmsPrivacyClauseEnd(smsUIConfig.getString(JConstans.SMS_PRIVACY_CLAUSE_END));
+                }
+
+                if(smsUIConfig.hasKey(JConstans.SMS_PHONE_INVALID_MSG)) {
+                    builder.setSmsGetVerifyCodeDialog(true, Toast.makeText(reactContext,smsUIConfig.getString(JConstans.SMS_PHONE_INVALID_MSG) != null ? (String) smsUIConfig.getString(JConstans.SMS_PHONE_INVALID_MSG) :"请输入正确的手机号",Toast.LENGTH_SHORT));
+                }
+
+                builder.setSmsClickActionListener(new SmsClickActionListener() {
+                    @Override
+                    public void onClicked(int Code, String msg, Context context, Activity activity, Boolean isUnchecked, List<PrivacyBean> beanArrayList, JVerifyLoginBtClickCallback jVerifyLoginBtClickCallback) {
+                        JLogger.d(msg);
+                        if (!isUnchecked){
+                            Toast.makeText(context, smsUIConfig.getString(JConstans.SMS_PRIVACY_UNCHECKED_MSG) != null ?  smsUIConfig.getString(JConstans.SMS_PRIVACY_UNCHECKED_MSG) : "请先勾选协议",Toast.LENGTH_SHORT).show();
+                        }else if(Code ==3005){
+                            Toast.makeText(context, smsUIConfig.getString(JConstans.SMS_GET_CODE_FAIL_MSG) != null ? (String) smsUIConfig.getString(JConstans.SMS_GET_CODE_FAIL_MSG) : "获取验证码失败",Toast.LENGTH_SHORT).show();
+                            jVerifyLoginBtClickCallback.login();
+                        }else {
+                            jVerifyLoginBtClickCallback.login();
+                        }
+
+                    }
+                });
+            }
+        }
     }
 
     private ReactRootView convertToView(ReadableMap readableMap){
@@ -650,6 +1114,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             JLogger.e("viewName is null");
             return null;
         }
+
         ReactRootView reactView = new ReactRootView(reactContext);
         Activity currentActivity =  getCurrentActivity();
         if (currentActivity == null){
@@ -657,11 +1122,15 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             return  null;
         }
         ReactApplication application = (ReactApplication)currentActivity.getApplication();
+
         if (application == null){
             JLogger.e("application is null");
             return  null;
         }
-        reactView.startReactApplication(application.getReactNativeHost().getReactInstanceManager(), viewName);
+
+        ReactInstanceManager manager = application.getReactNativeHost().getReactInstanceManager();
+        reactView.startReactApplication(manager, viewName);
+
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         if (viewPoint != null) {
             int x = dp2Pix(viewPoint.getInt(0));
@@ -673,6 +1142,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             layoutParams.height = h;
         }
         reactView.setLayoutParams(layoutParams);
+
         return reactView;
     }
     

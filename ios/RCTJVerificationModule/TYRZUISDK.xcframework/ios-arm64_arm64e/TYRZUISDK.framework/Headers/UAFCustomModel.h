@@ -56,11 +56,23 @@
 /**手机号码富文本属性 */
 @property (nonatomic,strong) NSDictionary<NSAttributedStringKey,id> *numberTextAttributes;
 /**号码栏X偏移量*/
-@property (nonatomic,strong) NSNumber * numberOffsetX;
+@property (nonatomic,strong) NSNumber *numberOffsetX;
 /**号码栏Y偏移量 numberOffsetY优先级高于numberOffsetY_B*/
-@property (nonatomic,strong) NSNumber * numberOffsetY;
+@property (nonatomic,strong) NSNumber *numberOffsetY;
 /**号码栏Y偏移量（基于底部）*/
-@property (nonatomic,strong) NSNumber * numberOffsetY_B;
+@property (nonatomic,strong) NSNumber *numberOffsetY_B;
+
+#pragma mark - 品牌图标设置
+/**号码栏X偏移量*/
+@property (nonatomic,strong) NSNumber *brandImageOffsetX;
+/**号码栏Y偏移量*/
+@property (nonatomic,strong) NSNumber *brandImageOffsetY;
+/**品牌图标的高度，默认：40，设置不能少于0，否则使用默认值*/
+@property (nonatomic,strong) NSNumber *brandImageHeight;
+/**品牌图标的宽度，默认：160，设置不能少于0，否则使用默认值*/
+@property (nonatomic,strong) NSNumber *brandImageWidth;
+/**是否隐藏品牌图标，接口有返回图片且接口未设置隐藏的情况下生效，仅用于setter*/
+@property (nonatomic,assign) BOOL brandImageHidden;
 
 #pragma mark 隐私条款勾选框
 /**勾选框未选中时图片*/
@@ -100,7 +112,7 @@
  */
 @property (nonatomic,strong) UIColor *privacyColor;
 /**隐私条款Y偏移量*/
-@property (nonatomic,strong) NSNumber * privacyOffsetY;
+@property (nonatomic,strong) NSNumber *privacyOffsetY;
 /**隐私条款check框状态 默认:NO */
 @property (nonatomic,assign) BOOL privacyState;
 /**忽略隐私条款check框状态，登陆按钮一直可点击 默认:NO(不忽略) */
