@@ -8,6 +8,7 @@ const JVerificationModule = NativeModules.JVerificationModule;
 
 const listeners = {};
 const LoginEvent = 'LoginEvent';  //登录事件
+const SmsLoginEvent = 'SmsLoginEvent';  //短信登录事件
 const UnCheckBox = 'UncheckBoxCallBack';  //iOS 未选中隐私协议CheckBox,点击登录按钮的回调事件
 
 export default class JVerification {
@@ -135,7 +136,19 @@ export default class JVerification {
         }
     }
 
-
+    /*
+     * 拉起短信登录页
+     * @param enable : boolean
+     * @param time : int
+     * @param callback = (result) => {"code":int,'content':String， ‘phoneNumber’:String}
+     * 
+     * 
+     * boolean:是否自动关闭授权页，true - 是，false - 否；若此字段设置为false，请在收到一键登录回调后调用SDK提供的关闭授权页面方法
+     * time:超时时间（毫秒）, 有效取值范围(5000,30000], 若小于等于 5000 或大于 30000 则取默认值 10000. 推荐设置为 5001-10000.
+     * code:返回码，4000代表获取成功，其他为失败，详见错误码描述
+     * content:说明信息
+     * phoneNumber:成功时为手机号
+     * */
     static smsLogin(enable, time , callback) {
         if (Platform.OS == 'android') {
             JVerificationModule.smsLogin(enable, time , callback);
