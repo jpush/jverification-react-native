@@ -75,23 +75,16 @@ const initParams = {
 };
 ```
 
-### 2.2.3 图片
-请将iOS example 项目中的JVerificationResource.bundle文件夹拉到您的iOS项目中。
-拉文件时xcode会弹出添加文件的选项框：请选择：
-Destination: Copy items if needed 勾上
-Added folders: 选择 Create Groups
-Add to Targets: 选择第一个框框
-
-另外如果您需要设置您的自定义图片的话，请将您的图片添加进JVerificationResource.bundle文件夹中。
-
 ## 3. 引用
 
-参考：[App.tsx]([https://github.com/jpush/jverification-react-native/tree/master/example/App.js](https://github.com/jpush/jverification-react-native/blob/dev/AwesomeProject/App.tsx))
+参考：[App.js](https://github.com/jpush/jverification-react-native/tree/master/example/App.js)
 
 ## 4. API
-+ API详细说明：[API详细说明.md]([https://github.com/jpush/jverification-react-native/blob/master/API%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E.md](https://github.com/jpush/jverification-react-native/blob/dev/API.md)) 
++ API详细说明：[API详细说明.md](https://github.com/jpush/jverification-react-native/blob/master/API%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E.md) 
 
-+ 示例详见：[index.js]([https://github.com/jpush/jverification-react-native/tree/master/index.js](https://github.com/jpush/jverification-react-native/blob/dev/index.js))
++ 授权页面元素配置说明：[认证SDK授权页面元素配置API说明.md](https://github.com/jpush/jverification-react-native/blob/master/%E8%AE%A4%E8%AF%81SDK%E6%8E%88%E6%9D%83%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E9%85%8D%E7%BD%AEAPI%E8%AF%B4%E6%98%8E.md)
+
++ 示例详见：[index.js](https://github.com/jpush/jverification-react-native/tree/master/index.js)
 
 ## 5.  其他
 
