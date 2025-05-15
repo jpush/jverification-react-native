@@ -75,6 +75,15 @@ const initParams = {
 };
 ```
 
+### 2.2.3 图片
+请将iOS example 项目中的JVerificationResource.bundle文件夹拉到您的iOS项目中。
+拉文件时xcode会弹出添加文件的选项框：请选择：
+Destination: Copy items if needed 勾上
+Added folders: 选择 Create Groups
+Add to Targets: 选择第一个框框
+
+另外如果您需要设置您的自定义图片的话，请将您的图片添加进JVerificationResource.bundle文件夹中。
+
 ## 3. 引用
 
 参考：[App.js](https://github.com/jpush/jverification-react-native/tree/master/example/App.js)
