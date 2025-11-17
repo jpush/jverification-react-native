@@ -5,9 +5,13 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.graphics.Paint;
+import android.graphics.drawable.StateListDrawable;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.react.ReactApplication;
@@ -1104,6 +1108,25 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 });
             }
         }
+        
+        // 处理自定义控件列表
+        if(readableMap.hasKey(JConstans.CUSTOM_WIDGET_LIST)) {
+            ReadableArray customWidgetList = readableMap.getArray(JConstans.CUSTOM_WIDGET_LIST);
+            if(customWidgetList != null && customWidgetList.size() > 0) {
+                for(int i = 0; i < customWidgetList.size(); i++) {
+                    ReadableMap widgetMap = customWidgetList.getMap(i);
+                    if(widgetMap == null) {
+                        continue;
+                    }
+                    String type = widgetMap.hasKey("type") ? widgetMap.getString("type") : "";
+                    if("button".equals(type)) {
+                        addCustomButtonWidgets(widgetMap, builder, false);
+                    } else if("textView".equals(type)) {
+                        addCustomTextWidgets(widgetMap, builder, false);
+                    }
+                }
+            }
+        }
     }
 
     private ReactRootView convertToView(ReadableMap readableMap){
@@ -1152,6 +1175,315 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
             return (int) (dp * density + 0.5F);
         } catch (Exception e) {
             return (int) dp;
+        }
+    }
+
+    /**
+     * 添加自定义 TextView
+     */
+    private void addCustomTextWidgets(ReadableMap para, JVerifyUIConfig.Builder builder, boolean isDialog) {
+        JLogger.d("addCustomTextWidgets: para = " + para);
+
+        TextView customView = new TextView(reactContext);
+
+        //设置text
+        String title = para.hasKey("title") ? para.getString("title") : "";
+        customView.setText(title);
+
+        //设置字体颜色
+        if(para.hasKey("titleColor")) {
+            int titleColor = para.getInt("titleColor");
+            customView.setTextColor(titleColor);
+        }
+
+        //设置字体大小
+        if(para.hasKey("titleFont")) {
+            double titleFont = para.getDouble("titleFont");
+            if (titleFont > 0) {
+                customView.setTextSize((float) titleFont);
+            }
+        }
+
+        //设置背景颜色
+        if(para.hasKey("backgroundColor")) {
+            int backgroundColor = para.getInt("backgroundColor");
+            customView.setBackgroundColor(backgroundColor);
+        }
+
+        //下划线
+        if(para.hasKey("isShowUnderline") && para.getBoolean("isShowUnderline")) {
+            customView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//下划线
+            customView.getPaint().setAntiAlias(true);//抗锯齿
+        }
+
+        //设置对齐方式
+        if(para.hasKey("textAlignment")) {
+            String textAlignment = para.getString("textAlignment");
+            int gravity = getAlignmentFromString(textAlignment);
+            customView.setGravity(gravity);
+        }
+
+        //设置是否单行显示
+        if(para.hasKey("isSingleLine")) {
+            boolean isSingleLine = para.getBoolean("isSingleLine");
+            customView.setSingleLine(isSingleLine);
+        }
+
+        //设置行数
+        if(para.hasKey("lines")) {
+            int lines = para.getInt("lines");
+            customView.setLines(lines);
+        }
+
+        // 位置
+        int left = para.hasKey("left") ? para.getInt("left") : 0;
+        int top = para.hasKey("top") ? para.getInt("top") : 0;
+        int width = para.hasKey("width") ? para.getInt("width") : 0;
+        int height = para.hasKey("height") ? para.getInt("height") : 0;
+
+        RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        mLayoutParams.leftMargin = dp2Pix((float) left);
+        mLayoutParams.topMargin = dp2Pix((float) top);
+        if (width > 0) {
+            mLayoutParams.width = dp2Pix((float) width);
+        }
+        if (height > 0) {
+            mLayoutParams.height = dp2Pix((float) height);
+        }
+        customView.setLayoutParams(mLayoutParams);
+
+        /// 点击事件 id
+        String widgetId = para.hasKey("widgetId") ? para.getString("widgetId") : "";
+        
+        // 是否可点击
+        boolean isClickEnable = para.hasKey("isClickEnable") && para.getBoolean("isClickEnable");
+        customView.setClickable(isClickEnable);
+
+        if (isClickEnable) {
+            final WritableMap jsonMap = Arguments.createMap();
+            jsonMap.putString("widgetId", widgetId);
+            jsonMap.putString("eventId", widgetId);
+
+            if (isDialog) {
+                // 添加到对话框
+                builder.addCustomViewToCheckDialog(customView, new cn.jiguang.verifysdk.api.JVerifyUIClickCallback() {
+                    @Override
+                    public void onClicked(Context context, android.view.View view) {
+                        JLogger.d("onClicked dialog text widget.");
+                        sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
+                    }
+                });
+            } else {
+                // 添加到授权页
+                builder.addCustomView(customView, false, new cn.jiguang.verifysdk.api.JVerifyUIClickCallback() {
+                    @Override
+                    public void onClicked(Context context, android.view.View view) {
+                        JLogger.d("onClicked text widget.");
+                        sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
+                    }
+                });
+            }
+        } else {
+            // 不可点击时，直接添加视图，不设置点击回调
+            if (isDialog) {
+                builder.addCustomViewToCheckDialog(customView, null);
+            } else {
+                builder.addCustomView(customView, false, null);
+                builder.addSmsCustomView(customView, false, null);
+            }
+        }
+    }
+
+    /**
+     * 添加自定义 button
+     */
+    private void addCustomButtonWidgets(ReadableMap para, JVerifyUIConfig.Builder builder, boolean isDialog) {
+        JLogger.d("addCustomButtonWidgets: para = " + para);
+
+        Button customView = new Button(reactContext);
+
+        //设置text
+        String title = para.hasKey("title") ? para.getString("title") : "";
+        customView.setText(title);
+
+        //设置字体颜色
+        if(para.hasKey("titleColor")) {
+            int titleColor = para.getInt("titleColor");
+            customView.setTextColor(titleColor);
+        }
+
+        //设置字体大小
+        if(para.hasKey("titleFont")) {
+            double titleFont = para.getDouble("titleFont");
+            if (titleFont > 0) {
+                customView.setTextSize((float) titleFont);
+            }
+        }
+
+        //设置背景颜色
+        if(para.hasKey("backgroundColor")) {
+            int backgroundColor = para.getInt("backgroundColor");
+            customView.setBackgroundColor(backgroundColor);
+        }
+
+        // 设置背景图（只支持 button 设置）
+        String btnNormalImageName = para.hasKey("btnNormalImageName") ? para.getString("btnNormalImageName") : null;
+        String btnPressedImageName = para.hasKey("btnPressedImageName") ? para.getString("btnPressedImageName") : null;
+        if (btnNormalImageName != null) {
+            if (btnPressedImageName == null) {
+                btnPressedImageName = btnNormalImageName;
+            }
+            setButtonSelector(customView, btnNormalImageName, btnPressedImageName);
+        }
+
+        //下划线
+        if(para.hasKey("isShowUnderline") && para.getBoolean("isShowUnderline")) {
+            customView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);//下划线
+            customView.getPaint().setAntiAlias(true);//抗锯齿
+        }
+
+        //设置对齐方式
+        if(para.hasKey("textAlignment")) {
+            String textAlignment = para.getString("textAlignment");
+            int gravity = getAlignmentFromString(textAlignment);
+            customView.setGravity(gravity);
+        }
+
+        //设置是否单行显示
+        if(para.hasKey("isSingleLine")) {
+            boolean isSingleLine = para.getBoolean("isSingleLine");
+            customView.setSingleLine(isSingleLine);
+        }
+
+        //设置行数
+        if(para.hasKey("lines")) {
+            int lines = para.getInt("lines");
+            customView.setLines(lines);
+        }
+
+        // 位置
+        int left = para.hasKey("left") ? para.getInt("left") : 0;
+        int top = para.hasKey("top") ? para.getInt("top") : 0;
+        int width = para.hasKey("width") ? para.getInt("width") : 0;
+        int height = para.hasKey("height") ? para.getInt("height") : 0;
+
+        RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        mLayoutParams.leftMargin = dp2Pix((float) left);
+        mLayoutParams.topMargin = dp2Pix((float) top);
+
+        //在内容下方
+        if(para.hasKey("belowTheDialogContent") && para.getBoolean("belowTheDialogContent")) {
+            mLayoutParams.addRule(RelativeLayout.BELOW, 2002);
+        }
+
+        if (width > 0) {
+            mLayoutParams.width = dp2Pix((float) width);
+        }
+        if (height > 0) {
+            mLayoutParams.height = dp2Pix((float) height);
+        }
+        customView.setLayoutParams(mLayoutParams);
+
+        /// 点击事件 id
+        String widgetId = para.hasKey("widgetId") ? para.getString("widgetId") : "";
+        
+        // 是否可点击
+        boolean isClickEnable = para.hasKey("isClickEnable") && para.getBoolean("isClickEnable");
+        customView.setClickable(isClickEnable);
+
+        if (isClickEnable) {
+            final WritableMap jsonMap = Arguments.createMap();
+            jsonMap.putString("widgetId", widgetId);
+            jsonMap.putString("eventId", widgetId);
+
+            if (isDialog) {
+                // 添加到对话框
+                builder.addCustomViewToCheckDialog(customView, new cn.jiguang.verifysdk.api.JVerifyUIClickCallback() {
+                    @Override
+                    public void onClicked(Context context, android.view.View view) {
+                        JLogger.d("onClicked dialog button widget.");
+                        sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
+                    }
+                });
+            } else {
+                // 添加到授权页
+                builder.addCustomView(customView, false, new cn.jiguang.verifysdk.api.JVerifyUIClickCallback() {
+                    @Override
+                    public void onClicked(Context context, android.view.View view) {
+                        JLogger.d("onClicked button widget.");
+                        sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
+                    }
+                });
+            }
+        } else {
+            // 不可点击时，直接添加视图，不设置点击回调
+            if (isDialog) {
+                builder.addCustomViewToCheckDialog(customView, null);
+            } else {
+                builder.addCustomView(customView, false, null);
+            }
+        }
+    }
+
+    /**
+     * 获取对齐方式
+     */
+    private int getAlignmentFromString(String alignment) {
+        if (alignment == null) {
+            return Gravity.NO_GRAVITY;
+        }
+        switch (alignment) {
+            case "left":
+                return Gravity.LEFT;
+            case "top":
+                return Gravity.TOP;
+            case "right":
+                return Gravity.RIGHT;
+            case "bottom":
+                return Gravity.BOTTOM;
+            case "center":
+                return Gravity.CENTER;
+            default:
+                return Gravity.NO_GRAVITY;
+        }
+    }
+
+    /**
+     * 设置按钮背景选择器
+     */
+    private void setButtonSelector(Button button, String normalImageName, String pressedImageName) {
+        try {
+            StateListDrawable drawable = new StateListDrawable();
+            
+            // 获取资源ID
+            int normalResId = reactContext.getResources().getIdentifier(normalImageName, "drawable", reactContext.getPackageName());
+            int pressedResId = reactContext.getResources().getIdentifier(pressedImageName, "drawable", reactContext.getPackageName());
+            
+            if (normalResId != 0) {
+                android.graphics.drawable.Drawable pressedDrawable = null;
+                if (pressedResId != 0) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        pressedDrawable = reactContext.getResources().getDrawable(pressedResId, null);
+                    } else {
+                        pressedDrawable = reactContext.getResources().getDrawable(pressedResId);
+                    }
+                }
+                android.graphics.drawable.Drawable normalDrawable;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    normalDrawable = reactContext.getResources().getDrawable(normalResId, null);
+                } else {
+                    normalDrawable = reactContext.getResources().getDrawable(normalResId);
+                }
+                
+                if (pressedDrawable != null) {
+                    drawable.addState(new int[]{android.R.attr.state_pressed}, pressedDrawable);
+                    drawable.addState(new int[]{android.R.attr.state_selected}, pressedDrawable);
+                }
+                drawable.addState(new int[]{}, normalDrawable);
+                button.setBackground(drawable);
+            }
+        } catch (Exception e) {
+            JLogger.e("setButtonSelector error:" + e.getMessage());
         }
     }
 

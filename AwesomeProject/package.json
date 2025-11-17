@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "jcore-react-native": "^2.1.5",
-    "jverification-react-native": "../",
+    "jverification-react-native": "2.8.2",
     "react": "19.0.0",
     "react-native": "0.79.1"
   },

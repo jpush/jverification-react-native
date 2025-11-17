@@ -290,6 +290,7 @@ export default class App extends React.Component {
 
     LoginListener?: Function
     UnCheckboxEvent?: Function
+    ClickWidgetListener?: Function
 
     componentDidMount() {
         JVerification.setLoggerEnable(true);
@@ -304,6 +305,13 @@ export default class App extends React.Component {
 			}
 			JVerification.addUncheckBoxEventListener(this.UnCheckboxEvent);
 		 }
+        
+        // 添加自定义控件点击事件监听
+        this.ClickWidgetListener = (result: any) => {
+            console.log('receive listener - click widget event eventId:' + result.eventId);
+        };
+        
+        JVerification.addClikWidgetEventListener(this.ClickWidgetListener);
     }
 
     render() {
@@ -343,10 +351,44 @@ export default class App extends React.Component {
 
                 <Button title='addLoginCustomConfig'
                        onPress={() => {
+                            // 创建自定义控件列表
+                            const text_widgetId = "jv_add_custom_text";
+                            const btn_widgetId = "jv_add_custom_button";
+                            
+                            // 创建 textView 控件
+                            const textWidget = new JVerification.JVCustomWidget(text_widgetId, 'textView');
+                            textWidget.title = "新加 text view 控件";
+                            textWidget.left = 20;
+                            textWidget.top = 360;
+                            textWidget.width = 200;
+                            textWidget.height = 40;
+                            textWidget.backgroundColor = 0xFFFF00; // Colors.yellow.value
+                            textWidget.isShowUnderline = true;
+                            textWidget.textAlignment = 'center';
+                            textWidget.isClickEnable = true;
+                            
+                            // 创建 button 控件
+                            const buttonWidget = new JVerification.JVCustomWidget(btn_widgetId, 'button');
+                            buttonWidget.title = "新加 button 控件";
+                            buttonWidget.left = 100;
+                            buttonWidget.top = 400;
+                            buttonWidget.width = 150;
+                            buttonWidget.height = 40;
+                            buttonWidget.isShowUnderline = true;
+                            buttonWidget.backgroundColor = 0xA52A2A; // Colors.brown.value
+                            
+                            // 将控件添加到数组
+                            const widgetList = [textWidget.toJsonMap(), buttonWidget.toJsonMap()];
+                            
+                            // 将 customWidgetList 添加到配置中
+                            const configWithWidgets = Platform.OS == 'android' 
+                                ? {...customUIWithConfigAndroid, customWidgetList: widgetList}
+                                : {...customUIWithConfigiOS, customWidgetList: widgetList};
+                            
                             if(Platform.OS == 'android'){
-                                JVerification.addLoginCustomConfig(customUIWithConfigAndroid, customViewParams);
+                                JVerification.addLoginCustomConfig(configWithWidgets, customViewParams);
                             } else {
-                                JVerification.addLoginCustomConfig(customUIWithConfigiOS, customViewParams);
+                                JVerification.addLoginCustomConfig(configWithWidgets, customViewParams);
                             }
                         }}/>
 

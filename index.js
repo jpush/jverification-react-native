@@ -10,8 +10,94 @@ const listeners = {};
 const LoginEvent = 'LoginEvent';  //登录事件
 const SmsLoginEvent = 'SmsLoginEvent';  //短信登录事件
 const UnCheckBox = 'UncheckBoxCallBack';  //iOS 未选中隐私协议CheckBox,点击登录按钮的回调事件
+const ClickWidgetEvent = 'ClickWidgetEvent';  //自定义控件点击事件
+
 
 export default class JVerification {
+
+    /**
+     * 自定义控件类
+     */
+    static JVCustomWidget = class JVCustomWidget {
+        /**
+         * @param {string} widgetId 控件ID
+         * @param {string} type 控件类型 ('textView','button')
+         */
+        constructor(widgetId, type) {
+            this.widgetId = widgetId;
+            this.type = type;//'textView','button'
+            
+            // 如果是按钮类型，默认可点击
+            if (type === 'button') {
+                this.isClickEnable = true;
+            } else {
+                this.isClickEnable = false;
+            }
+
+            // 位置和尺寸属性
+            this.left = 0;        // 屏幕左边缘开始计算
+            this.top = 0;         // 导航栏底部开始计算
+            this.width = 0;
+            this.height = 0;
+
+            // 文本属性
+            this.title = "";
+            this.titleFont = 13.0;
+            this.titleColor = -16777216;  // Colors.black.value (黑色)
+            this.backgroundColor = null;
+            this.btnNormalImageName = null;
+            this.btnPressedImageName = null;
+            this.textAlignment = 'left';//'left','right','center'
+
+            // TextView 属性
+            this.lines = 1;              // textView 行数
+            this.isSingleLine = true;    // textView 是否单行显示，默认：单行，iOS 端无效
+            /* 若 isSingleLine = false 时，iOS 端 lines 设置失效，会自适应内容高度，最大高度为设置的 height */
+
+            this.isShowUnderline = false;  // 是否显示下划线，默认：不显示
+            // isClickEnable 已在构造函数中根据类型设置
+
+            // 隐私协议二次弹窗专用 (android only)
+            this.belowTheDialogContent = false;  // 是否在对话框内容下方
+        }
+
+        /**
+         * 转换为JSON对象，自动过滤null值
+         * @returns {Object} JSON对象
+         */
+        toJsonMap() {
+            const result = {
+                "widgetId": this.widgetId,
+                "type": this.type,
+                "title": this.title,
+                "titleFont": this.titleFont,
+                "textAlignment": this.textAlignment,
+                "titleColor": this.titleColor,
+                "backgroundColor": this.backgroundColor,
+                "isShowUnderline": this.isShowUnderline,
+                "isClickEnable": this.isClickEnable,
+                "btnNormalImageName": this.btnNormalImageName,
+                "btnPressedImageName": this.btnPressedImageName,
+                "lines": this.lines,
+                "isSingleLine": this.isSingleLine,
+                "belowTheDialogContent": this.belowTheDialogContent,
+                "left": this.left,
+                "top": this.top,
+                "width": this.width,
+                "height": this.height,
+            };
+
+            // 移除值为null的属性
+            Object.keys(result).forEach(key => {
+                if (result[key] === null || result[key] === undefined) {
+                    delete result[key];
+                }
+            });
+
+            return result;
+        }
+    };
+
 
     /*
      * 设置调试模式，默认关闭状态
@@ -408,6 +494,7 @@ export default class JVerification {
                 smsPhoneInvalidMsg: String                             //手机号无效提示
      *      }
      * 
+     *       customWidgetList: Array                    //自定义控件数组，数组元素为JVCustomWidget对象的toJsonMap()返回值
      *  }
      *
      *  var customViewParams = {
@@ -444,6 +531,18 @@ export default class JVerification {
 		            callback(result);
 		       });
 	}
+
+    /*
+     * 自定义控件的点击事件监听
+     * @param callback 回调函数 callback = result => {...}
+     * */
+    static addClikWidgetEventListener(callback) {  
+        listeners[callback] = DeviceEventEmitter.addListener(
+            ClickWidgetEvent, result => {
+                callback(result);
+            });
+    }
+
 
     //移除事件
     static removeListener(callback) {

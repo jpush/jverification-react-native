@@ -13,6 +13,7 @@
 #define LOGIN_EVENT    @"LoginEvent"
 #define UNCHECK_BOX_EVENT  @"UncheckBoxCallBack"
 #define SMS_LOGIN_EVENT    @"SMSLoginEvent"
+#define CLICK_WIDGET_EVENT  @"ClickWidgetEvent"
 //自定义布局路径
 #define CUSTOM_VIEW_NAME      @"customViewName"
 #define CUSTOM_VIEW_POINT     @"customViewPoint"
@@ -234,18 +235,31 @@
 #define SMS_PRIVACY_CLAUSE_END                    @"smsPrivacyClauseEnd"                      // 设置协议条款结尾文本
 #define ENABLE_SMS_SERVICE                        @"enableSMSService"                         // 如果开启了短信服务，在认证服务失败时，短信服务又可用的情况下拉起短信服务
 
+//自定义控件
+#define CUSTOM_WIDGET_LIST                        @"customWidgetList"                         // 自定义控件数组
 
 #define UIColorFromRGBValue(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 static double defaultTime  = 5000;
 bool debug  = false;
-@implementation RCTJVerificationModule
+@implementation RCTJVerificationModule {
+    NSMutableDictionary *_customWidgetIdDic;  // 存储 widgetId 和 tag 的映射关系
+}
 
 RCT_EXPORT_MODULE(JVerificationModule);
 
 + (BOOL)requiresMainQueueSetup
 {
     return YES;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _customWidgetIdDic = [NSMutableDictionary dictionary];
+    }
+    return self;
 }
 
 RCT_EXPORT_METHOD(setDebug: (BOOL )enable)
@@ -366,6 +380,29 @@ RCT_EXPORT_METHOD(customUIWithConfig: (NSDictionary *)configParams viewParams: (
     JVUIConfig *config = [self convertToCinfig:configParams];
     dispatch_async(dispatch_get_main_queue(), ^{
         [JVERIFICATIONService customUIWithConfig:config customViews:^(UIView *customAreaView) {
+            // 添加自定义控件
+            NSArray *customWidgetList = configParams[CUSTOM_WIDGET_LIST];
+            if (customWidgetList && [customWidgetList isKindOfClass:[NSArray class]]) {
+                for (NSDictionary *widgetDic in customWidgetList) {
+                    if (![widgetDic isKindOfClass:[NSDictionary class]]) {
+                        continue;
+                    }
+                    NSString *type = [self getValue:widgetDic key:@"type"];
+                    if ([type isEqualToString:@"button"]) {
+                        UIButton *button = [self addCustomButtonWidget:widgetDic];
+                        if (button) {
+                            [customAreaView addSubview:button];
+                        }
+                    } else if ([type isEqualToString:@"textView"]) {
+                        UILabel *label = [self addCustomTextWidget:widgetDic];
+                        if (label) {
+                            [customAreaView addSubview:label];
+                        }
+                    }
+                }
+            }
+            
+            // 添加 React Native 自定义视图
             for (int i = 0; i < viewParams.count; i++) {
                 UIView *rctView;
                 
@@ -533,7 +570,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
 //事件处理
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[LOGIN_EVENT,UNCHECK_BOX_EVENT, SMS_LOGIN_EVENT];
+    return @[LOGIN_EVENT,UNCHECK_BOX_EVENT, SMS_LOGIN_EVENT, CLICK_WIDGET_EVENT];
 }
 
 - (void)sendSMSLoginEvent:(NSDictionary *)responseData
@@ -556,6 +593,14 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
     [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
                         method:@"emit"
                           args:@[UNCHECK_BOX_EVENT]
+                    completion:NULL];
+}
+
+- (void)sendClickWidgetEvent:(NSDictionary *)responseData
+{
+    [self.bridge enqueueJSCall:@"RCTDeviceEventEmitter"
+                        method:@"emit"
+                          args:@[CLICK_WIDGET_EVENT, responseData]
                     completion:NULL];
 }
 //结果返回
@@ -1642,7 +1687,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
 //            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil] ];
 //            [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil] ];
 //            [vc presentViewController:alert animated:true completion:nil];
-//            
+//
 //        };
 //    }
     
@@ -1663,7 +1708,7 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
 //                [superView addSubview:cancle];
 //                [cancle addTarget:weakSelf action:@selector(cancelAgreementAlertView) forControlEvents:UIControlEventTouchUpInside];
 //            }else{
-//                
+//
 //            }
 //        }
 //    };
@@ -1739,6 +1784,221 @@ JVLayoutConstraint *JVLayoutWidth(CGFloat widht) {
 }
 JVLayoutConstraint *JVLayoutHeight(CGFloat height) {
     return [JVLayoutConstraint constraintWithAttribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:JVLayoutItemNone attribute:NSLayoutAttributeHeight multiplier:1 constant:height];
+}
+
+#pragma mark - 自定义控件辅助方法
+
+// 获取字典值的辅助方法
+- (id)getValue:(NSDictionary *)dict key:(NSString *)key {
+    if (!dict || !key) {
+        return nil;
+    }
+    return dict[key];
+}
+
+// 获取按钮标题对齐方式
+- (UIControlContentHorizontalAlignment)getButtonTitleAlignment:(NSString *)textAlignment {
+    if ([textAlignment isEqualToString:@"left"]) {
+        return UIControlContentHorizontalAlignmentLeft;
+    } else if ([textAlignment isEqualToString:@"right"]) {
+        return UIControlContentHorizontalAlignmentRight;
+    } else if ([textAlignment isEqualToString:@"center"]) {
+        return UIControlContentHorizontalAlignmentCenter;
+    }
+    return UIControlContentHorizontalAlignmentCenter;
+}
+
+#pragma mark - 添加自定义控件
+static int ctagId = 100000;
+// 添加 button
+- (UIButton *)addCustomButtonWidget:(NSDictionary *)widgetDic {
+    if (debug) {
+        NSLog(@"Action - addCustomButtonWidget:");
+    }
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    NSInteger left = [[self getValue:widgetDic key:@"left"] integerValue];
+    NSInteger top = [[self getValue:widgetDic key:@"top"] integerValue];
+    NSInteger width = [[self getValue:widgetDic key:@"width"] integerValue];
+    NSInteger height = [[self getValue:widgetDic key:@"height"] integerValue];
+    
+    NSString *title = [self getValue:widgetDic key:@"title"];
+    if (title) {
+        [button setTitle:title forState:UIControlStateNormal];
+        [button setTitle:title forState:UIControlStateHighlighted];
+    }
+    NSNumber *titleColor = [self getValue:widgetDic key:@"titleColor"];
+    if (titleColor) {
+        [button setTitleColor:UIColorFromRGBValue([titleColor integerValue]) forState:UIControlStateNormal];
+    }
+    NSNumber *backgroundColor = [self getValue:widgetDic key:@"backgroundColor"];
+    if (backgroundColor) {
+        [button setBackgroundColor:UIColorFromRGBValue([backgroundColor integerValue])];
+    }
+    NSString *textAlignment = [self getValue:widgetDic key:@"textAlignment"];
+    if (textAlignment) {
+        button.contentHorizontalAlignment = [self getButtonTitleAlignment:textAlignment];
+    }
+    
+    NSNumber *font = [self getValue:widgetDic key:@"titleFont"];
+    if (font) {
+        button.titleLabel.font = [UIFont systemFontOfSize:[font floatValue]];
+    }
+    
+    NSNumber *isShowUnderline = [self getValue:widgetDic key:@"isShowUnderline"];
+    if ([isShowUnderline boolValue] && title) {
+        NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+        NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:title attributes:attribtDic];
+        [button setAttributedTitle:attribtStr forState:UIControlStateNormal];
+        [button setAttributedTitle:attribtStr forState:UIControlStateHighlighted];
+    }
+    
+    button.frame = CGRectMake(left, top, width, height);
+    
+    NSNumber *isClickEnable = [self getValue:widgetDic key:@"isClickEnable"];
+    button.userInteractionEnabled = [isClickEnable boolValue];
+    [button addTarget:self action:@selector(clickCustomWidgetAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    NSString *widgetId = [self getValue:widgetDic key:@"widgetId"];
+    
+    NSString *tag = @(ctagId++).stringValue;
+    button.tag = [tag integerValue];
+    
+    [_customWidgetIdDic setObject:widgetId forKey:tag];
+    
+    NSString *btnNormalImageName = [self getValue:widgetDic key:@"btnNormalImageName"];
+    NSString *btnPressedImageName = [self getValue:widgetDic key:@"btnPressedImageName"];
+    if (!btnPressedImageName) {
+        btnPressedImageName = btnNormalImageName;
+    }
+    if (btnNormalImageName) {
+        UIImage *normalImage = [self imageNamed:btnNormalImageName];
+        if (normalImage) {
+            [button setBackgroundImage:normalImage forState:UIControlStateNormal];
+        }
+    }
+    if (btnPressedImageName) {
+        UIImage *pressedImage = [self imageNamed:btnPressedImageName];
+        if (pressedImage) {
+            [button setBackgroundImage:pressedImage forState:UIControlStateHighlighted];
+            [button setBackgroundImage:pressedImage forState:UIControlStateSelected];
+        }
+    }
+    
+    return button;
+}
+
+// 添加 textView
+- (UILabel *)addCustomTextWidget:(NSDictionary *)widgetDic {
+    if (debug) {
+        NSLog(@"Action - addCustomTextWidget:");
+    }
+    UILabel *label = [[UILabel alloc] init];
+    
+    NSInteger left = [[self getValue:widgetDic key:@"left"] integerValue];
+    NSInteger top = [[self getValue:widgetDic key:@"top"] integerValue];
+    NSInteger width = [[self getValue:widgetDic key:@"width"] integerValue];
+    NSInteger height = [[self getValue:widgetDic key:@"height"] integerValue];
+    
+    NSString *title = [self getValue:widgetDic key:@"title"];
+    if (title) {
+        label.text = title;
+    }
+    
+    NSNumber *titleColor = [self getValue:widgetDic key:@"titleColor"];
+    if (titleColor) {
+        label.textColor = UIColorFromRGBValue([titleColor integerValue]);
+    }
+    
+    NSNumber *backgroundColor = [self getValue:widgetDic key:@"backgroundColor"];
+    if (backgroundColor) {
+        label.backgroundColor = UIColorFromRGBValue([backgroundColor integerValue]);
+    }
+    
+    NSString *textAlignment = [self getValue:widgetDic key:@"textAlignment"];
+    if ([textAlignment isEqualToString:@"left"]) {
+        label.textAlignment = NSTextAlignmentLeft;
+    } else if ([textAlignment isEqualToString:@"right"]) {
+        label.textAlignment = NSTextAlignmentRight;
+    } else if ([textAlignment isEqualToString:@"center"]) {
+        label.textAlignment = NSTextAlignmentCenter;
+    }
+    
+    NSNumber *font = [self getValue:widgetDic key:@"titleFont"];
+    if (font) {
+        label.font = [UIFont systemFontOfSize:[font floatValue]];
+    }
+    
+    NSNumber *lines = [self getValue:widgetDic key:@"lines"];
+    if (lines) {
+        label.numberOfLines = [lines integerValue];
+    }
+    
+    NSNumber *isSingleLine = [self getValue:widgetDic key:@"isSingleLine"];
+    if (isSingleLine && ![isSingleLine boolValue]) {
+        label.numberOfLines = 0;
+    }
+    
+    NSNumber *isShowUnderline = [self getValue:widgetDic key:@"isShowUnderline"];
+    if ([isShowUnderline boolValue] && title) {
+        NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+        NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:title attributes:attribtDic];
+        label.attributedText = attribtStr;
+    }
+    
+    label.frame = CGRectMake(left, top, width, height);
+    
+    NSNumber *isClickEnable = [self getValue:widgetDic key:@"isClickEnable"];
+    label.userInteractionEnabled = [isClickEnable boolValue];
+    
+    if ([isClickEnable boolValue]) {
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickCustomTextWidgetAction:)];
+        [label addGestureRecognizer:tapGesture];
+        
+        NSString *widgetId = [self getValue:widgetDic key:@"widgetId"];
+        NSString *tag = @(ctagId++).stringValue;
+        label.tag = [tag integerValue];
+        [_customWidgetIdDic setObject:widgetId forKey:tag];
+    }
+    
+    return label;
+}
+
+// 按钮点击事件
+- (void)clickCustomWidgetAction:(UIButton *)button {
+    if (debug) {
+        NSLog(@"Action - clickCustomWidgetAction:");
+    }
+    
+    NSString *tag = [NSString stringWithFormat:@"%@",@(button.tag)];
+    if (tag) {
+        NSString *widgetId = [_customWidgetIdDic objectForKey:tag];
+        if (widgetId) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSDictionary *responseData = @{@"eventId": widgetId};
+                [self sendClickWidgetEvent:responseData];
+            });
+        }
+    }
+}
+
+// TextView 点击事件
+- (void)clickCustomTextWidgetAction:(UITapGestureRecognizer *)gesture {
+    if (debug) {
+        NSLog(@"Action - clickCustomTextWidgetAction:");
+    }
+    
+    UILabel *label = (UILabel *)gesture.view;
+    NSString *tag = [NSString stringWithFormat:@"%@",@(label.tag)];
+    if (tag) {
+        NSString *widgetId = [_customWidgetIdDic objectForKey:tag];
+        if (widgetId) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSDictionary *responseData = @{@"eventId": widgetId};
+                [self sendClickWidgetEvent:responseData];
+            });
+        }
+    }
 }
 
 @end
