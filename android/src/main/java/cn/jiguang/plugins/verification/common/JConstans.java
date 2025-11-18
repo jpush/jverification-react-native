@@ -10,6 +10,7 @@ public class JConstans {
 
     public static final String LOGIN_EVENT = "LoginEvent";
     public static final String SMS_LOGIN_EVENT = "SMSLoginEvent";
+    public static final String CLICK_WIDGET_EVENT = "ClickWidgetEvent";  // 自定义控件点击事件
     public static final String PARAMS_NULL = "params cant be null";
 
     //*******************
@@ -182,6 +183,7 @@ public class JConstans {
 
     public static final String CUSTOM_VIEW_NAME = "customViewName";
     public static final String CUSTOM_VIEW_POINT = "customViewPoint";
+    public static final String CUSTOM_WIDGET_LIST = "customWidgetList";  // 自定义控件数组
 
     //*******************************验证码*******************************
     public static final String PHONE_NUMBER = "phoneNumber";

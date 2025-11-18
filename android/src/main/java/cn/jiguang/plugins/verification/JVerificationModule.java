@@ -1193,6 +1193,10 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         //设置字体颜色
         if(para.hasKey("titleColor")) {
             int titleColor = para.getInt("titleColor");
+            // 如果颜色值是正数且小于 0xFFFFFF（24位 RGB），需要添加 alpha 通道
+            if (titleColor > 0 && titleColor <= 0xFFFFFF) {
+                titleColor = 0xFF000000 | titleColor; // 添加 alpha 通道 0xFF
+            }
             customView.setTextColor(titleColor);
         }
 
@@ -1207,6 +1211,10 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         //设置背景颜色
         if(para.hasKey("backgroundColor")) {
             int backgroundColor = para.getInt("backgroundColor");
+            // 如果颜色值是正数且小于 0xFFFFFF（24位 RGB），需要添加 alpha 通道
+            if (backgroundColor > 0 && backgroundColor <= 0xFFFFFF) {
+                backgroundColor = 0xFF000000 | backgroundColor; // 添加 alpha 通道 0xFF
+            }
             customView.setBackgroundColor(backgroundColor);
         }
 
@@ -1261,7 +1269,6 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
 
         if (isClickEnable) {
             final WritableMap jsonMap = Arguments.createMap();
-            jsonMap.putString("widgetId", widgetId);
             jsonMap.putString("eventId", widgetId);
 
             if (isDialog) {
@@ -1270,8 +1277,12 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onClicked(Context context, android.view.View view) {
                         JLogger.d("onClicked dialog text widget.");
-                        sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
-                    }
+                        reactContext.runOnUiQueueThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
+                            }
+                        });                    }
                 });
             } else {
                 // 添加到授权页
@@ -1279,8 +1290,12 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onClicked(Context context, android.view.View view) {
                         JLogger.d("onClicked text widget.");
-                        sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
-                    }
+                        reactContext.runOnUiQueueThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
+                            }
+                        });                    }
                 });
             }
         } else {
@@ -1309,6 +1324,10 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         //设置字体颜色
         if(para.hasKey("titleColor")) {
             int titleColor = para.getInt("titleColor");
+            // 如果颜色值是正数且小于 0xFFFFFF（24位 RGB），需要添加 alpha 通道
+            if (titleColor > 0 && titleColor <= 0xFFFFFF) {
+                titleColor = 0xFF000000 | titleColor; // 添加 alpha 通道 0xFF
+            }
             customView.setTextColor(titleColor);
         }
 
@@ -1323,6 +1342,10 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         //设置背景颜色
         if(para.hasKey("backgroundColor")) {
             int backgroundColor = para.getInt("backgroundColor");
+            // 如果颜色值是正数且小于 0xFFFFFF（24位 RGB），需要添加 alpha 通道
+            if (backgroundColor > 0 && backgroundColor <= 0xFFFFFF) {
+                backgroundColor = 0xFF000000 | backgroundColor; // 添加 alpha 通道 0xFF
+            }
             customView.setBackgroundColor(backgroundColor);
         }
 
@@ -1393,7 +1416,6 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
 
         if (isClickEnable) {
             final WritableMap jsonMap = Arguments.createMap();
-            jsonMap.putString("widgetId", widgetId);
             jsonMap.putString("eventId", widgetId);
 
             if (isDialog) {
@@ -1402,8 +1424,12 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onClicked(Context context, android.view.View view) {
                         JLogger.d("onClicked dialog button widget.");
-                        sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
-                    }
+                        reactContext.runOnUiQueueThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
+                            }
+                        });                    }
                 });
             } else {
                 // 添加到授权页
@@ -1411,8 +1437,12 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onClicked(Context context, android.view.View view) {
                         JLogger.d("onClicked button widget.");
-                        sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
-                    }
+                        reactContext.runOnUiQueueThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
+                            }
+                        });                    }
                 });
             }
         } else {

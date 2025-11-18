@@ -374,6 +374,7 @@ export default class App extends React.Component {
                             buttonWidget.top = 400;
                             buttonWidget.width = 150;
                             buttonWidget.height = 40;
+                            buttonWidget.textAlignment = 'center';
                             buttonWidget.isShowUnderline = true;
                             buttonWidget.backgroundColor = 0xA52A2A; // Colors.brown.value
                             
