@@ -7,6 +7,7 @@
 - `LoginEvent`: 登录事件
 - `SmsLoginEvent`: 短信登录事件
 - `UnCheckBox`: iOS 未选中隐私协议 CheckBox 点击登录按钮的回调事件
+- `ClickWidgetEvent`: 自定义控件点击事件
 
 ## 方法
 
@@ -127,6 +128,8 @@ static smsLogin(enable: boolean, time: number, callback: (result: {
 ### addLoginCustomConfig
 
 设置一键登录页面样式。所有配置项均为可选，需要在 login 前调用生效。
+
+> ⚠️ **注意**：`customViewParams` 参数已废弃，由于 React Native 版本兼容性问题，不再支持通过该参数添加自定义 React Native 组件。如需添加自定义控件，请使用 `customWidgetList` 参数。
 
 ```typescript
 static addLoginCustomConfig(customConfigParams: {
@@ -385,8 +388,12 @@ static addLoginCustomConfig(customConfigParams: {
         smsPrivacyUncheckedMsg?: string,            // 短信协议没有被勾选的提示 (仅Android)
         smsGetCodeFailMsg?: string,                 // 短信获取失败提示 (仅Android)
         smsPhoneInvalidMsg?: string                 // 手机号无效提示 (仅Android)
-    }
+    },
+
+    // 自定义控件配置
+    customWidgetList?: Array<JVCustomWidget>        // 自定义控件数组，数组元素为JVCustomWidget对象
 }, customViewParams?: {
+    /** @deprecated 已废弃 - 由于 React Native 版本兼容性问题，此参数已不再支持，请使用 customWidgetList 替代 */
     customViewName: string,                         // 在index.js中注册的component
     customViewPoint: number[]                       // [int,int,int,int] 基于屏幕左上角的x,y,w,h
 }): void
@@ -398,6 +405,10 @@ static addLoginCustomConfig(customConfigParams: {
    - iOS：请将图片放到 JVerificationResour.bundle
 2. 关于颜色：为 colorInt，可在 Android 代码中直观的看到数值，例如 Color.BLACK = -16777216, Color.WHITE = -1
 3. 关于 x,y,w,h：为保障显示效果，请同时设置
+4. **关于 customViewParams 参数**：
+   - ⚠️ **已废弃**：由于 React Native 版本兼容性问题，`customViewParams` 参数已不再支持
+   - 如需添加自定义控件，请使用 `customWidgetList` 参数，通过 `JVCustomWidget` 类创建 textView 或 button 控件
+   - 详见 [JVCustomWidget](#jvcustomwidget) 使用说明
 
 ### addLoginEventListener
 
@@ -417,6 +428,109 @@ iOS 未选中隐私协议 CheckBox 点击登录按钮的回调事件监听。
 
 ```typescript
 static addUncheckBoxEventListener(callback: (result: any) => void): void
+```
+
+### addClikWidgetEventListener
+
+自定义控件的点击事件监听。
+
+```typescript
+static addClikWidgetEventListener(callback: (result: {
+    eventId: string    // 事件ID，对应自定义控件的widgetId
+}) => void): void
+```
+
+参数说明：
+- `callback`: 点击事件回调函数，回调参数中的 `eventId` 对应自定义控件的 `widgetId`
+
+### JVCustomWidget
+
+自定义控件类，用于在授权页面添加自定义的 TextView 或 Button 控件。
+
+```typescript
+class JVCustomWidget {
+    widgetId: string;                    // 控件ID，用于标识控件，必须唯一
+    type: 'textView' | 'button';         // 控件类型，目前支持 textView 和 button
+    
+    // 位置和尺寸属性
+    left: number;                         // 屏幕左边缘开始计算的x轴偏移（单位：dp/px）
+    top: number;                          // 导航栏底部开始计算的y轴偏移（单位：dp/px）
+    width: number;                        // 控件宽度（单位：dp/px）
+    height: number;                       // 控件高度（单位：dp/px）
+    
+    // 文本属性
+    title: string;                        // 控件显示的文本内容
+    titleFont: number;                    // 文本字体大小（单位：sp）
+    titleColor: number;                   // 文本颜色（colorInt格式，如 -16777216 表示黑色）
+    backgroundColor?: number;             // 背景颜色（colorInt格式）
+    textAlignment?: 'left' | 'right' | 'center';  // 文本对齐方式
+    
+    // TextView 专用属性
+    lines?: number;                       // textView 行数，默认：1
+    isSingleLine?: boolean;               // textView 是否单行显示，默认：true（iOS 端无效）
+    /* 若 isSingleLine = false 时，iOS 端 lines 设置失效，会自适应内容高度，最大高度为设置的 height */
+    
+    // Button 专用属性
+    btnNormalImageName?: string;          // 按钮正常状态图片名称
+    btnPressedImageName?: string;         // 按钮按下状态图片名称
+    
+    // 通用属性
+    isShowUnderline?: boolean;            // 是否显示下划线，默认：false
+    isClickEnable: boolean;               // 是否可点击，默认：button 为 true，textView 为 false
+    
+    // Android 专用属性
+    belowTheDialogContent?: boolean;     // 是否在对话框内容下方（隐私协议二次弹窗专用）
+    
+    // 方法
+    toJsonMap(): object;                  // 转换为JSON对象，自动过滤null值
+}
+```
+
+使用示例：
+
+```typescript
+import JVerification from 'jverification-react-native';
+
+// 创建 textView 控件
+const textWidget = new JVerification.JVCustomWidget('text_widget_id', 'textView');
+textWidget.title = "自定义文本";
+textWidget.left = 20;
+textWidget.top = 360;
+textWidget.width = 200;
+textWidget.height = 40;
+textWidget.backgroundColor = 0xFFFF00;  // 黄色背景
+textWidget.isShowUnderline = true;
+textWidget.textAlignment = 'center';
+textWidget.isClickEnable = true;
+
+// 创建 button 控件
+const buttonWidget = new JVerification.JVCustomWidget('button_widget_id', 'button');
+buttonWidget.title = "自定义按钮";
+buttonWidget.left = 100;
+buttonWidget.top = 400;
+buttonWidget.width = 150;
+buttonWidget.height = 40;
+buttonWidget.backgroundColor = 0xA52A2A;  // 棕色背景
+
+// 添加点击事件监听
+JVerification.addClikWidgetEventListener((result) => {
+    if (result.eventId === 'text_widget_id') {
+        console.log('点击了文本控件:', result.eventId);
+    } else if (result.eventId === 'button_widget_id') {
+        console.log('点击了按钮控件:', result.eventId);
+    }
+});
+
+// 将控件添加到配置中
+const customConfig = {
+    // ... 其他配置
+    customWidgetList: [
+        textWidget.toJsonMap(),
+        buttonWidget.toJsonMap()
+    ]
+};
+
+JVerification.addLoginCustomConfig(customConfig);
 ```
 
 ### removeListener

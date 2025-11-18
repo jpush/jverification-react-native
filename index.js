@@ -497,6 +497,7 @@ export default class JVerification {
      *       customWidgetList: Array                    //自定义控件数组，数组元素为JVCustomWidget对象的toJsonMap()返回值
      *  }
      *
+     *  @param customViewParams (已废弃) 由于 React Native 版本问题，此参数已不再支持，请使用 customWidgetList 替代
      *  var customViewParams = {
      *      'customViewName':String,                   //在index.js中注册的component
      *      'customViewPoint':StringArray              //[int,int,int,int] 基于屏幕左上角的x,y,w,h
@@ -505,6 +506,9 @@ export default class JVerification {
      *  关于图片资源，Android请将图片放到res/drawable目录下,iOS请将图片放到JVerificationResour.bundle
      *  关于颜色，为colorInt，可在Android代码中直观的看到数值，例如Color.BLACK = -16777216,Color.WHITE = -1
      *  关于x,y,w,h，为保障显示效果，请同时设置。
+     * 
+     *  注意：customViewParams 参数已废弃，由于 React Native 版本兼容性问题，不再支持通过 customViewParams 添加自定义 React Native 组件。
+     *       如需添加自定义控件，请使用 customWidgetList 参数，通过 JVCustomWidget 类创建 textView 或 button 控件。
      */
     static addLoginCustomConfig(customConfigParams, customViewParams) {
         if (Platform.OS == 'android') {
