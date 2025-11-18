@@ -1268,8 +1268,8 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         customView.setClickable(isClickEnable);
 
         if (isClickEnable) {
-            final WritableMap jsonMap = Arguments.createMap();
-            jsonMap.putString("eventId", widgetId);
+            // 保存 widgetId 为 final 变量，以便在回调中使用
+            final String finalWidgetId = widgetId;
 
             if (isDialog) {
                 // 添加到对话框
@@ -1277,12 +1277,16 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onClicked(Context context, android.view.View view) {
                         JLogger.d("onClicked dialog text widget.");
+                        // 每次点击都创建新的 WritableMap，避免 "Map already consumed" 错误
+                        final WritableMap jsonMap = Arguments.createMap();
+                        jsonMap.putString("eventId", finalWidgetId);
                         reactContext.runOnUiQueueThread(new Runnable() {
                             @Override
                             public void run() {
                                 sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
                             }
-                        });                    }
+                        });
+                    }
                 });
             } else {
                 // 添加到授权页
@@ -1290,12 +1294,16 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onClicked(Context context, android.view.View view) {
                         JLogger.d("onClicked text widget.");
+                        // 每次点击都创建新的 WritableMap，避免 "Map already consumed" 错误
+                        final WritableMap jsonMap = Arguments.createMap();
+                        jsonMap.putString("eventId", finalWidgetId);
                         reactContext.runOnUiQueueThread(new Runnable() {
                             @Override
                             public void run() {
                                 sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
                             }
-                        });                    }
+                        });
+                    }
                 });
             }
         } else {
@@ -1415,8 +1423,8 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         customView.setClickable(isClickEnable);
 
         if (isClickEnable) {
-            final WritableMap jsonMap = Arguments.createMap();
-            jsonMap.putString("eventId", widgetId);
+            // 保存 widgetId 为 final 变量，以便在回调中使用
+            final String finalWidgetId = widgetId;
 
             if (isDialog) {
                 // 添加到对话框
@@ -1424,12 +1432,16 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onClicked(Context context, android.view.View view) {
                         JLogger.d("onClicked dialog button widget.");
+                        // 每次点击都创建新的 WritableMap，避免 "Map already consumed" 错误
+                        final WritableMap jsonMap = Arguments.createMap();
+                        jsonMap.putString("eventId", finalWidgetId);
                         reactContext.runOnUiQueueThread(new Runnable() {
                             @Override
                             public void run() {
                                 sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
                             }
-                        });                    }
+                        });
+                    }
                 });
             } else {
                 // 添加到授权页
@@ -1437,12 +1449,16 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onClicked(Context context, android.view.View view) {
                         JLogger.d("onClicked button widget.");
+                        // 每次点击都创建新的 WritableMap，避免 "Map already consumed" 错误
+                        final WritableMap jsonMap = Arguments.createMap();
+                        jsonMap.putString("eventId", finalWidgetId);
                         reactContext.runOnUiQueueThread(new Runnable() {
                             @Override
                             public void run() {
                                 sendEvent(JConstans.CLICK_WIDGET_EVENT, jsonMap);
                             }
-                        });                    }
+                        });
+                    }
                 });
             }
         } else {
