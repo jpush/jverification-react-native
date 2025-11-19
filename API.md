@@ -188,7 +188,7 @@ static addLoginCustomConfig(customConfigParams: {
     loginBtnText?: string,                      // 登录按钮文字
     loginBtnTextSize?: number,                  // 登录按钮字体大小
     loginBtnTextColor?: number,                 // 登录按钮文字颜色
-    loginBtnImage?: string,                     // 登录按钮selector选择样式 （仅android）
+    loginBtnImageSelector?: string,             // 登录按钮selector选择样式 （仅android）
     loginBtnNormalImage?: string,               // 登录按钮正常图片 （仅ios,三个同时设置生效）
     loginBtnDisabledImage?: string,             // 登录按钮失效图片 (仅ios,三个同时设置生效）
     loginBtnSelectedImage?: string,             // 登录按钮按下图片 (仅ios,三个同时设置生效）
