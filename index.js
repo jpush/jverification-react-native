@@ -253,6 +253,8 @@ export default class JVerification {
      *       backgroundVideoPlaceHolderImage: String   //背景视频默认图
      *       appLanguageType: String                  //语言 0.中文简体（默认） 1.中文繁体 2.英文    
      * 
+     *       shouldAutorotate: boolean                 //是否支持自动旋转，默认true，iOS only
+     * 
      *       statusBarTransparent: boolean             //状态栏是否透明
      *       statusBarHidden: boolean                  //状态栏是否隐藏
      *       statusBarMode: String                     //状态栏模式 light,dark

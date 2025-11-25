@@ -25,6 +25,7 @@
 
 ///
 #define APP_LANGUAGE_TYPE               @"appLanguageType" //语言 0.中文简体（默认） 1.中文繁体 2.英文
+#define SHOULD_AUTOROTATE               @"shouldAutorotate" //是否支持自动旋转
 
 ////
 //背景图
@@ -650,6 +651,11 @@ RCT_EXPORT_METHOD(setTimeWithConfig: (double)timeInter )
             lt = JVLanguageEnglish;
         }
         config.appLanguageType = lt;
+    }
+    
+    //是否支持自动旋转
+    if([configParams[SHOULD_AUTOROTATE] isKindOfClass:[NSNumber class]]){
+        config.shouldAutorotate = [configParams[SHOULD_AUTOROTATE] boolValue];
     }
     
     //背景图

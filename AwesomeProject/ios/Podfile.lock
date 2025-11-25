@@ -10,7 +10,7 @@ PODS:
   - hermes-engine/Pre-built (0.79.1)
   - JCoreRN (2.2.9):
     - React
-  - jverification-react-native (2.8.2):
+  - jverification-react-native (2.8.4):
     - React
   - RCT-Folly (2024.11.18.00):
     - boost
@@ -1897,7 +1897,7 @@ SPEC CHECKSUMS:
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
   hermes-engine: c32f2e405098bc1ebe30630a051ddce6f21d3c2e
   JCoreRN: d33b4cbbdbbd23c9384d9d6f390467bf7d7634ea
-  jverification-react-native: 3f7b6e855a53181d5c26dd9817c08fa5d5d482ec
+  jverification-react-native: 08dbd375844517c3044882bf31c9f14c24098c42
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
   RCTDeprecation: 0ada4fb1e5c5637bff940dc40b94e2d3bf96b0ab
   RCTRequired: 76ca80ff10acb3834ed0dacba9645645009578a2
