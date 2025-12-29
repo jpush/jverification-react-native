@@ -647,9 +647,14 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(readableMap.hasKey(JConstans.PRIVACY_WEB_NAV_RETURN_IMAGE)){
             try {
                 String imageString = readableMap.getString(JConstans.PRIVACY_WEB_NAV_RETURN_IMAGE);
-                Class drawable = R.drawable.class;
-                Field field =drawable.getField(imageString);
-                int imageID = field.getInt(field.getName());
+                Resources resources = reactContext.getResources();
+                String packageName = reactContext.getPackageName();
+                int imageID = resources.getIdentifier(imageString, "drawable", packageName);
+                if (imageID == 0) {
+                    Class drawable = R.drawable.class;
+                    Field field =drawable.getField(imageString);
+                    imageID = field.getInt(field.getName());
+                }
                 ImageView view = new ImageView(reactContext);
                 view.setImageResource(imageID);
                 builder.setPrivacyNavReturnBtn(view);
