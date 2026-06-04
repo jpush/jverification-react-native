@@ -11,6 +11,7 @@ public class JConstans {
     public static final String LOGIN_EVENT = "LoginEvent";
     public static final String SMS_LOGIN_EVENT = "SMSLoginEvent";
     public static final String CLICK_WIDGET_EVENT = "ClickWidgetEvent";  // 自定义控件点击事件
+    public static final String AUTH_PAGE_BACK_PRESSED_EVENT = "AuthPageBackPressedEvent";
     public static final String PARAMS_NULL = "params cant be null";
 
     //*******************
@@ -30,6 +31,7 @@ public class JConstans {
     public static final String BACK_GROUND_GIF_IMAGE = "backgroundGifImage";                //背景gif
     public static final String BACK_GROUND_VIDEO = "backgroundVideo";                       //背景视频
     public static final String BACK_GROUND_VIDEO_PLACEHOLDER_IMAGE = "backgroundVideoPlaceHolderImage";  //背景视频默认图
+    public static final String BACK_GROUND_VIDEO_SCALE_TYPE = "backgroundVideoScaleType";   //背景视频缩放模式 only android
 
 
     public static final String STATUS_BAR_HIDDEN = "statusBarHidden";                       //状态栏是否隐藏

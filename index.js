@@ -11,6 +11,7 @@ const LoginEvent = 'LoginEvent';  //登录事件
 const SmsLoginEvent = 'SmsLoginEvent';  //短信登录事件
 const UnCheckBox = 'UncheckBoxCallBack';  //iOS 未选中隐私协议CheckBox,点击登录按钮的回调事件
 const ClickWidgetEvent = 'ClickWidgetEvent';  //自定义控件点击事件
+const AuthPageBackPressedEvent = 'AuthPageBackPressedEvent';  //Android 授权页返回键事件
 
 
 export default class JVerification {
@@ -251,6 +252,7 @@ export default class JVerification {
      *       backgroundGifImage: String                //背景gif
      *       backgroundVideo: String                   //背景视频
      *       backgroundVideoPlaceHolderImage: String   //背景视频默认图
+     *       backgroundVideoScaleType: int             //背景视频缩放模式（仅Android）
      *       appLanguageType: String                  //语言 0.中文简体（默认） 1.中文繁体 2.英文    
      * 
      *       shouldAutorotate: boolean                 //是否支持自动旋转，默认true，iOS only
@@ -545,6 +547,20 @@ export default class JVerification {
     static addClikWidgetEventListener(callback) {  
         listeners[callback] = DeviceEventEmitter.addListener(
             ClickWidgetEvent, result => {
+                callback(result);
+            });
+    }
+
+    /*
+     * Android 授权页系统返回键监听
+     * @param callback = result => {'content':String}
+     * */
+    static setAuthPageBackPressedListener(callback) {
+        if (Platform.OS !== 'android') {
+            return;
+        }
+        listeners[callback] = DeviceEventEmitter.addListener(
+            AuthPageBackPressedEvent, result => {
                 callback(result);
             });
     }

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define JVER_VERSION_NUMBER 3.4.3
+#define JVER_VERSION_NUMBER 3.4.7
 
 NS_ASSUME_NONNULL_BEGIN
 /**
@@ -354,6 +354,11 @@ typedef NS_ENUM(NSInteger,JVLanguageType){
 /*是否支持自动旋转 默认YES。
  注意: 当授权页为弹框样式时,参数无效，是否旋转由当前视图控制器控制 */
 @property (nonatomic,assign) BOOL  shouldAutorotate;
+/*自定义支持的方向，类型为UIInterfaceOrientationMask，默认值为UIInterfaceOrientationMaskAll
+ 当shouldAutorotate为YES时，将使用此属性返回支持的方向
+ 如果shouldAutorotate为NO，则忽略此属性，使用orientation属性判断方向
+ 注意: 当授权页为弹框样式时,参数无效，方向由当前视图控制器控制 */
+@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations;
 /*设置进入授权页的屏幕方向。不支持UIInterfaceOrientationPortraitUpsideDown
  注意:当授权页为弹框样式时,参数无效，屏幕方向由当前视图控制器控制 */
 @property (nonatomic, assign) UIInterfaceOrientation orientation;

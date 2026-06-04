@@ -35,6 +35,7 @@ import java.util.List;
 
 import cn.jiguang.plugins.verification.common.JConstans;
 import cn.jiguang.plugins.verification.common.JLogger;
+import cn.jiguang.verifysdk.api.AuthPageBackPressedListener;
 import cn.jiguang.verifysdk.api.AuthPageEventListener;
 import cn.jiguang.verifysdk.api.JVerificationInterface;
 import cn.jiguang.verifysdk.api.JVerifyLoginBtClickCallback;
@@ -131,6 +132,7 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
         if(builder==null){
             builder = new JVerifyUIConfig.Builder();
         }
+        applyAuthPageBackPressedListener();
         JVerificationInterface.setCustomUIWithConfig(builder.build());
         JVerificationInterface.loginAuth(reactContext, enable, new VerifyListener() {
             @Override
@@ -326,6 +328,10 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 JLogger.e("setAuthBGVideoPath error:"+e.getMessage());
             }
         }
+        if(readableMap.hasKey(JConstans.BACK_GROUND_VIDEO_SCALE_TYPE)){
+            builder.setAuthBGVideoScaleType(readableMap.getInt(JConstans.BACK_GROUND_VIDEO_SCALE_TYPE));
+        }
+        applyAuthPageBackPressedListener();
         //状态栏
         if(readableMap.hasKey(JConstans.STATUS_BAR_HIDDEN)){
             builder.setStatusBarHidden(readableMap.getBoolean(JConstans.STATUS_BAR_HIDDEN));
@@ -1474,6 +1480,17 @@ public class JVerificationModule extends ReactContextBaseJavaModule {
                 builder.addCustomView(customView, false, null);
             }
         }
+    }
+
+    private void applyAuthPageBackPressedListener() {
+        builder.setAuthPageBackPressedListener(new AuthPageBackPressedListener() {
+            @Override
+            public void onBackPressed() {
+                WritableMap m = Arguments.createMap();
+                m.putString(JConstans.CONTENT, "auth page back pressed");
+                sendEvent(JConstans.AUTH_PAGE_BACK_PRESSED_EVENT, m);
+            }
+        });
     }
 
     /**

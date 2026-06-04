@@ -8,6 +8,7 @@
 - `SmsLoginEvent`: 短信登录事件
 - `UnCheckBox`: iOS 未选中隐私协议 CheckBox 点击登录按钮的回调事件
 - `ClickWidgetEvent`: 自定义控件点击事件
+- `AuthPageBackPressedEvent`: Android 授权页返回键事件
 
 ## 方法
 
@@ -138,6 +139,7 @@ static addLoginCustomConfig(customConfigParams: {
     backgroundGifImage?: string,                // 背景gif
     backgroundVideo?: string,                   // 背景视频
     backgroundVideoPlaceHolderImage?: string,   // 背景视频默认图
+    backgroundVideoScaleType?: number,          // 背景视频缩放模式 only Android
     appLanguageType?: string,                   // 语言 0.中文简体（默认） 1.中文繁体 2.英文    
 
     // 状态栏配置
@@ -442,6 +444,16 @@ static addClikWidgetEventListener(callback: (result: {
 
 参数说明：
 - `callback`: 点击事件回调函数，回调参数中的 `eventId` 对应自定义控件的 `widgetId`
+
+### setAuthPageBackPressedListener
+
+Android 授权页系统返回键监听。
+
+```typescript
+static setAuthPageBackPressedListener(callback: (result: {
+    content: string
+}) => void): void
+```
 
 ### JVCustomWidget
 
